@@ -135,7 +135,7 @@ public class Main {
                 matcher = pattern.matcher(nacionalidadJugador);
 
                 if (!matcher.matches()) {
-                    System.out.println("Nacionalidad inválida. Use solo letras y máximo 15 caracteres.");
+                    System.out.println("Nacionalidad inválida. Use solo letras y máximo 15 caracteres");
                 }
             } while (!matcher.matches());
 

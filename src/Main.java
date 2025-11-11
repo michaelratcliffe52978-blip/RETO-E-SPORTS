@@ -1,15 +1,177 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+public class Main {
+    final private static Scanner sc = new Scanner(System.in);
+    private static String nombrejugador,apellidojugador, fechanacimiento, njugador, nombreEquipo,fechaFundacion;
+    private static int nmenu;
+
+    public static void main(String[] args) {
+        equipos();
+        jugadores();
+    }
+
+    public static void equipos(){
+        boolean nombreValido = false;
+        do {
+            System.out.print("\nIntroduce el nombre del equipo: ");
+            nombreEquipo = sc.nextLine();
+
+            if (nombreEquipo.isEmpty()) {
+                System.out.println("❌ No puede estar vacío.");
+            } else if (nombreEquipo.length() < 2) {
+                System.out.println("❌ No puede ser un nombre tan corto.");
+            } else if (nombreEquipo.length() > 50) {
+                System.out.println("❌ No puede ser un nombre tan largo.");
+            } else {
+                nombreValido = true; // ✅ Solo aquí es válido
+            }
+        } while (!nombreValido); // Se repite mientras NO sea válido
+
+
+        boolean fechaValida = false;
+        while (!fechaValida) {
+            System.out.print("Introduce la fecha de fundacion del equipo (dd/MM/yyyy): ");
+            fechaFundacion = sc.nextLine();
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate fecha = LocalDate.parse(fechaFundacion, formatter);
+                System.out.println("✅ Fecha introducida correctamente.");
+                fechaValida = true; //salimos del bucle
+            }catch (Exception e){
+                System.out.println("❌ Fecha no válida. Inténtelo de nuevo.");
+            }
+        }
+        int numeroJugadores=0;
+        boolean njugadoresValido = false;
+        do {
+            System.out.print("Introduce el numero del jugadores de "+nombreEquipo +": ");
+            if(sc.hasNextInt()){
+                numeroJugadores = sc.nextInt();
+
+                if (numeroJugadores < 0) {
+                    System.out.println("❌ Los jugadores no pueden ser negativos.");
+                }else {
+                    njugadoresValido = true;
+                }
+            }else {
+                System.out.println("❌ Debes introducir un número válido.");
+                sc.next(); // limpia el buffer del teclado
+            }
+        }while (!njugadoresValido);
+
+        System.out.println("✅ Equipo registrado: " + nombreEquipo + " con " + numeroJugadores + " jugadores.");
+    }
+
+
+    public static void jugadores() {
+        sc.nextLine();
+
+    boolean njugadorValido = false;
+        do {
+            System.out.println("------ NUMERO DE JUGADORES (1-6) ------ :");
+            njugador = sc.nextLine();
+
+            Pattern pat = Pattern.compile("^[1-6]$");
+            Matcher mat = pat.matcher(njugador);
+
+            if (!mat.matches()) {
+                System.out.println("Introduce un número válido entre 1 y 6.");
+            } else {
+                njugadorValido = true;
+            }
+        }while (!njugadorValido);
+
+        // Convertir el texto a número entero
+        int numeroJugafores = Integer.parseInt(njugador);
+        for(int i=0;i< numeroJugafores;i++){
+            boolean nombreValido = false;
+            do {
+                System.out.print("\nIntroduce el nombre del jugador: ");
+                nombrejugador = sc.nextLine();
+
+                if (nombrejugador.isEmpty()) {
+                    System.out.println("❌ No puede estar vacío.");
+                } else if (nombrejugador.length() < 2) {
+                    System.out.println("❌ No puede ser un nombre tan corto.");
+                } else if (nombrejugador.length() > 50) {
+                    System.out.println("❌ No puede ser un nombre tan largo.");
+                } else {
+                    nombreValido = true; // ✅ Solo aquí es válido
+                }
+            } while (!nombreValido); // Se repite mientras NO sea válido
+
+
+            boolean apellidoValido = false;
+            do {
+                System.out.print("Introduce el apellido del jugador: ");
+                apellidojugador = sc.nextLine();
+
+                if (apellidojugador.isEmpty()) {
+                    System.out.println("❌ No puede estar vacío.");
+                } else if (apellidojugador.length() < 2) {
+                    System.out.println("❌ No puede ser un apellido tan corto.");
+                } else if (apellidojugador.length() > 60) {
+                    System.out.println("❌ No puede ser un apellido tan largo.");
+                } else {
+                    apellidoValido = true; // ✅ Solo aquí es válido
+                }
+            } while (!apellidoValido); // Se repite mientras NO sea válido
+
+            System.out.print("Introduce la nacionalidad del jugador: ");
+            String nacionalidad = sc.nextLine();
+
+            boolean fechaValida = false;
+            while (!fechaValida) {
+                System.out.print("Introduce la fecha de nacimiento del jugador (dd/MM/yyyy): ");
+                fechanacimiento = sc.nextLine();
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    LocalDate fecha = LocalDate.parse(fechanacimiento, formatter);
+                    System.out.println("✅ Fecha introducida correctamente.");
+                    fechaValida = true; //salimos del bucle
+                }catch (Exception e){
+                    System.out.println("❌ Fecha no válida. Inténtelo de nuevo.");
+                }
+            }
+
+            System.out.print("Introduce el nickname del jugador: ");
+            String nickname = sc.nextLine();
+
+
+            System.out.print("Introduce el rol del jugador: ");
+            String rol = sc.nextLine();
+
+            int sueldo=0;
+            boolean sueldoValido = false;
+            do {
+                System.out.print("Introduce el sueldo del jugador: ");
+                if(sc.hasNextInt()){
+                    sueldo = sc.nextInt();
+
+                    if (sueldo < 0) {
+                        System.out.println("❌ El sueldo no puede ser negativo.");
+                    }else {
+                        sueldoValido = true;
+                    }
+                }else {
+                    System.out.println("❌ Debes introducir un número válido.");
+                    sc.next(); // limpia el buffer del teclado
+                }
+            }while (!sueldoValido);
+            sc.nextLine();
+
+            System.out.print("Nombre: "+ nombrejugador +
+                    "\nApellido: " + apellidojugador +
+                    "\nNacionalidad: "+ nacionalidad +
+                    "\nFecha de nacimiento: "+fechanacimiento +
+                    "\nNickname: "+nickname +
+                    "\nRol: "+ rol +
+                    "\nSueldo: "+ sueldo
+            );
         }
     }
 }

@@ -8,10 +8,37 @@ import java.util.regex.Matcher;
 public class Main {
 
     final private static Scanner scanner = new Scanner(System.in);
+    private static int opcion;
+    final private static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) {
-        equipo();
-        jugador();
+        do {
+            menu();
+            switch (opcion) {
+                case 1:
+                    equipo();
+                    break;
+                case 2:
+                    jugador();
+                    break;
+                case 3:
+                    System.out.println("Saliendo del programa.");
+                    return;
+                default:
+                    System.out.println("Opción inválida. Intente de nuevo.");
+            }
+        }
+        while (opcion != 3);
+    }
+
+
+    public static void menu() {
+        System.out.println("Seleccione una opción:");
+        System.out.println("1. Registrar equipo");
+        System.out.println("2. Registrar jugador");
+        System.out.println("3. Salir");
+        opcion = scanner.nextInt();
+        scanner.nextLine();
     }
 
     public static void equipo() {
@@ -32,6 +59,7 @@ public class Main {
             do {
                 System.out.print("Ingrese el nombre del equipo (máx. 15 letras): ");
                 nombreEquipo = scanner.nextLine();
+                sb.append(" ,").append(nombreEquipo);
                 matcher = pattern.matcher(nombreEquipo);
 
                 if (!matcher.matches()) {
@@ -68,6 +96,8 @@ public class Main {
             } while (!fechaValida);
 
         }
+        System.out.println("Los equipos registrados son el: " + sb);
+
 }
 
 
@@ -89,6 +119,7 @@ public class Main {
             do {
                 System.out.print("Ingrese su nombre: ");
                 String nombreJugador = scanner.nextLine();
+                sb.append(" ,").append(nombreJugador);
                 matcher = pattern.matcher(nombreJugador);
 
                 if (!matcher.matches()) {
@@ -157,6 +188,7 @@ public class Main {
             } while (!fechaValida);
 
         }
+        System.out.println("Los jugadores registrados son: " + sb);
 
     }
 

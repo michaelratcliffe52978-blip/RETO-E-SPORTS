@@ -30,6 +30,7 @@ public class Main {
                     e.getMessage() + "\n" +
                     "El programa finaliza");
         }
+
     }
 
     public static void equipo() {

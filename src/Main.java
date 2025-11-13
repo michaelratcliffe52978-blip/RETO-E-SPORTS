@@ -20,7 +20,7 @@ public class Main {
                    jugadores();
                    break;
                case 3:
-                   System.out.println("Saliendo del programa...");
+                   System.out.println("Saliendo del programa...");break;
                default:
                    System.out.println("Opcion no valida");
            }
@@ -30,7 +30,7 @@ public class Main {
     }
 
     public static void menu(){
-        System.out.println("------- M E N Ú -------");
+        System.out.println("\n------- M E N Ú -------");
         System.out.println("1. Equipos");
         System.out.println("2. Jugadores");
         System.out.println("3. Finalizar");
@@ -85,7 +85,7 @@ public class Main {
                 System.out.print("Introduce el numero del jugadores de "+nombreEquipo +": ");
                 if(sc.hasNextInt()){
                     numeroJugadores = sc.nextInt();
-
+                    sc.nextLine();
                     if (numeroJugadores < 0) {
                         System.out.println("❌ Los jugadores no pueden ser negativos.");
                     }else {
@@ -150,9 +150,9 @@ public class Main {
                 } else if (apellidojugador.length() > 60) {
                     System.out.println("❌ No puede ser un apellido tan largo.");
                 } else {
-                    apellidoValido = true; // ✅ Solo aquí es válido
+                    apellidoValido = true;
                 }
-            } while (!apellidoValido); // Se repite mientras NO sea válido
+            } while (!apellidoValido);
 
             System.out.print("Introduce la nacionalidad del jugador: ");
             String nacionalidad = sc.nextLine();
@@ -164,8 +164,8 @@ public class Main {
                 try {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     LocalDate fecha = LocalDate.parse(fechanacimiento, formatter);
-                    System.out.println("✅ Fecha introducida correctamente.");
-                    fechaValida = true; //salimos del bucle
+                    System.out.println(" Fecha introducida correctamente.");
+                    fechaValida = true; //salimos
                 }catch (Exception e){
                     System.out.println("❌ Fecha no válida. Inténtelo de nuevo.");
                 }
@@ -192,7 +192,7 @@ public class Main {
                     }
                 }else {
                     System.out.println("❌ Debes introducir un número válido.");
-                    sc.next(); // limpia el buffer del teclado
+                    sc.next();
                 }
             }while (!sueldoValido);
             sc.nextLine();

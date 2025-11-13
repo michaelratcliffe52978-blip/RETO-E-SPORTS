@@ -1,4 +1,2 @@
-package PACKAGE_NAME;
-
-public class DatosNoValido {
+public class DatosNoValido extends Exception{
 }

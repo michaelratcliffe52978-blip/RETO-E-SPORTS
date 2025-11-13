@@ -1,4 +1,2 @@
-package PACKAGE_NAME;
-
-public class FechaIncorrecta {
+public class FechaIncorrecta extends Exception{
 }

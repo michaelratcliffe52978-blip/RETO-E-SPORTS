@@ -1,4 +1,2 @@
-package PACKAGE_NAME;
-
-public class EspacioEmpty {
+public class EspacioEmpty extends Exception{
 }

@@ -19,10 +19,6 @@ public class Main {
         try {
             equipo();
             jugadores();
-            new DatosNoValido();
-            new FormatoNoAdecuado();
-            new EspacioEmpty();
-            new FechaIncorrecta();
 
         } catch (Exception e) {
             System.out.println("Problemas \n" +

@@ -1,235 +1,305 @@
+import Modulo.Enfrentamiento;
+import Modulo.Equipos;
+import Modulo.Jornada;
+import Modulo.Jugadores;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Scanner;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.*;
 
 public class Main {
 
-    final private static Scanner scanner = new Scanner(System.in);
-    final private static StringBuilder sb = new StringBuilder();
-    private static int opcion, numeroEquipo, numeroJugador;;
-    private static String nombreEquipo, ciudadEquipo;
-    private static double sueldoJugador;
-    private static Pattern pattern = Pattern.compile("^[A-Za-z ]{1,15}$");
-    private static Matcher matcher;
+    private final static Scanner sc = new Scanner(System.in);
+    private static ArrayList<Jugadores> listajugadores = new ArrayList<>();
+    private static ArrayList<Equipos> listaequipos = new ArrayList<>();
+    private static ArrayList<Enfrentamiento> listaenfrentamientos = new ArrayList<>();
+    private static ArrayList<Jornada> listajornada = new ArrayList<>();
+    private static Set<String> listaId = new HashSet<>();
 
     public static void main(String[] args) {
-        do {
-            menu();
-            switch (opcion) {
-                case 1:
-                    equipo();
-                    break;
-                case 2:
-                    jugador();
-                    break;
-                case 3:
-                    System.out.println("Saliendo del programa.");
-                    return;
-                default:
-                    System.out.println("Opción inválida. Intente de nuevo.");
-            }
-        }
-        while (opcion != 3);
+        introducirDatos();
     }
 
-
-    public static void menu() {
-        System.out.println("Seleccione una opción:");
-        System.out.println("1. Registrar equipo");
-        System.out.println("2. Registrar jugador");
-        System.out.println("3. Salir");
-        opcion = scanner.nextInt();
-        scanner.nextLine();
+    public static void introducirDatos() {
+        int nEquipos = patterNEquipos();
+        sc.nextLine();
+        for (int i = 0; i < nEquipos; i++) {
+            datosJugadores();
+            datosEquipo();
+        }
+        System.out.println(listaequipos);
+        datosEnfrentamientos();
+        datosEnfrentamientos();
+        datosJornadona();
     }
 
-    public static void equipo() {
-        fnequipo();
-        for (int i = 0; i < numeroEquipo; i++) {
-            fnombreequipo();
+    public static void datosJugadores() {
+        int nJugadores = patterNJugadores();
 
-            fciudadequipo();
+        for (int i = 0; i < nJugadores; i++) {
+            System.out.println("\nJugador " + (i + 1));
+            String id = patterId("Id (aa-0000): ");
+            String nombre = leerSoloLetras("Nombre: ");
+            String apellido = leerSoloLetras("Apellido: ");
+            String nacionalidad = leerSoloLetras("Nacionalidad: ");
+            LocalDate fechaNacimiento = leerFechaAnterior("Fecha de nacieminto (dd/MM/yyyy): ");
+            String nickname = leerTextoNoVacio("Nickname: ");
+            String rol = leerRol();
+            Double sueldo = leerDoubleMin1221("Sueldo: ");
 
-            finaguracionequipo();
-        }
-        System.out.println("Los equipos registrados son el: " + sb);
 
-}
-
-
-
-    public static void jugador () {
-        fnjugadores();
-
-        for (int i = 0; i < numeroJugador; i++) {
-
-            fnombrejugador();
-
-            fapellidojugador();
-
-            fnicknamejugador();
-
-            froljugador();
-
-            fsueldojugador();
-
-            fnacionalidadjugador();
-
-            ffechajugador();
+            Jugadores j = new Jugadores(id, nombre, apellido, nacionalidad, fechaNacimiento, nickname, rol, sueldo);
+            listajugadores.add(j);
 
         }
-        System.out.println("Los jugadores registrados son: " + sb);
-
     }
 
+    public static void datosEquipo() {
+        System.out.println("\nEquipo ");
+        String id = patterId("Id (aa-0000): ");
+        String nombre = leerSoloLetras("Nombre equipo: ");
+        LocalDate fechaNacimiento = leerFechaAnterior("Fecha de nacimiento (dd/MM/yyyy): ");
 
+        ArrayList<Jugadores> jugadoresEquipo = new ArrayList<>(listajugadores);
 
-    public static void fnequipo () {
-        do {
-            System.out.print("Ingrese número de equipos (par): ");
-            Pattern pattern = Pattern.compile("^[2-6]$");
-            numeroEquipo = scanner.nextInt();
-            scanner.nextLine();
+        Equipos e = new Equipos(id, jugadoresEquipo, fechaNacimiento, nombre);
+        listaequipos.add(e);
+        listajugadores.clear();
+    }
+
+    public static void datosEnfrentamientos() {
+        for (int i = 0; i < listaequipos.size() / 2; i++) {
+
+            System.out.println("\nEnfrentamiento " + (i + 1));
+
+            String id = patterId("Id (aa-0000): ");
+            LocalDate fechaEnfrentamiento = leerFechaPosterior("Fecha de enfrentamiento (dd/MM/yyyy): ");
+            LocalTime hora = leerHora("Hora (HH:mm): ");
+
+            Equipos equipo1 = listaequipos.get(i * 2);
+            Equipos equipo2 = listaequipos.get(i * 2 + 1);
+
+            System.out.println("Equipo 1: " + equipo1.getnombreEquipo());
+            System.out.println("Equipo 2: " + equipo2.getnombreEquipo());
+
+            Enfrentamiento en = new Enfrentamiento(id, hora, fechaEnfrentamiento, equipo1, equipo2);
+            listaenfrentamientos.add(en);
         }
-        while(numeroEquipo % 2 != 0);
     }
 
-    public static void fnombreequipo () {
-        do {
-            System.out.print("Ingrese el nombre del equipo (máx. 15 letras): ");
-            nombreEquipo = scanner.nextLine();
-            sb.append(" ,").append(nombreEquipo);
-            matcher = pattern.matcher(nombreEquipo);
+    public static void datosJornadona() {
+        for (int i = 0; i < (listaequipos.size() - 1) * 2; i++) {
+            System.out.println("\nJornada " + (i + 1));
+            String id = patterId("Id (aa-0000): ");
+            LocalDate fecha = leerFechaPosterior("Fecha de inicio (dd/MM/yyyy): ");
+            Enfrentamiento e1 = listaenfrentamientos.get(i % listaenfrentamientos.size());
 
-            if (!matcher.matches()) {
-                System.out.println("Nombre inválido. Use solo letras y máximo 15 caracteres.");
-            }
-        } while (!matcher.matches());
+            Jornada j = new Jornada(id, (i + 1), fecha, e1);
+            listajornada.add(j);
+        }
+
     }
 
-    public static void fciudadequipo () {
-        do {
-            System.out.print("Ingrese la ciudad del equipo (máx. 15 letras): ");
-            ciudadEquipo = scanner.nextLine();
-            matcher = pattern.matcher(ciudadEquipo);
 
-            if (!matcher.matches()) {
-                System.out.println("Ciudad inválida. Use solo letras y máximo 15 caracteres.");
-            }
-        } while (!matcher.matches());
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private static String leerTextoNoVacio(String msg) {
+        String txt;
+        do {
+            System.out.print(msg);
+            txt = sc.nextLine().trim();
+        } while (txt.isEmpty());
+        return txt;
     }
 
-    public static void finaguracionequipo () {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate fechaEquipoLocal = null;
-        boolean fechaValida;
+    private static LocalTime leerHora(String msg) {
+        LocalTime hora = null;
+        boolean ok;
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");
         do {
-            System.out.print("Ingrese la fecha de fundación (dd/MM/yyyy): ");
-            String fechaEquipo = scanner.nextLine();
-
+            ok = true;
             try {
-                fechaEquipoLocal = LocalDate.parse(fechaEquipo, formatter);
-                fechaValida = true;
-            } catch (DateTimeParseException e) {
-                System.out.println("Formato inválido. Use el formato correcto: dd/MM/yyyy");
-                fechaValida = false;
+                System.out.print(msg);
+                hora = LocalTime.parse(sc.nextLine(), formato);
+            } catch (Exception e) {
+                ok = false;
+                System.out.println("Formato inválido. Usa HH:mm.");
             }
-        } while (!fechaValida);
+        } while (!ok);
+        return hora;
     }
 
-    public static void fnjugadores () {
-        do {
-            System.out.print("Ingrese número de jugadores (1-6): ");
-            Pattern pattern = Pattern.compile("^[1-6]$");
-            numeroJugador = scanner.nextInt();
-            scanner.nextLine();
-        }
-        while(numeroJugador < 1 || numeroJugador > 6);
-    }
 
-    public static void fnombrejugador () {
+    private static double leerDoubleMin1221(String msg) {
+        double n;
         do {
-            System.out.print("Ingrese su nombre: ");
-            String nombreJugador = scanner.nextLine();
-            sb.append(" ,").append(nombreJugador);
-            matcher = pattern.matcher(nombreJugador);
-
-            if (!matcher.matches()) {
-                System.out.println("Nombre inválido. Use solo letras y máximo 15 caracteres.");
+            System.out.print(msg);
+            while (!sc.hasNextDouble()) {
+                sc.next(); // descarta lo que no es double
+                System.out.print("Número inválido, repite: ");
             }
-        } while (!matcher.matches());
-    }
-
-    public static void fapellidojugador () {
-        do {
-            System.out.print("Ingrese su apellido: ");
-            String apellidoJugador = scanner.nextLine();
-            matcher = pattern.matcher(apellidoJugador);
-
-            if (!matcher.matches()) {
-                System.out.println("Apellido inválido. Use solo letras y máximo 15 caracteres.");
+            n = sc.nextDouble();
+            sc.nextLine();
+            if (n < 1221) {
+                System.out.print("\nEl número debe ser mayor o igual que 1221. ");
             }
-        } while (!matcher.matches());
+        } while (n < 1221);
+
+        return n;
     }
 
-    public static void fnicknamejugador () {
-        System.out.print("Ingrese su nickname: ");
-        String nicknameJugador = scanner.nextLine();
-    }
-
-    public static void froljugador () {
+    private static String leerSoloLetras(String msg) {
+        String texto;
         do {
-            System.out.print("Ingrese su rol: ");
-            String rolJugador = scanner.nextLine();
-            matcher = pattern.matcher(rolJugador);
+            System.out.print(msg);
+            texto = sc.nextLine().trim();
 
-            if (!matcher.matches()) {
-                System.out.println("Rol inválido. Use solo letras y máximo 15 caracteres.");
+            if (texto.isEmpty()) {
+                System.out.println("No puede estar vacío.");
+            } else if (!texto.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$")) {
+                System.out.println("Solo se permiten letras.");
+                texto = "";
             }
-        } while (!matcher.matches());
+
+        } while (texto.isEmpty());
+
+        return texto;
     }
 
-    public static void fsueldojugador () {
+    private static String patterId(String msg) {
+        String texto;
         do {
-            System.out.println("Ingrese su sueldo:");
-            sueldoJugador = scanner.nextDouble();
-            scanner.nextLine();
-            if (sueldoJugador < 1184) {
-                System.out.println("Sueldo inválido. Debe ser al menos 1184.");
+            System.out.print(msg);
+            texto = sc.nextLine().trim();
+
+            if (texto.isEmpty()) {
+                System.out.println("No puede estar vacío.");
+            } else if (!texto.matches("^[a-zA-Z]{2}-[0-9]{4}$")) {
+                System.out.println("Deve ser en formato aa-0000.");
+                texto = "";
+            }else if(listaId.contains(texto)){
+                System.out.println("El ID ya existe. Introduce uno diferente.");
+                texto = "";
             }
-        } while (sueldoJugador < 1184);
+
+        } while (texto.isEmpty());
+        listaId.add(texto);
+        return texto;
     }
 
-    public static void fnacionalidadjugador () {
-        do {
-            System.out.print("Ingrese su nacionalidad: ");
-            String nacionalidadJugador = scanner.nextLine();
-            matcher = pattern.matcher(nacionalidadJugador);
 
-            if (!matcher.matches()) {
-                System.out.println("Nacionalidad inválida. Use solo letras y máximo 15 caracteres");
+    private static int patterNJugadores() {
+        String njug;
+        do {
+            System.out.print("Cuantos jugadores quiere introducir en este equipo (2-6): ");
+            njug = sc.nextLine();
+        } while (!njug.matches("^[2-6]{1}$"));
+        int nJugadores = Integer.parseInt(njug);
+        return nJugadores;
+    }
+
+
+
+    private static int patterNEquipos() {
+        int nequip;
+        boolean w=false;
+        do {
+            System.out.print("Cuantos equipos quiere introducir (par): ");
+            nequip = sc.nextInt();
+            if (nequip % 2 == 0 && nequip > 0) {
+                nequip = nequip;
+                w=true;
+            } else {
+                System.out.println("El número debe ser par y mayor que 0. Inténtalo de nuevo.");
+                w=false;
             }
-        } while (!matcher.matches());
+        } while (!w);
+        return nequip;
     }
 
-    public static void ffechajugador () {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate fechaJugadorLocal = null;
-        boolean fechaValida;
-        do {
-            System.out.print("Ingrese su fecha de nacimiento: ");
-            String fechaJugador = scanner.nextLine();
 
+    private static String paterResultado() {
+        String tipo;
+        do {
+            System.out.print("Tipo (Victoria/Empate/Derrota): ");
+            tipo = sc.nextLine();
+        } while (!tipo.equalsIgnoreCase("Victoria") && !tipo.equalsIgnoreCase("Empate") && !tipo.equalsIgnoreCase("Derrota"));
+        return tipo;
+    }
+
+
+    private static String leerRol() {
+        String tipo;
+        do {
+            System.out.print("Tipo (Centinela/Duelista/Iniciador/Controlador): ");
+            tipo = sc.nextLine();
+        } while (!tipo.equalsIgnoreCase("Centinela") && !tipo.equalsIgnoreCase("Duelista") && !tipo.equalsIgnoreCase("Controlador") && !tipo.equalsIgnoreCase("Iniciador"));
+        return tipo;
+    }
+
+
+    private static String leerSexo() {
+        String sexo;
+        do {
+            System.out.print("  Sexo (Macho/Hembra): ");
+            sexo = sc.nextLine();
+        } while (!sexo.equalsIgnoreCase("Macho") && !sexo.equalsIgnoreCase("Hembra"));
+        return sexo;
+    }
+
+    private static LocalDate leerFechaAnterior(String msg) {
+        LocalDate fecha = null;
+        boolean ok;
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        do {
+            ok = true;
             try {
-                fechaJugadorLocal = LocalDate.parse(fechaJugador, formatter);
-                fechaValida = true;
-            } catch (DateTimeParseException e) {
-                System.out.println("Formato inválido. Use el formato correcto: dd/MM/yyyy");
-                fechaValida = false;
+                System.out.print(msg);
+                fecha = LocalDate.parse(sc.nextLine(), formato);
+                if (!fecha.isBefore(LocalDate.now())) {
+                    ok = false;
+                    System.out.println("La fecha debe ser anterior a hoy.");
+                }
+            } catch (Exception e) {
+                ok = false;
+                System.out.println("Formato inválido. Usa dd/MM/yyyy.");
             }
-        } while (!fechaValida);
+        } while (!ok);
+        return fecha;
     }
+
+    private static LocalDate leerFechaPosterior(String msg) {
+        LocalDate fecha = null;
+        boolean ok;
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        do {
+            ok = true;
+            try {
+                System.out.print(msg);
+                fecha = LocalDate.parse(sc.nextLine(), formato);
+                if (!fecha.isAfter(LocalDate.now())) {
+                    ok = false;
+                    System.out.println("La fecha debe ser anterior a hoy.");
+                }
+            } catch (Exception e) {
+                ok = false;
+                System.out.println("Formato inválido. Usa dd/MM/yyyy.");
+            }
+        } while (!ok);
+        return fecha;
+    }
+
+
 
 }

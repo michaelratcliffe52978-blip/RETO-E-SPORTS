@@ -8,7 +8,7 @@ public class Jornada {
     private String idJornada;
     private int numeroJornada;
     private LocalDate fechaJornada;
-    private ArrayList<Enfrentamiento> enfrentamientos;
+    private Enfrentamiento enfrentamientos;
 
     public Jornada(String idJornada, int numeroJornada, LocalDate fechaJornada, Enfrentamiento enfrentamientos) {
         this.idJornada = idJornada;
@@ -23,7 +23,6 @@ public class Jornada {
     public void setnumeroJornada(int numeroJornada) {this.numeroJornada = numeroJornada;}
     public LocalDate getfechaJornada() {return fechaJornada;}
     public void setfechaJornada(LocalDate fechaJornada) {this.fechaJornada = fechaJornada;}
-    public ArrayList<Enfrentamiento> getEnfrentamientos() {return enfrentamientos;}
-    public void setEnfrentamientos(ArrayList<Enfrentamiento> enfrentamientos) {this.enfrentamientos = enfrentamientos;}
-
+    public Enfrentamiento getEnfrentamientos() {return enfrentamientos;}
+    public void setEnfrentamientos(Enfrentamiento enfrentamientos) {this.enfrentamientos = enfrentamientos;}
 }

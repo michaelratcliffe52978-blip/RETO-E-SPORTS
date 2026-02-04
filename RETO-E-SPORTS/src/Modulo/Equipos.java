@@ -32,6 +32,7 @@ public class Equipos {
     public LocalDate getfechaFundacion() {return fechaFundacion;}
     public void setfechaFundacion(LocalDate fechaFundacion) {}
 
-
+    public ArrayList<Jugadores> getjugadores() {return jugadores;}
+    public void setjugadores(ArrayList<Jugadores> jugadores) {}
 
 }

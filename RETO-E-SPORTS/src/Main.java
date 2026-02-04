@@ -32,8 +32,8 @@ public class Main {
         System.out.println(listaequipos);
         datosEnfrentamientos();
         datosJornadona();
-        datosUsuarios();
         datosCompeticion();
+        datosUsuarios();
         menu();
     }
 
@@ -161,9 +161,8 @@ public class Main {
         comp = new Competicion(id, nombre, estado, listajornada);
     }
 
-
     public static void menu() {
-        System.out.println("¿Qué tipo de usuario eres? (admin/user): ");
+        System.out.println("¿Qué tipo de usuario eres? (admin/user/cerrar): ");
         String tipoUsuario = sc.nextLine().trim().toLowerCase();
         switch (tipoUsuario) {
             case "admin":
@@ -174,6 +173,10 @@ public class Main {
                 System.out.println("Bienvenido User. ¿Qué desea hacer?");
                 menuUser();
                 break;
+            case "cerrar":
+                System.out.println("Cerrando el programa. ¡Hasta luego!");
+                System.exit(0);
+                break;
             default:
                 System.out.println("Tipo de usuario no válido. Inténtalo de nuevo.");
                 menu();
@@ -181,10 +184,10 @@ public class Main {
         }
     }
 
-
     public static void menuUser() {
         System.out.println("1. Ver informe de equipo");
         System.out.println("2. Ver informe de resultados");
+        System.out.println("3. Cerrar sesión");
         int opcionUser = sc.nextInt();
         switch (opcionUser) {
             case 1:
@@ -193,6 +196,7 @@ public class Main {
                     Equipos e = listaequipos.get(i);
                     System.out.println("  Equipo " + (i+1) + ": " + e.getnombreEquipo() + " fundado el " + e.getfechaFundacion() + ", con jugadores: " + e.getjugadores() + ", ID: " + e.getidEquipo());
                 }
+                menuUser();
                 break;
             case 2:
                 System.out.println("Ver informe de resultados");
@@ -204,6 +208,11 @@ public class Main {
                         System.out.println("  Enfrentamiento " + (i + 1) + ": ID: " + en.getidPartido() + ", Fecha: " + en.getfechaEnfrentamiento() + ", Hora: " + en.getHora() + ", Equipo 1: " + en.getEquipo1().getnombreEquipo() + ", Equipo 2: " + en.getEquipo2().getnombreEquipo());
                     }
                 }
+                menuUser();
+                break;
+            case 3:
+                System.out.println("Cerrando sesión.");
+                menu();
                 break;
             default:
                 System.out.println("Opción no válida. Inténtalo de nuevo.");
@@ -212,24 +221,26 @@ public class Main {
         }
     }
 
-
     public static void menuAdmin() {
         System.out.println("1. Generar calendario");
         System.out.println("2. Cerrar estado de competición");
         System.out.println("3. Introducir resultados");
         System.out.println("4. Ver informes");
         System.out.println("5. CRUD");
+        System.out.println("6. Salir");
         int opcionAdmin = sc.nextInt();
         switch (opcionAdmin) {
             case 1:
                 System.out.println("Generando calendario...\n");
                 System.out.println("Calendario generado con éxito.");
+                menuAdmin();
                 break;
             case 2:
                 System.out.println("Cerrando estado de competición");
                 Competicion c = comp;
                 c.setEstado("Cerrado");
                 System.out.println("El estado de la competición es: " + c.getEstado());
+                menuAdmin();
                 break;
             case 3:
                 System.out.println("Introducir resultados");
@@ -241,6 +252,7 @@ public class Main {
                     en.setResultado(resultado);
                     System.out.println("Resultado introducido: " + en.getResultado());
                 }
+                menuAdmin();
                 break;
             case 4:
                 System.out.println("Ver informes\n");
@@ -285,6 +297,7 @@ public class Main {
                         System.out.println("Opción no válida. Inténtalo de nuevo.");
                         break;
                 }
+                menuAdmin();
                 break;
             case 5:
                 System.out.println("CRUD");
@@ -426,7 +439,7 @@ public class Main {
                                     default:
                                         System.out.println("Campo no válido. Inténtalo de nuevo.");
                                 }
-
+                                break;
                             case 2:
                                 System.out.println("Que equipo quiere actualizar");
                                 for (int i = 0; i < listaequipos.size(); i++) {
@@ -584,6 +597,11 @@ public class Main {
                         System.out.println("Opción no válida. Inténtalo de nuevo.");
                         break;
                 }
+                menuAdmin();
+                break;
+            case 6:
+                System.out.println("Cerrando sesión.");
+                menu();
                 break;
             default:
                 System.out.println("Opción no válida. Inténtalo de nuevo.");
@@ -646,7 +664,7 @@ public class Main {
 
                 if (texto.isEmpty()) {
                     System.out.println("No puede estar vacío.");
-                } else if (!texto.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$")) {
+                } else if (!texto.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,}$")) {
                     System.out.println("Solo se permiten letras.");
                     texto = "";
                 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
 
@@ -15,11 +16,12 @@ public class Main {
     private static ArrayList<Usuario> listausuario = new ArrayList<>();
     private static ArrayList<User> listauser = new ArrayList<>();
     private static ArrayList<Admin> listaadmin = new ArrayList<>();
-    private static Set<String> listaId = new HashSet<>();
     private static Competicion comp;
+    private static int contador = 1;
 
     public static void main(String[] args) {
         introducirDatos();
+        menu();
     }
 
     public static void introducirDatos() {
@@ -30,11 +32,7 @@ public class Main {
             datosEquipo();
         }
         System.out.println(listaequipos);
-        datosEnfrentamientos();
-        datosJornadona();
-        datosCompeticion();
         datosUsuarios();
-        menu();
     }
 
     public static void datosJugadores() {
@@ -42,7 +40,8 @@ public class Main {
 
         for (int i = 0; i < nJugadores; i++) {
             System.out.println("\nJugador " + (i + 1));
-            String id = patterId("Id (aa-0000): ");
+            String prefijo = "JU";
+            String id = String.format("%s-%02d", prefijo, contador++);
             String nombre = leerSoloLetras("Nombre: ");
             String apellido = leerSoloLetras("Apellido: ");
             String nacionalidad = leerSoloLetras("Nacionalidad: ");
@@ -60,7 +59,8 @@ public class Main {
 
     public static void datosEquipo() {
         System.out.println("\nEquipo ");
-        String id = patterId("Id (aa-0000): ");
+        String prefijo = "EQ";
+        String id = String.format("%s-%02d", prefijo, contador++);
         String nombre = leerSoloLetras("Nombre equipo: ");
         LocalDate fechaNacimiento = leerFechaAnterior("Fecha de nacimiento (dd/MM/yyyy): ");
 
@@ -72,13 +72,25 @@ public class Main {
     }
 
     public static void datosEnfrentamientos() {
+
+        LocalDate inicio = LocalDate.now().plusWeeks(1);
+        LocalDate fin = LocalDate.now().plusWeeks(2);
+        long startEpoch = inicio.toEpochDay();
+        long endEpoch = fin.toEpochDay();
+        long aleatorioEpoch = ThreadLocalRandom.current().nextLong(startEpoch, endEpoch);
+        LocalDate fechaResultado = LocalDate.ofEpochDay(aleatorioEpoch);
+
         for (int i = 0; i < listaequipos.size() / 2; i++) {
-
             System.out.println("\nEnfrentamiento " + (i + 1));
+            String prefijo = "EN";
+            String id = String.format("%s-%02d", prefijo, contador++);
 
-            String id = patterId("Id (aa-0000): ");
-            LocalDate fechaEnfrentamiento = leerFechaPosterior("Fecha de enfrentamiento (dd/MM/yyyy): ");
-            LocalTime hora = leerHora("Hora (HH:mm): ");
+            LocalTime inicioHora = LocalTime.of(9, 0);
+            LocalTime finHora = LocalTime.of(21, 0);
+            int inicioSegundos = inicioHora.toSecondOfDay();
+            int finSegundos = finHora.toSecondOfDay();
+            int aleatorioSegundos = ThreadLocalRandom.current().nextInt(inicioSegundos, finSegundos);
+            LocalTime horaResultado = LocalTime.ofSecondOfDay(aleatorioSegundos);
 
             Equipos equipo1 = listaequipos.get(i * 2);
             Equipos equipo2 = listaequipos.get(i * 2 + 1);
@@ -86,19 +98,19 @@ public class Main {
             System.out.println("Equipo 1: " + equipo1.getnombreEquipo());
             System.out.println("Equipo 2: " + equipo2.getnombreEquipo());
 
-            Enfrentamiento en = new Enfrentamiento(id, hora, fechaEnfrentamiento, equipo1, equipo2);
+            Enfrentamiento en = new Enfrentamiento(id, horaResultado, fechaResultado, equipo1, equipo2);
             listaenfrentamientos.add(en);
         }
     }
 
     public static void datosJornadona() {
         for (int i = 0; i < (listaequipos.size() - 1) * 2; i++) {
-            System.out.println("\nJornada " + (i + 1));
-            String id = patterId("Id (aa-0000): ");
-            LocalDate fecha = leerFechaPosterior("Fecha de inicio (dd/MM/yyyy): ");
+            System.out.println("\nGenerando Jornada " + (i + 1));
+            String prefijo = "JO";
+            String id = String.format("%s-%02d", prefijo, contador++);
             Enfrentamiento e1 = listaenfrentamientos.get(i % listaenfrentamientos.size());
 
-            Jornada j = new Jornada(id, (i + 1), fecha, e1);
+            Jornada j = new Jornada(id, (i + 1), e1.getfechaEnfrentamiento(), e1);
             listajornada.add(j);
         }
 
@@ -114,7 +126,8 @@ public class Main {
                 sc.nextLine();
                 for (int i = 0; i < nAdmin; i++) {
                     System.out.println("\nAdmin " + (i + 1));
-                    String id = patterId("Id (aa-0000): ");
+                    String prefijo = "AD";
+                    String id = String.format("%s-%02d", prefijo, contador++);
                     String nombre = leerSoloLetras("Nombre de admin: ");
                     String password = leerTextoNoVacio("Contraseña: ");
 
@@ -131,7 +144,8 @@ public class Main {
                 sc.nextLine();
                 for (int i = 0; i < nUsuarios; i++) {
                     System.out.println("\nUser " + (i + 1));
-                    String id = patterId("Id (aa-0000): ");
+                    String prefijo = "US";
+                    String id = String.format("%s-%02d", prefijo, contador++);
                     String nombre = leerSoloLetras("Nombre de user: ");
                     String password = leerTextoNoVacio("Contraseña: ");
 
@@ -153,8 +167,10 @@ public class Main {
     }
 
     public static void datosCompeticion() {
-        System.out.println("\nCompeticion ");
-        String id = patterId("Id (aa-0000): ");
+        System.out.println("\nGenerando competicion ");
+        String prefijo = "CO";
+        String id = String.format("%s-%02d", prefijo, contador++);
+        sc.nextLine();
         String nombre = leerSoloLetras("Nombre de la competicion: ");
         String estado = leerEstado();
 
@@ -162,25 +178,30 @@ public class Main {
     }
 
     public static void menu() {
-        System.out.println("¿Qué tipo de usuario eres? (admin/user/cerrar): ");
-        String tipoUsuario = sc.nextLine().trim().toLowerCase();
-        switch (tipoUsuario) {
-            case "admin":
-                System.out.println("Bienvenido Admin. ¿Qué desea hacer?");
-                menuAdmin();
-                break;
-            case "user":
-                System.out.println("Bienvenido User. ¿Qué desea hacer?");
-                menuUser();
-                break;
-            case "cerrar":
-                System.out.println("Cerrando el programa. ¡Hasta luego!");
-                System.exit(0);
-                break;
-            default:
-                System.out.println("Tipo de usuario no válido. Inténtalo de nuevo.");
-                menu();
-                break;
+        if (listausuario.size() == 0) {
+            System.out.println("No hay usuarios disponibles. Por favor, cree al menos un admin o user.");
+            datosUsuarios();
+        } else {
+            System.out.println("¿Qué tipo de usuario eres? (admin/user/cerrar): ");
+            String tipoUsuario = sc.nextLine().trim().toLowerCase();
+            switch (tipoUsuario) {
+                case "admin":
+                    System.out.println("Bienvenido Admin. ¿Qué desea hacer?");
+                    menuAdmin();
+                    break;
+                case "user":
+                    System.out.println("Bienvenido User. ¿Qué desea hacer?");
+                    menuUser();
+                    break;
+                case "cerrar":
+                    System.out.println("Cerrando el programa. ¡Hasta luego!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Tipo de usuario no válido. Inténtalo de nuevo.");
+                    menu();
+                    break;
+            }
         }
     }
 
@@ -209,6 +230,7 @@ public class Main {
                     }
                 }
                 menuUser();
+
                 break;
             case 3:
                 System.out.println("Cerrando sesión.");
@@ -232,6 +254,9 @@ public class Main {
         switch (opcionAdmin) {
             case 1:
                 System.out.println("Generando calendario...\n");
+                datosEnfrentamientos();
+                datosJornadona();
+                datosCompeticion();
                 System.out.println("Calendario generado con éxito.");
                 menuAdmin();
                 break;
@@ -671,27 +696,6 @@ public class Main {
 
             } while (texto.isEmpty());
 
-            return texto;
-        }
-
-        private static String patterId (String msg){
-            String texto;
-            do {
-                System.out.print(msg);
-                texto = sc.nextLine().trim();
-
-                if (texto.isEmpty()) {
-                    System.out.println("No puede estar vacío.");
-                } else if (!texto.matches("^[a-zA-Z]{2}-[0-9]{4}$")) {
-                    System.out.println("Deve ser en formato aa-0000.");
-                    texto = "";
-                } else if (listaId.contains(texto)) {
-                    System.out.println("El ID ya existe. Introduce uno diferente.");
-                    texto = "";
-                }
-
-            } while (texto.isEmpty());
-            listaId.add(texto);
             return texto;
         }
 

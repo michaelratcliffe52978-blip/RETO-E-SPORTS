@@ -31,7 +31,6 @@ public class Main {
             datosJugadores();
             datosEquipo();
         }
-        System.out.println(listaequipos);
         datosUsuarios();
     }
 
@@ -48,7 +47,7 @@ public class Main {
             LocalDate fechaNacimiento = leerFechaAnterior("Fecha de nacieminto (dd/MM/yyyy): ");
             String nickname = leerTextoNoVacio("Nickname: ");
             String rol = leerRol();
-            Double sueldo = leerDoubleMin1221("Sueldo: ");
+            double sueldo = leerDoubleMin1221("Sueldo: ");
 
 
             Jugadores j = new Jugadores(id, nombre, apellido, nacionalidad, fechaNacimiento, nickname, rol, sueldo);
@@ -62,11 +61,11 @@ public class Main {
         String prefijo = "EQ";
         String id = String.format("%s-%02d", prefijo, contador++);
         String nombre = leerSoloLetras("Nombre equipo: ");
-        LocalDate fechaNacimiento = leerFechaAnterior("Fecha de nacimiento (dd/MM/yyyy): ");
+        LocalDate fechaFundacion = leerFechaAnterior("Fecha de fundacion (dd/MM/yyyy): ");
 
         ArrayList<Jugadores> jugadoresEquipo = new ArrayList<>(listajugadores);
 
-        Equipos e = new Equipos(id, jugadoresEquipo, fechaNacimiento, nombre);
+        Equipos e = new Equipos(id, jugadoresEquipo, fechaFundacion, nombre);
         listaequipos.add(e);
         listajugadores.clear();
     }
@@ -178,7 +177,7 @@ public class Main {
     }
 
     public static void menu() {
-        if (listausuario.size() == 0) {
+        if (listausuario.isEmpty()) {
             System.out.println("No hay usuarios disponibles. Por favor, cree al menos un admin o user.");
             datosUsuarios();
         } else {
@@ -186,12 +185,22 @@ public class Main {
             String tipoUsuario = sc.nextLine().trim().toLowerCase();
             switch (tipoUsuario) {
                 case "admin":
-                    System.out.println("Bienvenido Admin. ¿Qué desea hacer?");
-                    menuAdmin();
+                    if(listaadmin.isEmpty()) {
+                        System.out.println("No hay admins disponibles. Por favor, cree al menos un admin.");
+                        datosUsuarios();
+                    }else {
+                        System.out.println("Bienvenido Admin. ¿Qué desea hacer?");
+                        menuAdmin();
+                    }
                     break;
                 case "user":
+                    if(listauser.isEmpty()) {
+                        System.out.println("No hay usuarios disponibles. Por favor, cree al menos un user.");
+                        datosUsuarios();
+                    }else{
                     System.out.println("Bienvenido User. ¿Qué desea hacer?");
                     menuUser();
+                    }
                     break;
                 case "cerrar":
                     System.out.println("Cerrando el programa. ¡Hasta luego!");
@@ -330,6 +339,10 @@ public class Main {
                 int opcion = sc.nextInt();
                 switch (opcion) {
                     case 1:
+                        if(comp.getEstado().equalsIgnoreCase("cerrado")) {
+                            System.out.println("No se pueden borrar elementos mientras la competición está cerrada.");
+                            break;
+                        }else{
                         System.out.println("Crear");
                         System.out.println("1. Crear jugador");
                         System.out.println("2. Crear equipo");
@@ -351,6 +364,7 @@ public class Main {
                                 break;
                             default:System.out.println("Opción no válida. Inténtalo de nuevo.");
                                 break;
+                        }
                         }
                         break;
                     case 2:
@@ -398,6 +412,10 @@ public class Main {
                         }
                         break;
                     case 3:
+                        if(comp.getEstado().equalsIgnoreCase("cerrado")) {
+                            System.out.println("No se pueden borrar elementos mientras la competición está cerrada.");
+                            break;
+                        }else{
                         System.out.println("1. Actualizar jugador");
                         System.out.println("2. Actualizar equipo");
                         System.out.println("3. Actualizar enfrentamiento");
@@ -485,7 +503,7 @@ public class Main {
                                         String nuevoNombreEquipo = leerSoloLetras("Nuevo nombre del equipo: ");
                                         equipo.setnombreEquipo(nuevoNombreEquipo);
                                         System.out.println("Nombre del equipo actualizado a: " + nuevoNombreEquipo);
-                                    case  "fechafundacion":
+                                    case "fechafundacion":
                                         LocalDate nuevaFechaFundacion = leerFechaAnterior("Nueva fecha de fundación (dd/MM/yyyy): ");
                                         equipo.setfechaFundacion(nuevaFechaFundacion);
                                         System.out.println("Fecha de fundación actualizada a: " + nuevaFechaFundacion);
@@ -561,12 +579,18 @@ public class Main {
                                     default:
                                         System.out.println("Campo no válido. Inténtalo de nuevo.");
                                 }
+
                                 break;
                             default:
                                 System.out.println("Opción no válida. Inténtalo de nuevo.");
                         }
+                        }
                         break;
                     case 4:
+                        if(comp.getEstado().equalsIgnoreCase("cerrado")) {
+                            System.out.println("No se pueden borrar elementos mientras la competición está cerrada.");
+                            break;
+                        }else{
                         System.out.println("1. Borrar jugador");
                         System.out.println("2. Borrar equipo");
                         System.out.println("3. Borrar enfrentamiento");
@@ -616,6 +640,7 @@ public class Main {
                             default:
                                 System.out.println("Opción no válida. Inténtalo de nuevo.");
                                 break;
+                        }
                         }
                         break;
                     default:
@@ -705,8 +730,7 @@ public class Main {
                 System.out.print("Cuantos jugadores quiere introducir en este equipo (2-6): ");
                 njug = sc.nextLine();
             } while (!njug.matches("^[2-6]{1}$"));
-            int nJugadores = Integer.parseInt(njug);
-            return nJugadores;
+            return Integer.parseInt(njug);
         }
 
         private static int patterNEquipos () {
@@ -716,11 +740,9 @@ public class Main {
                 System.out.print("Cuantos equipos quiere introducir (par): ");
                 nequip = sc.nextInt();
                 if (nequip % 2 == 0 && nequip > 0) {
-                    nequip = nequip;
                     w = true;
                 } else {
                     System.out.println("El número debe ser par y mayor que 0. Inténtalo de nuevo.");
-                    w = false;
                 }
             } while (!w);
             return nequip;

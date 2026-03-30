@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.7487437185929648" maxHeight="-Infinity" style="-fx-background-color: #ffffff;" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.programacion.Vista.Vista1">
+    <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #ffffff;">
+            <children>
+                <ImageView fitHeight="414.0" fitWidth="600.0" layoutX="-3.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@logoE-Sport.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" style="-fx-background-color: #ffffff;">
+            <children>
+                <Button layoutX="262.0" layoutY="30.0" mnemonicParsing="false" onAction="#onIniciar" prefHeight="37.0" prefWidth="75.0" style="-fx-background-color: #212121;" text="Iniciar" textFill="WHITE" />
+            </children>
+        </AnchorPane>
+    </items>
+</SplitPane>

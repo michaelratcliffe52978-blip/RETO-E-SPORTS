@@ -13,8 +13,9 @@ import java.io.IOException;
 
 public class InicioSesionUsuario {
     @FXML
-    public void onIniciar(ActionEvent event) {
+    public void onUsuario(ActionEvent event) {
         try {
+
             // 1. Cargamos el archivo FXML de la Vista 2.
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/2.Vista.fxml"));
             Parent root = fxmlLoader.load();

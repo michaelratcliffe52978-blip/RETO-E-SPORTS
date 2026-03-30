@@ -32,7 +32,7 @@ public class Vista1 {
 
         } catch (IOException e) {
             // Si algo falla (ej. no encuentra el archivo), nos lo dirá por aquí
-            System.out.println("Fallo al cargar la vista compai: " + e.getMessage());
+            System.out.println("Fallo al cargar la vista : " + e.getMessage());
             e.printStackTrace();
         }
     }

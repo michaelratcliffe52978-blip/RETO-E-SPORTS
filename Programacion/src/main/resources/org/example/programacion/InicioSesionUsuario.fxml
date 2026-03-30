@@ -31,6 +31,6 @@
          <image>
             <Image url="@logoE-Sport.png" />
          </image></ImageView>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" style="-fx-background-color: #212121;" text="Button" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>

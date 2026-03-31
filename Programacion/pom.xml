@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>Programacion</name>
 
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.12.1</junit.version>
@@ -25,6 +26,7 @@
             <artifactId>javafx-fxml</artifactId>
             <version>21.0.6</version>
         </dependency>
+
 
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>

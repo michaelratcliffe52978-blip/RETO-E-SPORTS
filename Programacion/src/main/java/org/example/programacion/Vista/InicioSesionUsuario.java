@@ -7,35 +7,27 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.example.programacion.Controladores.UsuarioController;
 
 import java.io.IOException;
 
 public class InicioSesionUsuario {
+    @FXML private TextField nombreUsuario;
+    @FXML private PasswordField contrasena;
+
     @FXML
     public void onUsuario(ActionEvent event) {
-        try {
+        String txtNombre = nombreUsuario.getText();
+        String txtPass = contrasena.getText();
 
-            // 1. Cargamos el archivo FXML de la Vista 2.
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/2.Vista.fxml"));
-            Parent root = fxmlLoader.load();
-
-            // 2. Creamos una nueva escena con esa vista
-            Scene scene = new Scene(root);
-
-            // 3. Sacamos la "ventana" (Stage) actual a partir del botón que hemos pulsado
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // 4. Le ponemos la nueva escena a la ventana
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            // Si algo falla (ej. no encuentra el archivo), nos lo dirá por aquí
-            System.out.println("Fallo al cargar la vista +" +
-                    ": " + e.getMessage());
-            e.printStackTrace();
+        if (txtNombre != null && !txtNombre.trim().isEmpty() && !txtPass.trim().isEmpty()) {
+            UsuarioController.insertarUsuario(txtNombre, txtPass);
+            System.out.println("Insertando: " + txtNombre);
+        } else {
+            System.out.println("Error: Campos vacíos");
         }
     }
-
 }

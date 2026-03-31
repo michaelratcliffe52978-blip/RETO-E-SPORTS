@@ -12,6 +12,12 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
+    public Usuario(String nombre, String password) {
+        this.nombreUsuario = nombre;
+        this.contrasena = password;
+        // El idUsuario se queda null porque lo generas en el DAO
+    }
+
     public String getidUsuario() {return idUsuario;}
     public void setidUsuario(String idUsuario) {this.idUsuario = idUsuario;}
     public String getnombreUsuario() {return nombreUsuario;}

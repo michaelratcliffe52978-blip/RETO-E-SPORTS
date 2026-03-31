@@ -1,6 +1,5 @@
 package org.example.programacion.Vista;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 
 import javafx.event.ActionEvent;
@@ -12,12 +11,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class InicioSesion {
+public class InicioSesionUsuario {
     @FXML
-    public void onIniciar(ActionEvent event) {
+    public void onUsuario(ActionEvent event) {
         try {
+
             // 1. Cargamos el archivo FXML de la Vista 2.
-            // Ojo a la ruta: empieza por "/" porque busca desde la carpeta "resources"
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/2.Vista.fxml"));
             Parent root = fxmlLoader.load();
 
@@ -33,7 +32,8 @@ public class InicioSesion {
 
         } catch (IOException e) {
             // Si algo falla (ej. no encuentra el archivo), nos lo dirá por aquí
-            System.out.println("Fallo al cargar la vista compai: " + e.getMessage());
+            System.out.println("Fallo al cargar la vista +" +
+                    ": " + e.getMessage());
             e.printStackTrace();
         }
     }

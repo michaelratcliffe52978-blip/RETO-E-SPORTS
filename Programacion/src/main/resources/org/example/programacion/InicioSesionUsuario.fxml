@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.programacion.Vista.InicioSesionUsuario">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -20,8 +20,8 @@
    <children>
       <Label alignment="CENTER" contentDisplay="TOP" prefHeight="17.0" prefWidth="294.0" text="Usuario" textAlignment="CENTER" GridPane.rowIndex="1" />
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="203.0" text="Contraseña" GridPane.rowIndex="2" />
-      <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <PasswordField fx:id="contraseña" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="nombreUsuario" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="226.0" text="INICIO SESION" GridPane.columnIndex="1">
          <font>
             <Font name="DejaVu Sans Bold" size="24.0" />
@@ -31,7 +31,7 @@
          <image>
             <Image url="@logoE-Sport.png" />
          </image></ImageView>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Button" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onUsuario" prefHeight="25.0" prefWidth="62.0" style="-fx-background-color: #212121;" text="Acceder" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
    </children>
 </GridPane>
 

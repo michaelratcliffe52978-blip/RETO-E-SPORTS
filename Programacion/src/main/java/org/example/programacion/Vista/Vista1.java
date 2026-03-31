@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Vista1 {
+
     @FXML
     public void onIniciar(ActionEvent event) {
         try {

@@ -13,6 +13,9 @@ public class Usuario {
     }
 
     public Usuario(String nombre, String password) {
+        this.nombreUsuario = nombre;
+        this.contrasena = password;
+        // El idUsuario se queda null porque lo generas en el DAO
     }
 
     public String getidUsuario() {return idUsuario;}

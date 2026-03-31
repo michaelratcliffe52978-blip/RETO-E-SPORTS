@@ -12,6 +12,9 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
+    public Usuario(String nombre, String password) {
+    }
+
     public String getidUsuario() {return idUsuario;}
     public void setidUsuario(String idUsuario) {this.idUsuario = idUsuario;}
     public String getnombreUsuario() {return nombreUsuario;}

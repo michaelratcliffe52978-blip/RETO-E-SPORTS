@@ -32,6 +32,7 @@
             <Image url="@logoE-Sport.png" />
          </image></ImageView>
       <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onUsuario" prefHeight="25.0" prefWidth="62.0" style="-fx-background-color: #212121;" text="Acceder" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+
+
    </children>
 </GridPane>
-

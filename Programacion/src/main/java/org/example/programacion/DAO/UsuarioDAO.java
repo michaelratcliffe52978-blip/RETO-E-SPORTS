@@ -13,18 +13,17 @@ public class UsuarioDAO {
         private String user = "eqdaw04";
         private String pass = "eqdaw04";
 
-        public boolean insertarUsuario(String nombre, String password) {
+        public void insertarUsuario(Usuario  usuario) {
             String sql = "INSERT INTO usuarios (nombre, password) VALUES (?, ?)";
-            try (Connection conn = DriverManager.getConnection(url, user, pass);
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                pstmt.setString(1, nombre);
-                pstmt.setString(2, password);
-                pstmt.executeUpdate();
-                return true;
+            try (Connection conn = DriverManager.getConnection(url, user, pass);
+                 PreparedStatement preparedStatement= conn.prepareStatement(sql)) {
+
+                preparedStatement.setString(1, usuario.getnombreUsuario());
+                preparedStatement.setString(2, usuario.getContrasena());
+                preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
-                return false;
             }
         }
 

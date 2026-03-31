@@ -7,35 +7,43 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.example.programacion.Controladores.UsuarioController;
 
 import java.io.IOException;
 
 public class InicioSesionUsuario {
     @FXML
+    private TextField txtNombre;
+
+    @FXML
+    private PasswordField txtPassword;
     public void onUsuario(ActionEvent event) {
-        try {
 
-            // 1. Cargamos el archivo FXML de la Vista 2.
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/2.Vista.fxml"));
-            Parent root = fxmlLoader.load();
+            String nombre = txtNombre.getText();
+            String password = txtPassword.getText();
 
-            // 2. Creamos una nueva escena con esa vista
-            Scene scene = new Scene(root);
+            if (nombre.isEmpty() || password.isEmpty()) {
+                System.out.println("Por favor, rellena todos los campos.");
+                return;
+            }
 
-            // 3. Sacamos la "ventana" (Stage) actual a partir del botón que hemos pulsado
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            UsuarioController.insertarUsuario(nombre, password);
 
-            // 4. Le ponemos la nueva escena a la ventana
-            stage.setScene(scene);
-            stage.show();
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/2.Vista.fxml"));
+                Parent root = fxmlLoader.load();
+                Scene scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
 
-        } catch (IOException e) {
-            // Si algo falla (ej. no encuentra el archivo), nos lo dirá por aquí
-            System.out.println("Fallo al cargar la vista +" +
-                    ": " + e.getMessage());
-            e.printStackTrace();
+            } catch (IOException e) {
+                System.out.println("Fallo al cargar la vista: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
-    }
+        }
 
-}

@@ -20,7 +20,7 @@
     <children>
         <Label alignment="CENTER" contentDisplay="TOP" prefHeight="17.0" prefWidth="294.0" text="Usuario" textAlignment="CENTER" GridPane.rowIndex="1" />
         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="203.0" text="Contraseña" GridPane.rowIndex="2" />
-        <PasswordField fx:id="contraseña" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <PasswordField fx:id="contrasenaAdmin" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <TextField fx:id="nombreAdmin" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="226.0" text="INICIO SESION" GridPane.columnIndex="1">
             <font>

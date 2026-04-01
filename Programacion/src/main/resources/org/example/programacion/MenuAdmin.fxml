@@ -25,5 +25,6 @@
       <Button mnemonicParsing="false" onAction="#onIntroducir" prefHeight="25.0" prefWidth="160.0" text="Introducir Resultado" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
       <Button mnemonicParsing="false" onAction="#onCerrarEstado" prefHeight="25.0" prefWidth="160.0" text="Cerrar Estado" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
       <Button mnemonicParsing="false" onAction="#onCRUD" prefHeight="25.0" prefWidth="160.0" text="CRUD" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onAction="#CerrarSesion" text="Cerrar Sesion" GridPane.rowIndex="4" />
    </children>
 </GridPane>

@@ -40,6 +40,7 @@ public class MenuAdmin {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void onGenerarCalendario(ActionEvent event) {
         int idJornada = 1;
@@ -125,6 +126,32 @@ public class MenuAdmin {
         alert.setHeaderText(null);
         alert.setContentText("La competición ha sido cerrada. La estructura de equipos está bloqueada.");
         alert.showAndWait();
+    }
+
+    @FXML
+    public void CerrarSesion(ActionEvent event) {
+        try {
+
+            // 1. Cargamos el archivo FXML de la Vista 2.
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/2.Vista.fxml"));
+            Parent root = fxmlLoader.load();
+
+            // 2. Creamos una nueva escena con esa vista
+            Scene scene = new Scene(root);
+
+            // 3. Sacamos la "ventana" (Stage) actual a partir del botón que hemos pulsado
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // 4. Le ponemos la nueva escena a la ventana
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            // Si algo falla (ej. no encuentra el archivo), nos lo dirá por aquí
+            System.out.println("Fallo al cargar la vista +" +
+                    ": " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

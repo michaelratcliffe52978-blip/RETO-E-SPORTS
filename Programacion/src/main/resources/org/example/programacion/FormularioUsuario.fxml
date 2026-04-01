@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.programacion.Vista.FormularioUsuario">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="313.0" minWidth="10.0" prefWidth="290.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="249.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="290.0" minWidth="0.0" prefWidth="61.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <Label text="Username:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <TextField fx:id="txtUsername" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+        <Label text="Contraseña:" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <PasswordField fx:id="txtPassword" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+        <Label text="Rol del Usuario:" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <ComboBox fx:id="comboRol" prefWidth="250.0" promptText="Seleccionar Rol" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="ADMIN" />
+                    <String fx:value="USER" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <Label text="Formulario " GridPane.halignment="RIGHT">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Label>
+        <Label text=" Usuario" GridPane.columnIndex="1">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Label>
+
+        <Button mnemonicParsing="false" onAction="#onAtras" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold;" text="Atrás" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+        <Button mnemonicParsing="false" onAction="#onGuardar" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold;" text="Guardar Usuario" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+    </children>
+</GridPane>

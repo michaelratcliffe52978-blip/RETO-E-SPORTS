@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.geometry.Insets?>
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.programacion.Vista.MenuCRUD">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -25,6 +26,12 @@
         <Button mnemonicParsing="false" onAction="#onLeer" prefHeight="25.0" prefWidth="160.0" text="EQUIPO" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
         <Button mnemonicParsing="false" onAction="#onModificar" prefHeight="25.0" prefWidth="160.0" text="JORNADA" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
         <Button mnemonicParsing="false" onAction="#onEliminar" prefHeight="25.0" prefWidth="160.0" text="USUARIO" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-        <Button mnemonicParsing="false" onAction="#onAtras" text="Atras" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-    </children>
+        <Button mnemonicParsing="false" onAction="#onAtras" text="Atras"
+                GridPane.halignment="LEFT"
+                GridPane.rowIndex="4"
+                GridPane.valignment="CENTER" style="-fx-background-color: #212121;" textAlignment="CENTER" textFill="WHITE">
+            <GridPane.margin>
+                <Insets left="20.0" bottom="10.0" />
+            </GridPane.margin>
+        </Button>    </children>
 </GridPane>

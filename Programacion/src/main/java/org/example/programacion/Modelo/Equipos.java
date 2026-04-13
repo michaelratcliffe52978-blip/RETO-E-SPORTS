@@ -2,37 +2,28 @@ package org.example.programacion.Modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Equipos {
-
-    private String idEquipo;
+    private int idEquipo;
     private String nombreEquipo;
     private LocalDate fechaFundacion;
-    private ArrayList<Jugadores> jugadores;
+    private List<Jugadores> listaJugadores;
 
-    public Equipos(String idEquipo, String nombreEquipo, LocalDate fechaFundacion) {
+    public Equipos(int idEquipo, String nombreEquipo, LocalDate fechaFundacion) {
         this.idEquipo = idEquipo;
         this.nombreEquipo = nombreEquipo;
         this.fechaFundacion = fechaFundacion;
+        this.listaJugadores = new ArrayList<>();
     }
 
-    public Equipos(String idEquipo, ArrayList<Jugadores> jugadores, LocalDate fechaFundacion, String nombreEquipo) {
-        this.idEquipo = idEquipo;
-        this.jugadores = jugadores;
-        this.fechaFundacion = fechaFundacion;
-        this.nombreEquipo = nombreEquipo;
+
+    public int getIdEquipo() { return idEquipo; }
+    public String getNombreEquipo() { return nombreEquipo; }
+    public LocalDate getFechaFundacion() { return fechaFundacion; }
+    public List<Jugadores> getListaJugadores() { return listaJugadores; }
+
+    public void añadirJugador(Jugadores j) {
+        this.listaJugadores.add(j);
     }
-
-    public String getidEquipo() {return idEquipo;}
-    public void setidEquipo(String idEquipo) {}
-
-    public String getnombreEquipo() {return nombreEquipo;}
-    public void setnombreEquipo(String nombreEquipo) {}
-
-    public LocalDate getfechaFundacion() {return fechaFundacion;}
-    public void setfechaFundacion(LocalDate fechaFundacion) {}
-
-    public ArrayList<Jugadores> getjugadores() {return jugadores;}
-    public void setjugadores(ArrayList<Jugadores> jugadores) {}
-
 }

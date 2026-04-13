@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -44,6 +45,13 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-        <Button mnemonicParsing="false" onAction="#onAtras" text="Atras" GridPane.rowIndex="6" />
-        <Button mnemonicParsing="false" onAction="#onGuardar" text="Enviar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />    </children>
+        <Button mnemonicParsing="false" onAction="#onAtras" style="-fx-background-color: #212121;" text="Atras" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+            <GridPane.margin>
+                <Insets bottom="10.0" left="20.0" />
+            </GridPane.margin>
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+        </Button>
+        <Button mnemonicParsing="false" onAction="#onGuardar" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold;" text="Enviar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />    </children>
 </GridPane>

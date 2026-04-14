@@ -97,7 +97,7 @@ public class MenuCRUD {
         try {
 
             // 1. Cargamos el archivo FXML de la Vista 2.
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/MenuAdmin.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/CRUDJornadas.fxml"));
             Parent root = fxmlLoader.load();
 
             // 2. Creamos una nueva escena con esa vista
@@ -123,7 +123,7 @@ public class MenuCRUD {
         try {
 
             // 1. Cargamos el archivo FXML de la Vista 2.
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/MenuAdmin.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/programacion/CRUDUsuarios.fxml"));
             Parent root = fxmlLoader.load();
 
             // 2. Creamos una nueva escena con esa vista

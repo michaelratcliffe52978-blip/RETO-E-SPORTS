@@ -11,18 +11,17 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.stage.Stage;
+import org.example.programacion.DAO.JornadaDAO;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class FormularioJornada {
 
     @FXML private Spinner<Integer> spNumeroJornada;
     @FXML private DatePicker dpFechaJornada;
+
+    private JornadaDAO jornadaDAO = new JornadaDAO();
 
     @FXML
     public void initialize() {
@@ -35,25 +34,20 @@ public class FormularioJornada {
     @FXML
     public void onGuardar(ActionEvent event) {
         int numero = spNumeroJornada.getValue();
-        LocalDate fecha = dpFechaJornada.getValue();
+        var fecha = dpFechaJornada.getValue();
 
         if (fecha == null) {
             mostrarAlerta("Error", "Debe seleccionar una fecha para la jornada.");
             return;
         }
 
-        // Suponiendo que la tabla se llama JORNADA y tiene NUMERO y FECHA
-        String sql = "INSERT INTO JORNADA (NUMERO, FECHA) VALUES (?, ?)";
+        try {
+            jornadaDAO.insertJornada(numero, fecha);
 
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, numero);
-            pstmt.setDate(2, Date.valueOf(fecha));
-
-            pstmt.executeUpdate();
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Jornada " + numero + " creada con éxito.");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText(null);
+            alert.setContentText("Jornada " + numero + " creada con éxito.");
             alert.showAndWait();
 
             onAtras(event);

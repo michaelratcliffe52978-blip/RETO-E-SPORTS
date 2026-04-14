@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="600.0" prefWidth="800.0" spacing="15.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.programacion.Controladores.InformeEquiposController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <children>
+        <Label text="CONSULTA DE EQUIPOS">
+            <font>
+                <Font name="System Bold" size="22.0" />
+            </font>
+        </Label>
+
+        <HBox alignment="CENTER_LEFT" spacing="15.0" style=" -fx-padding: 10;">
+            <children>
+                <Label text="Selecciona un equipo:">
+                    <font><Font name="System Bold" size="13.0" /></font>
+                </Label>
+                <ComboBox fx:id="comboEquipos" onAction="#onEquipoSeleccionado" prefWidth="250.0" promptText="--- Elegir Equipo ---" />
+            </children>
+        </HBox>
+
+        <Label text="Integrantes del equipo:">
+            <font><Font name="System Italic" size="14.0" /></font>
+        </Label>
+
+        <TableView fx:id="tablaIntegrantes" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colNickname" text="Nickname" />
+                <TableColumn fx:id="colNombre" prefWidth="122.0" text="Nombre" />
+                <TableColumn fx:id="colApellido" prefWidth="97.0" text="Apellido" />
+                <TableColumn fx:id="colNacionalidad" prefWidth="136.0" text="Nacionalidad" />
+                <TableColumn fx:id="colFechaNac" minWidth="6.0" prefWidth="124.0" text="F. Nacimiento" />
+                <TableColumn fx:id="colRol" prefWidth="115.0" text="Rol" />
+                <TableColumn fx:id="colSueldo" prefWidth="85.0" text="Sueldo" />
+            </columns>
+        </TableView>
+
+        <HBox alignment="CENTER_RIGHT">
+            <children>
+                <Button onAction="#onVolver" style="-fx-background-color: black; -fx-text-fill: white;" text="VOLVER AL MENÚ" />
+            </children>
+        </HBox>
+    </children>
+</VBox>

@@ -1,4 +1,25 @@
 package org.example.programacion.DAO;
 
+import org.example.programacion.Util.ConexionBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class CompeticionDAO {
+
+    public boolean actualizarEstado(int idCompeticion, String nuevoEstado) {
+        String sql = "UPDATE Competicion SET estado = ? WHERE id_competicion = ?";
+
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nuevoEstado.toLowerCase());
+            pstmt.setInt(2, idCompeticion);
+
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al cambiar estado: " + e.getMessage());
+            return false;
+        }
+    }
 }

@@ -10,14 +10,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.programacion.Controladores.JugadoresController;
+import org.example.programacion.Modelo.Jugadores;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class FormularioJugador {
 
     @FXML private TextField txtDni, txtNombre, txtApellidos, txtNickname;
     @FXML private ComboBox<String> comboEquipos;
+
+    private JugadoresController jugadoresController = new JugadoresController();
 
     @FXML
     public void initialize() {
@@ -25,18 +30,7 @@ public class FormularioJugador {
     }
 
     private void cargarEquipos() {
-        ObservableList<String> nombresEquipos = FXCollections.observableArrayList();
-        String sql = "SELECT NOMBRE_EQUIPO FROM EQUIPO";
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                nombresEquipos.add(rs.getString("NOMBRE_EQUIPO"));
-            }
-            comboEquipos.setItems(nombresEquipos);
-        } catch (SQLException e) {
-            System.err.println("Error al cargar equipos: " + e.getMessage());
-        }
+        comboEquipos.setItems(FXCollections.observableArrayList(jugadoresController.getAllEquipoNames()));
     }
 
     @FXML
@@ -46,19 +40,19 @@ public class FormularioJugador {
             return;
         }
 
-        String sqlInsert = "INSERT INTO JUGADOR (DNI, NOMBRE, APELLIDOS, NICKNAME, ID_EQUIPO) " +
-                "VALUES (?, ?, ?, ?, (SELECT ID_EQUIPO FROM EQUIPO WHERE NOMBRE_EQUIPO = ?))";
+        Jugadores jugador = new Jugadores(
+                txtDni.getText(),
+                txtNombre.getText(),
+                txtApellidos.getText(),
+                "", // nacionalidad, no hay campo
+                LocalDate.now(), // fecha nacimiento, no hay campo
+                txtNickname.getText(),
+                "", // rol, no hay campo
+                0.0 // sueldo, no hay campo
+        );
 
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sqlInsert)) {
-
-            pstmt.setString(1, txtDni.getText());
-            pstmt.setString(2, txtNombre.getText());
-            pstmt.setString(3, txtApellidos.getText());
-            pstmt.setString(4, txtNickname.getText());
-            pstmt.setString(5, comboEquipos.getValue());
-
-            pstmt.executeUpdate();
+        try {
+            jugadoresController.saveJugador(jugador, comboEquipos.getValue());
 
             Alert exito = new Alert(Alert.AlertType.INFORMATION, "¡Jugador guardado con éxito!");
             exito.showAndWait();

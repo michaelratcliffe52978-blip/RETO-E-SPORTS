@@ -17,12 +17,16 @@ public class Jornada {
         this.enfrentamientos = enfrentamientos;
     }
 
-    public String getidJornada() {return idJornada;}
-    public void setidJornada(String idJornada) {this.idJornada = idJornada;}
-    public int getnumeroJornada() {return numeroJornada;}
-    public void setnumeroJornada(int numeroJornada) {this.numeroJornada = numeroJornada;}
-    public LocalDate getfechaJornada() {return fechaJornada;}
-    public void setfechaJornada(LocalDate fechaJornada) {this.fechaJornada = fechaJornada;}
-    public Enfrentamiento getEnfrentamientos() {return enfrentamientos;}
-    public void setEnfrentamientos(Enfrentamiento enfrentamientos) {this.enfrentamientos = enfrentamientos;}
+    // Getters con nombres correctos para JavaBeans
+    public String getIdJornada() { return idJornada; }
+    public void setIdJornada(String idJornada) { this.idJornada = idJornada; }
+    
+    public int getNumeroJornada() { return numeroJornada; }
+    public void setNumeroJornada(int numeroJornada) { this.numeroJornada = numeroJornada; }
+    
+    public LocalDate getFechaJornada() { return fechaJornada; }
+    public void setFechaJornada(LocalDate fechaJornada) { this.fechaJornada = fechaJornada; }
+    
+    public Enfrentamiento getEnfrentamientos() { return enfrentamientos; }
+    public void setEnfrentamientos(Enfrentamiento enfrentamientos) { this.enfrentamientos = enfrentamientos; }
 }

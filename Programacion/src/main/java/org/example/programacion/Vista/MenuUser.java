@@ -15,18 +15,18 @@ import org.example.programacion.DAO.CompeticionDAO;
 import java.io.IOException;
 import java.util.List;
 
-public class MenuAdmin {
+public class MenuUser {
 
     private CompeticionDAO competicionDAO = new CompeticionDAO();
 
     @FXML
-    public void onCRUD(ActionEvent event) {
-        cambiarEscena(event, "/org/example/programacion/MenuCRUD.fxml");
+    public void VerInformeEquipos(ActionEvent event) {
+        cambiarEscena(event, "/org/example/programacion/InformeEquipos.fxml");
     }
 
     @FXML
-    public void onIntroducir(ActionEvent event) {
-        cambiarEscena(event, "/org/example/programacion/IntroducirResultado.fxml");
+    public void VerInformeResultados(ActionEvent event) {
+        cambiarEscena(event, "/org/example/programacion/InformeResultados.fxml");
     }
 
     @FXML
@@ -34,40 +34,6 @@ public class MenuAdmin {
         cambiarEscena(event, "/org/example/programacion/2.Vista.fxml");
     }
 
-    @FXML
-    public void onGenerarCalendario(ActionEvent event) {
-        int idJornada = 1;
-        List<String> partidos = EnfrentamientoController.generarCalendarioAutomatico(idJornada);
-
-        if (partidos.isEmpty()) {
-            mostrarAlerta("Atención", "No hay suficientes equipos.");
-            return;
-        }
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Calendario Generado");
-        alert.setHeaderText("Enfrentamientos creados:");
-
-        TextArea textArea = new TextArea();
-        StringBuilder sb = new StringBuilder();
-        partidos.forEach(p -> sb.append("• ").append(p).append("\n"));
-
-        textArea.setText(sb.toString());
-        textArea.setEditable(false);
-        textArea.setPrefHeight(200);
-
-        alert.getDialogPane().setContent(textArea);
-        alert.showAndWait();
-    }
-
-    @FXML
-    public void onCerrarEstado(ActionEvent event) {
-        int idCompeticion = 1; // Este ID debería venir de la selección del usuario
-
-        if (competicionDAO.actualizarEstado(idCompeticion, "cerrado")) {
-            mostrarAlerta("Estado Actualizado", "La competición ha sido cerrada.");
-        }
-    }
 
     // Método auxiliar para no repetir código de cambio de ventana
     private void cambiarEscena(ActionEvent event, String fxmlPath) {

@@ -8,10 +8,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.programacion.Controladores.UsuarioController;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class FormularioUsuario {
@@ -19,6 +18,8 @@ public class FormularioUsuario {
     @FXML private TextField txtUsername;
     @FXML private PasswordField txtPassword;
     @FXML private ComboBox<String> comboRol;
+
+    private UsuarioController usuarioController = new UsuarioController();
 
     @FXML
     public void onGuardar(ActionEvent event) {
@@ -32,17 +33,8 @@ public class FormularioUsuario {
             return;
         }
 
-        // SQL: Asegúrate de que tu tabla se llame USUARIO
-        String sql = "INSERT INTO USUARIO (USERNAME, PASSWORD, ROL) VALUES (?, ?, ?)";
-
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, user);
-            pstmt.setString(2, pass);
-            pstmt.setString(3, rol);
-
-            pstmt.executeUpdate();
+        try {
+            usuarioController.insertarUsuario(user, pass, rol);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Usuario '" + user + "' creado con éxito como " + rol);
             alert.showAndWait();

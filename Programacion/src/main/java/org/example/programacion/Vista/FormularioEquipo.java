@@ -10,23 +10,23 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.example.programacion.Controladores.EquiposController;
+import org.example.programacion.Modelo.Equipos;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class FormularioEquipo {
 
     @FXML private TextField txtNombreEquipo;
     @FXML private DatePicker dpFecha; // Coincide con el fx:id del FXML
 
+    private EquiposController equiposController = new EquiposController();
+
     @FXML
     public void onGuardar(ActionEvent event) {
         String nombre = txtNombreEquipo.getText();
-        LocalDate fechaSeleccionada = dpFecha.getValue();
+        var fechaSeleccionada = dpFecha.getValue();
 
         // 1. Validación de campos
         if (nombre.isEmpty() || fechaSeleccionada == null) {
@@ -34,18 +34,10 @@ public class FormularioEquipo {
             return;
         }
 
-        // 2. Preparar el SQL (Ajusta los nombres de las columnas a tu tabla EQUIPO)
-        String sql = "INSERT INTO EQUIPO (NOMBRE_EQUIPO, FECHA_FUNDACION) VALUES (?, ?)";
+        Equipos equipo = new Equipos(0, nombre, fechaSeleccionada);
 
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, nombre);
-
-            // Convertimos el LocalDate de JavaFX al Date de SQL
-            pstmt.setDate(2, Date.valueOf(fechaSeleccionada));
-
-            pstmt.executeUpdate();
+        try {
+            equiposController.saveEquipo(equipo);
 
             Alert alerta = new Alert(Alert.AlertType.INFORMATION, "¡Equipo '" + nombre + "' registrado con éxito!");
             alerta.showAndWait();
@@ -55,7 +47,6 @@ public class FormularioEquipo {
 
         } catch (SQLException e) {
             mostrarAlerta("Error de Base de Datos", "No se pudo insertar el equipo: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 

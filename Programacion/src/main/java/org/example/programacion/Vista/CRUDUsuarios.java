@@ -1,4 +1,4 @@
-package org.example.programacion.Controladores;
+package org.example.programacion.Vista;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +20,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class AdminController implements Initializable {
+public class CRUDUsuarios implements Initializable {
 
     @FXML private TableView<Usuario> tablaUsuarios;
     @FXML private TableColumn<Usuario, String> colId;

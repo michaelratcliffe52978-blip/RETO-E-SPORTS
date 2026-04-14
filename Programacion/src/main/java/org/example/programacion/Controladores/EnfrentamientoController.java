@@ -1,5 +1,8 @@
 package org.example.programacion.Controladores;
 
+import org.example.programacion.DAO.EnfrentamientoDAO;
+import org.example.programacion.DAO.JornadaDAO;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +28,41 @@ public class EnfrentamientoController {
         return false;
     }
 
-    public static List<String> generarCalendarioAutomatico(int idJornadaDefault) {
-        // 1. Sacamos los nombres de la tabla EQUIPO (que es donde están registrados)
+    public static List<String> generarCalendarioAutomatico(int numeroJornada) {
+        // 1. Insertar la jornada si no existe y obtener ID
+        JornadaDAO jornadaDAO = new JornadaDAO();
+        int idJornada;
+        List<String> partidosCreados = new ArrayList<>();
+        try {
+            idJornada = jornadaDAO.insertJornada(numeroJornada, java.time.LocalDate.now());
+        } catch (SQLException e) {
+            // Si ya existe, obtener el ID existente
+            System.out.println("Jornada ya existe, obteniendo ID: " + e.getMessage());
+            try {
+                String sqlSelect = "SELECT ID_JORNADA FROM JORNADA WHERE NUMERO_JORNADA = ?";
+                try (Connection conn2 = org.example.programacion.Util.ConexionBD.getConnection();
+                     PreparedStatement pstmt2 = conn2.prepareStatement(sqlSelect)) {
+                    pstmt2.setInt(1, numeroJornada);
+                    ResultSet rs = pstmt2.executeQuery();
+                    if (rs.next()) {
+                        idJornada = rs.getInt("ID_JORNADA");
+                    } else {
+                        throw new SQLException("Jornada no encontrada");
+                    }
+                }
+            } catch (SQLException e2) {
+                System.err.println("Error obteniendo ID de jornada: " + e2.getMessage());
+                return partidosCreados; // Return empty
+            }
+        }
+
+        // 2. Sacamos los nombres de la tabla EQUIPO (que es donde están registrados)
         String sqlEquipos = "SELECT NOMBRE_EQUIPO FROM EQUIPO";
 
-        // 2. Insertamos en ENFRENTAMIENTO con tus columnas exactas
+        // 3. Insertamos en ENFRENTAMIENTO con tus columnas exactas
         String sqlInsert = "INSERT INTO ENFRENTAMIENTO (FECHA_ENFRENTAMIENTO, EQUIPO1, EQUIPO2, HORA, ID_JORNADA) VALUES (?, ?, ?, ?, ?)";
 
         List<String> listaEquipos = new ArrayList<>();
-        List<String> partidosCreados = new ArrayList<>();
 
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection()) {
             // PASO A: Leer los equipos que existen en la base de datos
@@ -60,7 +89,7 @@ public class EnfrentamientoController {
                         pstmt.setString(2, eq1); // Columna equipo1
                         pstmt.setString(3, eq2); // Columna equipo2
                         pstmt.setString(4, "12:00"); // Columna hora
-                        pstmt.setInt(5, idJornadaDefault); // Columna id_jornada
+                        pstmt.setInt(5, idJornada); // Columna id_jornada
 
                         pstmt.executeUpdate();
                         partidosCreados.add(eq1 + " vs " + eq2);
@@ -72,5 +101,30 @@ public class EnfrentamientoController {
             e.printStackTrace();
         }
         return partidosCreados;
+    }
+
+    public void actualizarResultado(String equipo1, String equipo2, String res1, String res2) {
+        EnfrentamientoDAO dao = new EnfrentamientoDAO();
+        try {
+            int idPartido = dao.getEnfrentamientoIdByEquipos(equipo1, equipo2);
+            int idEq1 = getIdEquipoByName(equipo1);
+            int idEq2 = getIdEquipoByName(equipo2);
+            dao.actualizarResultado(idPartido, idEq1, res1, idEq2, res2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int getIdEquipoByName(String nombre) throws SQLException {
+        String sql = "SELECT id_equipo FROM Equipo WHERE nombre_equipo = ?";
+        try (var conn = org.example.programacion.Util.ConexionBD.getConnection();
+             var pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, nombre);
+            var rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id_equipo");
+            }
+        }
+        throw new SQLException("Equipo no encontrado");
     }
 }

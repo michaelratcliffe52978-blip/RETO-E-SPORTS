@@ -26,4 +26,9 @@ public class Equipos {
     public void añadirJugador(Jugadores j) {
         this.listaJugadores.add(j);
     }
+
+    @Override
+    public String toString() {
+        return nombreEquipo;
+    }
 }

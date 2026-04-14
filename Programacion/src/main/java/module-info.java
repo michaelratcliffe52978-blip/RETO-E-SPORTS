@@ -12,6 +12,10 @@ module org.example.programacion {
     exports org.example.programacion.Vista;
 
 
+    opens org.example.programacion.Controladores to javafx.fxml;
+    exports org.example.programacion.Controladores;
+
+
     opens org.example.programacion.Modelo to javafx.base, javafx.fxml;
     exports org.example.programacion.Modelo;
 }

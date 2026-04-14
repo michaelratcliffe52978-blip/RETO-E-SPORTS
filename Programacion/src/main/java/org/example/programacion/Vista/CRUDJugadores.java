@@ -13,12 +13,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.example.programacion.Controladores.JugadoresController;
 import org.example.programacion.Modelo.Jugadores;
-import org.example.programacion.Util.ConexionBD;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CRUDJugadores implements Initializable {
@@ -35,6 +35,8 @@ public class CRUDJugadores implements Initializable {
     @FXML private ComboBox<String> comboRol, comboEquipo;
 
     private ObservableList<Jugadores> listaMaster = FXCollections.observableArrayList();
+
+    private JugadoresController jugadoresController = new JugadoresController();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,40 +73,28 @@ public class CRUDJugadores implements Initializable {
 
     @FXML
     private void onGuardarClick() {
-        if (txtNombre == null || txtApellido == null || comboRol.getValue() == null) {
-            mostrarAlerta("Error", "Faltan campos críticos por vincular en el FXML.");
+        if (txtNombre.getText().isEmpty() || txtApellido.getText().isEmpty() || comboRol.getValue() == null || comboEquipo.getValue() == null) {
+            mostrarAlerta("Error", "Faltan campos obligatorios.");
             return;
         }
 
         String id = txtId.getText();
-        String sql;
+        Jugadores jugador = new Jugadores(
+                id,
+                txtNombre.getText(),
+                txtApellido.getText(),
+                txtNacionalidad.getText(),
+                dateFechaNac.getValue(),
+                txtNickname.getText(),
+                comboRol.getValue(),
+                Double.parseDouble(txtSueldo.getText())
+        );
 
-        if (id == null || id.isEmpty()) {
-            sql = "INSERT INTO Jugador (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, (SELECT id_equipo FROM Equipo WHERE nombre_equipo = ?))";
-        } else {
-            sql = "UPDATE Jugador SET nombre_jugador=?, apellido=?, nacionalidad=?, fecha_nacimiento=?, nickname=?, rol=?, sueldo=?, " +
-                    "id_equipo=(SELECT id_equipo FROM Equipo WHERE nombre_equipo = ?) WHERE id_jugador = ?";
-        }
-
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, txtNombre.getText());
-            pstmt.setString(2, txtApellido.getText());
-            pstmt.setString(3, txtNacionalidad.getText());
-            pstmt.setDate(4, Date.valueOf(dateFechaNac.getValue()));
-            pstmt.setString(5, txtNickname.getText());
-            pstmt.setString(6, comboRol.getValue());
-            pstmt.setDouble(7, Double.parseDouble(txtSueldo.getText()));
-            pstmt.setString(8, comboEquipo.getValue());
-
-            if (id != null && !id.isEmpty()) pstmt.setInt(9, Integer.parseInt(id));
-
-            pstmt.executeUpdate();
+        try {
+            jugadoresController.saveJugador(jugador, comboEquipo.getValue());
             cargarDatosTabla();
             onLimpiarClick();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage());
         }
     }
@@ -119,54 +109,28 @@ public class CRUDJugadores implements Initializable {
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "¿Borrar a " + seleccionado.getNickname() + "?", ButtonType.YES, ButtonType.NO);
         if (confirm.showAndWait().get() == ButtonType.YES) {
-            try (Connection conn = ConexionBD.getConnection();
-                 PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Jugador WHERE id_jugador = ?")) {
-                pstmt.setInt(1, Integer.parseInt(seleccionado.getIdJugador()));
-                pstmt.executeUpdate();
+            try {
+                jugadoresController.deleteJugador(Integer.parseInt(seleccionado.getIdJugador()));
                 cargarDatosTabla();
                 onLimpiarClick();
-            } catch (SQLException e) { e.printStackTrace(); }
+            } catch (SQLException e) {
+                mostrarAlerta("Error", "No se pudo eliminar: " + e.getMessage());
+            }
         }
     }
 
     private void cargarDatosTabla() {
         listaMaster.clear();
-        try (Connection conn = ConexionBD.getConnection();
-             ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM Jugador")) {
-            while (rs.next()) {
-                listaMaster.add(new Jugadores(
-                        String.valueOf(rs.getInt("id_jugador")),
-                        rs.getString("nombre_jugador"),
-                        rs.getString("apellido"),
-                        rs.getString("nacionalidad"),
-                        rs.getDate("fecha_nacimiento").toLocalDate(),
-                        rs.getString("nickname"),
-                        rs.getString("rol"),
-                        rs.getDouble("sueldo")
-                ));
-            }
-            tablaJugadores.setItems(listaMaster);
-        } catch (SQLException e) { e.printStackTrace(); }
+        listaMaster.addAll(jugadoresController.getAllJugadores());
+        tablaJugadores.setItems(listaMaster);
     }
 
     private void cargarEquiposCombo() {
-        try (Connection conn = ConexionBD.getConnection();
-             ResultSet rs = conn.createStatement().executeQuery("SELECT nombre_equipo FROM Equipo ORDER BY nombre_equipo")) {
-            ObservableList<String> equipos = FXCollections.observableArrayList();
-            while (rs.next()) equipos.add(rs.getString("nombre_equipo"));
-            comboEquipo.setItems(equipos);
-        } catch (SQLException e) { e.printStackTrace(); }
+        comboEquipo.setItems(FXCollections.observableArrayList(jugadoresController.getAllEquipoNames()));
     }
 
     private String obtenerNombreEquipo(String idJugador) {
-        String sql = "SELECT e.nombre_equipo FROM Equipo e JOIN Jugador j ON e.id_equipo = j.id_equipo WHERE j.id_jugador = ?";
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, Integer.parseInt(idJugador));
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getString("nombre_equipo");
-        } catch (Exception e) { }
-        return "Sin Equipo";
+        return jugadoresController.getEquipoNameByJugadorId(Integer.parseInt(idJugador));
     }
 
     private void rellenarCampos(Jugadores j) {

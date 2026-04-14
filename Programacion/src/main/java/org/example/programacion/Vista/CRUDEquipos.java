@@ -12,13 +12,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.example.programacion.Controladores.EquiposController;
 import org.example.programacion.Modelo.Equipos;
-import org.example.programacion.Modelo.Jugadores;
-import org.example.programacion.Util.ConexionBD;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CRUDEquipos implements Initializable {
@@ -36,6 +35,8 @@ public class CRUDEquipos implements Initializable {
 
     private ObservableList<Equipos> listaEquipos = FXCollections.observableArrayList();
 
+    private EquiposController equiposController = new EquiposController();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Configuración de columnas
@@ -49,71 +50,26 @@ public class CRUDEquipos implements Initializable {
         tablaEquipos.getSelectionModel().selectedItemProperty().addListener((obs, old, nuevo) -> {
             if (nuevo != null) {
                 rellenarFormulario(nuevo);
-                cargarJugadoresDelEquipo(nuevo); // <--- Aquí se gestiona la relación
+                // Mostrar info de jugadores
+                if(lblInfoJugadores != null) {
+                    lblInfoJugadores.setText("Jugadores en plantilla: " + nuevo.getListaJugadores().size());
+                }
             }
         });
     }
 
     private void cargarDatosEquipos() {
         listaEquipos.clear();
-        try (Connection conn = ConexionBD.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM Equipo")) {
-
-            while (rs.next()) {
-                listaEquipos.add(new Equipos(
-                        rs.getInt("id_equipo"),
-                        rs.getString("nombre_equipo"),
-                        rs.getDate("fecha_fundacion").toLocalDate()
-                ));
-            }
-            tablaEquipos.setItems(listaEquipos);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Este método carga los jugadores de la base de datos y los mete
-     * en la ArrayList interna del objeto Equipo seleccionado.
-     */
-    private void cargarJugadoresDelEquipo(Equipos equipo) {
-        equipo.getListaJugadores().clear(); // Limpiamos la lista interna del modelo
-
-        String sql = "SELECT * FROM Jugador WHERE id_equipo = ?";
-
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setInt(1, equipo.getIdEquipo());
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Jugadores j = new Jugadores(
-                        String.valueOf(rs.getInt("id_jugador")),
-                        rs.getString("nombre_jugador"),
-                        rs.getString("apellido"),
-                        rs.getString("nacionalidad"),
-                        rs.getDate("fecha_nacimiento").toLocalDate(),
-                        rs.getString("nickname"),
-                        rs.getString("rol"),
-                        rs.getDouble("sueldo")
-                );
-                equipo.añadirJugador(j); // Los guardamos en el ArrayList del modelo
-            }
-
-            // Ejemplo de uso: mostrar cuántos hay en un Label
-            if(lblInfoJugadores != null) {
-                lblInfoJugadores.setText("Jugadores en plantilla: " + equipo.getListaJugadores().size());
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        listaEquipos.addAll(equiposController.getAllEquipos());
+        tablaEquipos.setItems(listaEquipos);
     }
 
     private void rellenarFormulario(Equipos e) {
-        txtId.setText(String.valueOf(e.getIdEquipo()));
+        if (e.getIdEquipo() == 0) {
+            txtId.clear();
+        } else {
+            txtId.setText(String.valueOf(e.getIdEquipo()));
+        }
         txtNombre.setText(e.getNombreEquipo());
         dateFecha.setValue(e.getFechaFundacion());
     }
@@ -126,21 +82,15 @@ public class CRUDEquipos implements Initializable {
         }
 
         String id = txtId.getText();
-        String sql = (id == null || id.isEmpty())
-                ? "INSERT INTO Equipo (nombre_equipo, fecha_fundacion) VALUES (?, ?)"
-                : "UPDATE Equipo SET nombre_equipo = ?, fecha_fundacion = ? WHERE id_equipo = ?";
+        Equipos equipo;
+        if (id == null || id.isEmpty()) {
+            equipo = new Equipos(0, txtNombre.getText(), dateFecha.getValue());
+        } else {
+            equipo = new Equipos(Integer.parseInt(id), txtNombre.getText(), dateFecha.getValue());
+        }
 
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, txtNombre.getText());
-            pstmt.setDate(2, Date.valueOf(dateFecha.getValue()));
-
-            if (id != null && !id.isEmpty()) {
-                pstmt.setInt(3, Integer.parseInt(id));
-            }
-
-            pstmt.executeUpdate();
+        try {
+            equiposController.saveEquipo(equipo);
             cargarDatosEquipos();
             onLimpiarClick();
         } catch (SQLException e) {
@@ -153,20 +103,12 @@ public class CRUDEquipos implements Initializable {
         Equipos sel = tablaEquipos.getSelectionModel().getSelectedItem();
         if (sel == null) return;
 
-        // Si el equipo tiene jugadores en su lista interna, avisamos
-        if (!sel.getListaJugadores().isEmpty()) {
-            mostrarAlerta("No se puede eliminar", "Este equipo tiene " + sel.getListaJugadores().size() + " jugadores asociados. Debes eliminarlos o cambiarlos de equipo primero.");
-            return;
-        }
-
-        try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Equipo WHERE id_equipo = ?")) {
-            pstmt.setInt(1, sel.getIdEquipo());
-            pstmt.executeUpdate();
+        try {
+            equiposController.deleteEquipo(sel.getIdEquipo());
             cargarDatosEquipos();
             onLimpiarClick();
         } catch (SQLException e) {
-            mostrarAlerta("Error SQL", "No se puede eliminar por restricción de clave foránea.");
+            mostrarAlerta("Error", "No se puede eliminar: " + e.getMessage());
         }
     }
 

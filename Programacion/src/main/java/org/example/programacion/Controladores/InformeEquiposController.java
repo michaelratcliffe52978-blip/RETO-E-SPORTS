@@ -58,39 +58,45 @@ public class InformeEquiposController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Configurar las columnas de la tabla
+        // 1. Configurar las columnas de la tabla vinculándolas con los campos de la clase Jugadores
+        // Asegúrate de que estos nombres coincidan con los atributos de tu clase Jugadores
         colNickname.setCellValueFactory(new PropertyValueFactory<>("nickname"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreJugador"));
         colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
         colNacionalidad.setCellValueFactory(new PropertyValueFactory<>("nacionalidad"));
         colFechaNac.setCellValueFactory(new PropertyValueFactory<>("fechaNacimiento"));
         colRol.setCellValueFactory(new PropertyValueFactory<>("rol"));
         colSueldo.setCellValueFactory(new PropertyValueFactory<>("sueldo"));
 
-        // Cargar equipos en el ComboBox
+        // 2. Cargar la lista de equipos en el ComboBox al iniciar
         cargarEquipos();
     }
 
     private void cargarEquipos() {
         try {
             List<Equipos> equipos = equiposDAO.getAllEquipos();
-            ObservableList<Equipos> observableEquipos = FXCollections.observableArrayList(equipos);
-            comboEquipos.setItems(observableEquipos);
+            if (equipos != null) {
+                ObservableList<Equipos> observableEquipos = FXCollections.observableArrayList(equipos);
+                comboEquipos.setItems(observableEquipos);
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Error al cargar el ComboBox: " + e.getMessage());
         }
     }
 
     @FXML
     public void onEquipoSeleccionado(ActionEvent event) {
+        // Al seleccionar un equipo, filtramos los jugadores
         Equipos equipoSeleccionado = comboEquipos.getSelectionModel().getSelectedItem();
+
         if (equipoSeleccionado != null) {
             try {
+                // Obtenemos los jugadores que pertenecen al ID del equipo seleccionado
                 List<Jugadores> jugadores = jugadoresDAO.getJugadoresByEquipoId(equipoSeleccionado.getIdEquipo());
                 ObservableList<Jugadores> observableJugadores = FXCollections.observableArrayList(jugadores);
                 tablaIntegrantes.setItems(observableJugadores);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println("Error al filtrar jugadores: " + e.getMessage());
             }
         }
     }
@@ -98,14 +104,14 @@ public class InformeEquiposController implements Initializable {
     @FXML
     public void onVolver(ActionEvent event) {
         try {
+            // Regresar al menú de usuario
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/programacion/MenuUser.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error al navegar al menú: " + e.getMessage());
         }
     }
 }
-

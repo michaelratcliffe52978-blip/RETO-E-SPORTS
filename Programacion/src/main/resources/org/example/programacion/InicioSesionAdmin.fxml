@@ -18,11 +18,16 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label alignment="CENTER" contentDisplay="TOP" prefHeight="17.0" prefWidth="294.0" text="Usuario" textAlignment="CENTER" GridPane.rowIndex="1" />
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="203.0" text="Contraseña" GridPane.rowIndex="2" />
+        <Label alignment="CENTER" contentDisplay="TOP" prefHeight="17.0" prefWidth="294.0" text="Usuario" textAlignment="CENTER" textFill="#e57db9" GridPane.rowIndex="1">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="203.0" text="Contraseña" textFill="#e57db9" GridPane.rowIndex="2"><font>
+            <Font name="System Bold" size="12.0" />
+        </font></Label>
         <PasswordField fx:id="contrasenaAdmin" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <TextField fx:id="nombreAdmin" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="226.0" text="INICIO SESION" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="226.0" text="INICIO SESIÓN" textFill="#e57db9" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <font>
                 <Font name="DejaVu Sans Bold" size="24.0" />
             </font>
@@ -31,12 +36,7 @@
             <image>
                 <Image url="@logoE-Sport.png" />
             </image></ImageView>
-        <Button fx:id="onAccederAdmin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAcceder" prefHeight="25.0" prefWidth="62.0" style="-fx-background-color: #212121;" text="Acceder" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-        <ImageView fitHeight="104.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER">
-            <image>
-                <Image url="@puntos.png" />
-            </image>
-        </ImageView>
+        <Button fx:id="onAccederAdmin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAcceder" prefHeight="25.0" prefWidth="62.0" style="-fx-background-color: #e57db9;" text="Acceder" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
 
     </children>
 </GridPane>

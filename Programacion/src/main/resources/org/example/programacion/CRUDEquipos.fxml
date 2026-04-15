@@ -11,7 +11,7 @@
             <items>
                 <VBox spacing="10.0">
                     <children>
-                        <Label text="Gestión de Equipos">
+                        <Label text="Gestión de Equipos" textFill="#e57bd9">
                             <font>
                                 <Font name="System Bold" size="18.0" />
                             </font>
@@ -34,7 +34,7 @@
 
                 <VBox spacing="15.0" style="-fx-background-color: #f4f4f4;">
                     <children>
-                        <Label text="Detalles del Equipo">
+                        <Label text="Detalles del Equipo" textFill="#e57bd9">
                             <font>
                                 <Font name="System Bold" size="16.0" />
                             </font>
@@ -52,28 +52,28 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label text="ID Equipo:" />
+                                <Label text="ID Equipo:" textFill="#e57bd9" />
                                 <TextField fx:id="txtId" editable="false" promptText="Autogenerado" style="-fx-background-color: #e0e0e0;" GridPane.columnIndex="1" />
 
-                                <Label text="Nombre:" GridPane.rowIndex="1" />
+                                <Label text="Nombre:" textFill="#e57bd9" GridPane.rowIndex="1" />
                                 <TextField fx:id="txtNombre" promptText="Nombre del equipo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                <Label text="Fundación:" GridPane.rowIndex="2" />
+                                <Label text="Fundación:" textFill="#e57bd9" GridPane.rowIndex="2" />
                                 <DatePicker fx:id="dateFecha" prefWidth="200.0" promptText="Seleccionar fecha" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                             </children>
                         </GridPane>
 
                         <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                             <children>
-                                <Button maxWidth="1.7976931348623157E308" onAction="#onGuardarClick" style="-fx-background-color: #2ecc71; -fx-text-fill: white;" text="💾 GUARDAR / ACTUALIZAR">
+                                <Button maxWidth="1.7976931348623157E308" onAction="#onGuardarClick" style="-fx-background-color: #e859d9; -fx-text-fill: white;" text="💾 GUARDAR / ACTUALIZAR">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
                                 </Button>
                                 <Button maxWidth="1.7976931348623157E308" onAction="#onLimpiarClick" text="➕ NUEVO EQUIPO" />
-                                <Button maxWidth="1.7976931348623157E308" onAction="#onEliminarClick" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="🗑 ELIMINAR SELECCIÓN" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#onEliminarClick" style="-fx-background-color: #e859d9; -fx-text-fill: white;" text="🗑 ELIMINAR SELECCIÓN" />
                                 <Region VBox.vgrow="ALWAYS" />
-                                <Button maxWidth="1.7976931348623157E308" onAction="#onAtras" style="-fx-background-color: black; -fx-text-fill: white;" text="VOLVER AL MENÚ" />
+                                <Button maxWidth="1.7976931348623157E308" onAction="#onAtras" style="-fx-background-color: #e57bd9; -fx-text-fill: white;" text="VOLVER AL MENÚ" />
                             </children>
                             <padding>
                                 <Insets top="20.0" />

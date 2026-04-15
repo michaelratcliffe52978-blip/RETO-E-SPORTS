@@ -17,16 +17,28 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="61.0" prefWidth="339.0" text="Menu CRUD" GridPane.halignment="CENTER">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="61.0" prefWidth="339.0" text="Menu CRUD" textFill="#e57db9" GridPane.halignment="CENTER">
             <font>
                 <Font name="Arial Bold" size="34.0" />
             </font>
         </Label>
-        <Button mnemonicParsing="false" onAction="#onJugadores" prefHeight="25.0" prefWidth="160.0" text="JUGADORES" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-        <Button mnemonicParsing="false" onAction="#onEquipos" prefHeight="25.0" prefWidth="160.0" text="EQUIPOS" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-        <Button mnemonicParsing="false" onAction="#onJornadas" prefHeight="25.0" prefWidth="160.0" text="JORNADAS" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-        <Button mnemonicParsing="false" onAction="#onUsuarios" prefHeight="25.0" prefWidth="160.0" text="USUARIOS" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-        <Button mnemonicParsing="false" onAction="#onAtras" style="-fx-background-color: #212121;" text="Atras" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+        <Button mnemonicParsing="false" onAction="#onJugadores" prefHeight="25.0" prefWidth="160.0" text="JUGADORES" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+        <Button mnemonicParsing="false" onAction="#onEquipos" prefHeight="25.0" prefWidth="160.0" text="EQUIPOS" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+        <Button mnemonicParsing="false" onAction="#onJornadas" prefHeight="25.0" prefWidth="160.0" text="JORNADAS" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+        <Button mnemonicParsing="false" onAction="#onUsuarios" prefHeight="25.0" prefWidth="160.0" text="USUARIOS" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+        <Button mnemonicParsing="false" onAction="#onAtras" style="-fx-background-color:#e57db9 ;" text="Atras" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets bottom="10.0" left="20.0" />
             </GridPane.margin>

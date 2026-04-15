@@ -30,10 +30,11 @@ public class InicioSesionUsuario {
             return;
         }
 
+        // Validar credenciales Y que el rol sea 'user'
         if (usuarioController.validarUsuario(txtNombre, txtPass)) {
             irAMenuUsuario(event);
         } else {
-            mostrarAlerta("Acceso Denegado", "Usuario o contraseña incorrectos.");
+            mostrarAlerta("Acceso Denegado", "Usuario o contraseña incorrectos, o no tienes rol de usuario.");
         }
     }
 

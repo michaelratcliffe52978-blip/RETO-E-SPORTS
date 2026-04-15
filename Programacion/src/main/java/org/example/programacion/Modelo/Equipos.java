@@ -17,11 +17,14 @@ public class Equipos {
         this.listaJugadores = new ArrayList<>();
     }
 
-
     public int getIdEquipo() { return idEquipo; }
     public String getNombreEquipo() { return nombreEquipo; }
     public LocalDate getFechaFundacion() { return fechaFundacion; }
     public List<Jugadores> getListaJugadores() { return listaJugadores; }
+
+    public void setIdEquipo(int idEquipo) { this.idEquipo = idEquipo; }
+    public void setNombreEquipo(String nombreEquipo) { this.nombreEquipo = nombreEquipo; }
+    public void setFechaFundacion(LocalDate fechaFundacion) { this.fechaFundacion = fechaFundacion; }
 
     public void añadirJugador(Jugadores j) {
         this.listaJugadores.add(j);

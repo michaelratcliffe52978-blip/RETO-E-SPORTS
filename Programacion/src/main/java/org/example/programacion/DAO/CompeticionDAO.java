@@ -22,4 +22,15 @@ public class CompeticionDAO {
             return false;
         }
     }
+
+    public void cerrarInscripciones() {
+        // Actualiza el estado de la competición a cerrado
+        String sql = "UPDATE Competicion SET estado = 'cerrado' WHERE ROWNUM = 1";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error al cerrar inscripciones: " + e.getMessage());
+        }
+    }
 }

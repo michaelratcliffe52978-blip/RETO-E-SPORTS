@@ -21,31 +21,46 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
     <children>
-        <Label text="DNI:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <Label text="DNI:" textFill="#e57bd9" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
         <TextField fx:id="txtDni" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label text="Nombre:" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <Label text="Nombre:" textFill="#e57bd9" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
         <TextField fx:id="txtNombre" prefHeight="25.0" prefWidth="258.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label text="Apellidos:" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Label text="Apellidos:" textFill="#e57bd9" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
         <TextField fx:id="txtApellidos" prefHeight="0.0" prefWidth="196.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
 
-        <Label text="Nickname/Alias:" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+        <Label text="Nickname/Alias:" textFill="#e57bd9" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
         <TextField fx:id="txtNickname" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-        <Label text="Equipo:" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+        <Label text="Equipo:" textFill="#e57bd9" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
         <ComboBox fx:id="comboEquipos" prefWidth="250.0" promptText="Selecciona un equipo" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <Label text="Formulario " GridPane.halignment="RIGHT">
+      <Label text="Formulario " textFill="#e57bd9" GridPane.halignment="RIGHT">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label text=" Jugador" GridPane.columnIndex="1">
+      <Label text=" Jugador" textFill="#e57bd9" GridPane.columnIndex="1">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-        <Button mnemonicParsing="false" onAction="#onAtras" style="-fx-background-color: #212121;" text="Atras" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+        <Button mnemonicParsing="false" onAction="#onAtras" style="-fx-background-color: #e57bd9;" text="Atras" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets bottom="10.0" left="20.0" />
             </GridPane.margin>
@@ -53,5 +68,5 @@
             <Font name="System Bold" size="12.0" />
          </font>
         </Button>
-        <Button mnemonicParsing="false" onAction="#onGuardar" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold;" text="Enviar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />    </children>
+        <Button mnemonicParsing="false" onAction="#onGuardar" style="-fx-background-color: #e57bd9; -fx-text-fill: white; -fx-font-weight: bold;" text="Enviar" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />    </children>
 </GridPane>

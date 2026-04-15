@@ -10,7 +10,7 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
     <children>
-        <Label text="CONSULTA DE EQUIPOS">
+        <Label text="CONSULTA DE EQUIPOS" textFill="#e57bd9">
             <font>
                 <Font name="System Bold" size="22.0" />
             </font>
@@ -18,14 +18,14 @@
 
         <HBox alignment="CENTER_LEFT" spacing="15.0" style=" -fx-padding: 10;">
             <children>
-                <Label text="Selecciona un equipo:">
+                <Label text="Selecciona un equipo:" textFill="#e57bd9">
                     <font><Font name="System Bold" size="13.0" /></font>
                 </Label>
                 <ComboBox fx:id="comboEquipos" onAction="#onEquipoSeleccionado" prefWidth="250.0" promptText="--- Elegir Equipo ---" />
             </children>
         </HBox>
 
-        <Label text="Integrantes del equipo:">
+        <Label text="Integrantes del equipo:" textFill="#e57bd9">
             <font><Font name="System Italic" size="14.0" /></font>
         </Label>
 
@@ -43,7 +43,7 @@
 
         <HBox alignment="CENTER_RIGHT">
             <children>
-                <Button onAction="#onVolver" style="-fx-background-color: black; -fx-text-fill: white;" text="VOLVER AL MENÚ" />
+                <Button onAction="#onVolver" style="-fx-background-color: #e57bd9; -fx-text-fill: white;" text="VOLVER AL MENÚ" />
             </children>
         </HBox>
     </children>

@@ -12,7 +12,7 @@
                 <VBox spacing="10.0">
                     <padding><Insets bottom="15.0" left="15.0" right="15.0" top="15.0" /></padding>
                     <children>
-                        <Label text="Gestión de Usuarios del Sistema">
+                        <Label text="Gestión de Usuarios del Sistema" textFill="#e57bd9">
                             <font><Font name="System Bold" size="18.0" /></font>
                         </Label>
                         <TableView fx:id="tablaUsuarios" VBox.vgrow="ALWAYS">
@@ -31,7 +31,7 @@
                 <VBox spacing="15.0" style="-fx-background-color: #f4f4f4;">
                     <padding><Insets bottom="20.0" left="20.0" right="20.0" top="20.0" /></padding>
                     <children>
-                        <Label text="Detalles de Cuenta">
+                        <Label text="Detalles de Cuenta" textFill="#e57bd9">
                             <font><Font name="System Bold" size="16.0" /></font>
                         </Label>
                         <Separator />
@@ -41,29 +41,35 @@
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="170.0" />
                             </columnConstraints>
                             <children>
-                                <Label text="ID Usuario:" />
+                                <Label text="ID Usuario:" textFill="#e57bd9" />
                                 <TextField fx:id="txtId" editable="false" style="-fx-background-color: #e0e0e0;" GridPane.columnIndex="1" />
 
-                                <Label text="Username:" GridPane.rowIndex="1" />
+                                <Label text="Username:" textFill="#e57bd9" GridPane.rowIndex="1" />
                                 <TextField fx:id="txtUsername" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                <Label text="Password:" GridPane.rowIndex="2" />
+                                <Label text="Password:" textFill="#e57bd9" GridPane.rowIndex="2" />
                                 <PasswordField fx:id="txtPassword" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                <Label text="Rol:" GridPane.rowIndex="3" />
+                                <Label text="Rol:" textFill="#e57bd9" GridPane.rowIndex="3" />
                                 <ComboBox fx:id="comboRol" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                             </children>
+                     <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                     </rowConstraints>
                         </GridPane>
 
                         <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                             <children>
-                                <Button maxWidth="Infinity" onAction="#onGuardar" style="-fx-background-color: #2ecc71; -fx-text-fill: white;" text="💾 GUARDAR / ACTUALIZAR">
+                                <Button maxWidth="Infinity" onAction="#onGuardar" style="-fx-background-color: #e859d9; -fx-text-fill: white;" text="💾 GUARDAR / ACTUALIZAR" textFill="WHITE">
                                     <font><Font name="System Bold" size="12.0" /></font>
                                 </Button>
                                 <Button maxWidth="Infinity" onAction="#onLimpiar" text="➕ Nuevo Usuario" />
-                                <Button maxWidth="Infinity" onAction="#onEliminar" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="🗑 ELIMINAR" />
+                                <Button maxWidth="Infinity" onAction="#onEliminar" style="-fx-background-color: #e859d9; -fx-text-fill: white;" text="🗑 ELIMINAR" />
                                 <Region VBox.vgrow="ALWAYS" />
-                                <Button maxWidth="Infinity" onAction="#onVolver" style="-fx-background-color: black; -fx-text-fill: white;" text="VOLVER" />
+                                <Button maxWidth="Infinity" onAction="#onVolver" style="-fx-background-color: #e57bd9; -fx-text-fill: white;" text="VOLVER" />
                             </children>
                         </VBox>
                     </children>

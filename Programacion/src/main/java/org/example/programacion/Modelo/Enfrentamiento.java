@@ -72,4 +72,8 @@ public class Enfrentamiento {
     public void setEquipo1(Equipos equipo1) { this.equipo1 = equipo1; }
     public void setEquipo2(Equipos equipo2) { this.equipo2 = equipo2; }
     public void setJornada(Jornada jornada) { this.jornada = jornada; }
+    public void setGolesLocal(int golesLocal) { this.golesLocal = golesLocal; }
+    public void setGolesVisitante(int golesVisitante) { this.golesVisitante = golesVisitante; }
+    public int getGolesLocal() { return golesLocal; }
+    public int getGolesVisitante() { return golesVisitante; }
 }

@@ -10,7 +10,7 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
     <children>
-        <Label text="HISTORIAL DE RESULTADOS">
+        <Label text="HISTORIAL DE RESULTADOS" textFill="#e57bd9">
             <font><Font name="System Bold" size="22.0" /></font>
         </Label>
 
@@ -28,7 +28,7 @@
 
         <HBox alignment="CENTER_RIGHT">
             <children>
-                <Button onAction="#onVolver" style="-fx-background-color: black; -fx-text-fill: white;" text="VOLVER AL MENÚ" />
+                <Button onAction="#onVolver" style="-fx-background-color: #e57bd9; -fx-text-fill: white;" text="VOLVER AL MENÚ" />
             </children>
         </HBox>
     </children>

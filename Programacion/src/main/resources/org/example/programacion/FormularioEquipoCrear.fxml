@@ -17,23 +17,29 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="Nombre:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <Label text="Nombre:" textFill="#e57bd9" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
         <TextField fx:id="txtNombreEquipo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label text="Fecha Fundacion" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <Label text="Fecha Fundacion" textFill="#e57bd9" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
 
-        <Label text="Formulario " GridPane.halignment="RIGHT">
+        <Label text="Formulario " textFill="#e57bd9" GridPane.halignment="RIGHT">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
         </Label>
-        <Label text=" Equipo" GridPane.columnIndex="1">
+        <Label text=" Equipo" textFill="#e57bd9" GridPane.columnIndex="1">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
         </Label>
 
-        <Button mnemonicParsing="false" onAction="#onAtras" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold;" text="Atras" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-        <Button mnemonicParsing="false" onAction="#onGuardar" style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold;" text="Guardar Equipo" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Button mnemonicParsing="false" onAction="#onAtras" style="-fx-background-color: #e57bd9; -fx-text-fill: white; -fx-font-weight: bold;" text="Atras" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Button mnemonicParsing="false" onAction="#onGuardar" style="-fx-background-color: #e57bd9; -fx-text-fill: white; -fx-font-weight: bold;" text="Guardar Equipo" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
         <DatePicker fx:id="dpFecha" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />    </children>
 </GridPane>

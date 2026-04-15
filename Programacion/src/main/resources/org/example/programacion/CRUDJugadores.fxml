@@ -11,7 +11,7 @@
             <items>
                 <VBox spacing="10.0">
                     <children>
-                        <Label text="Listado de Jugadores">
+                        <Label text="Listado de Jugadores" textFill="#e57bd9">
                             <font><Font name="System Bold" size="18.0" /></font>
                         </Label>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
@@ -41,7 +41,7 @@
 
                 <VBox spacing="15.0" style="-fx-background-color: #f4f4f4;">
                     <children>
-                        <Label text="Detalles del Jugador">
+                        <Label text="Detalles del Jugador" textFill="#e57bd9">
                             <font><Font name="System Bold" size="16.0" /></font>
                         </Label>
                         <Separator prefWidth="200.0" />
@@ -63,43 +63,43 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label text="ID (Auto):" />
+                                <Label text="ID (Auto):" textFill="#e57bd9" />
                                 <TextField fx:id="txtId" editable="false" style="-fx-background-color: #e0e0e0;" GridPane.columnIndex="1" />
 
-                                <Label text="Nombre:" GridPane.rowIndex="1" />
+                                <Label text="Nombre:" textFill="#e57bd9" GridPane.rowIndex="1" />
                                 <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                                <Label text="Apellido:" GridPane.rowIndex="2" />
+                                <Label text="Apellido:" textFill="#e57bd9" GridPane.rowIndex="2" />
                                 <TextField fx:id="txtApellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                                <Label text="Nickname:" GridPane.rowIndex="3" />
+                                <Label text="Nickname:" textFill="#e57bd9" GridPane.rowIndex="3" />
                                 <TextField fx:id="txtNickname" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-                                <Label text="Nacionalidad:" GridPane.rowIndex="4" />
+                                <Label text="Nacionalidad:" textFill="#e57bd9" GridPane.rowIndex="4" />
                                 <TextField fx:id="txtNacionalidad" GridPane.columnIndex="1" GridPane.rowIndex="4" />
 
-                                <Label text="Sueldo:" GridPane.rowIndex="5" />
+                                <Label text="Sueldo:" textFill="#e57bd9" GridPane.rowIndex="5" />
                                 <TextField fx:id="txtSueldo" GridPane.columnIndex="1" GridPane.rowIndex="5" />
 
-                                <Label text="Fecha Nac.:" GridPane.rowIndex="6" />
+                                <Label text="Fecha Nac.:" textFill="#e57bd9" GridPane.rowIndex="6" />
                                 <DatePicker fx:id="dateFechaNac" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-                                <Label text="Rol:" GridPane.rowIndex="7" />
+                                <Label text="Rol:" textFill="#e57bd9" GridPane.rowIndex="7" />
                                 <ComboBox fx:id="comboRol" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
 
-                                <Label text="Equipo:" GridPane.rowIndex="8" />
+                                <Label text="Equipo:" textFill="#e57bd9" GridPane.rowIndex="8" />
                                 <ComboBox fx:id="comboEquipo" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                             </children>
                         </GridPane>
 
                         <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                             <children>
-                                <Button fx:id="btnGuardar" maxWidth="1.7976931348623157E308" onAction="#onGuardarClick" style="-fx-background-color: #2ecc71; -fx-text-fill: white;" text="💾 GUARDAR / ACTUALIZAR">
+                                <Button fx:id="btnGuardar" maxWidth="1.7976931348623157E308" onAction="#onGuardarClick" style="-fx-background-color:#e859d9 ; -fx-text-fill: white;" text="💾 GUARDAR / ACTUALIZAR">
                                     <font><Font name="System Bold" size="12.0" /></font></Button>
                                 <Button fx:id="btnNuevo" maxWidth="1.7976931348623157E308" onAction="#onLimpiarClick" text="➕ Nuevo (Limpiar)" />
-                                <Button fx:id="btnEliminar" maxWidth="1.7976931348623157E308" onAction="#onEliminarClick" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="🗑 ELIMINAR SELECCIÓN" />
+                                <Button fx:id="btnEliminar" maxWidth="1.7976931348623157E308" onAction="#onEliminarClick" style="-fx-background-color: #e859d9; -fx-text-fill: white;" text="🗑 ELIMINAR SELECCIÓN" />
                                 <Region VBox.vgrow="ALWAYS" />
-                                <Button fx:id="btnVolver" maxWidth="1.7976931348623157E308" onAction="#onAtras" style="-fx-background-color: black; -fx-text-fill: white;" text="VOLVER" />
+                                <Button fx:id="btnVolver" maxWidth="1.7976931348623157E308" onAction="#onAtras" style="-fx-background-color: e57bd9; -fx-text-fill: white;" text="VOLVER" />
                             </children>
                             <padding><Insets top="10.0" /></padding>
                         </VBox>

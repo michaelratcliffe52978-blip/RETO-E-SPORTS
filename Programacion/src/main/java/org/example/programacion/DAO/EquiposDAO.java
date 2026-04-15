@@ -117,4 +117,20 @@ public class EquiposDAO {
         }
         return nombres;
     }
+
+    public boolean validarMinimoJugadores(int minimo) {
+        String sql = "SELECT e.nombre_equipo FROM Equipo e " +
+                "LEFT JOIN Jugador j ON e.id_equipo = j.id_equipo " +
+                "GROUP BY e.id_equipo, e.nombre_equipo " +
+                "HAVING COUNT(j.id_jugador) < ?";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, minimo);
+            ResultSet rs = pstmt.executeQuery();
+            return !rs.next(); // Si no hay equipos con menos jugadores, retorna true
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

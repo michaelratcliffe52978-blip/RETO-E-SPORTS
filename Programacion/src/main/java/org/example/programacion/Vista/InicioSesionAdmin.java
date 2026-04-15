@@ -36,7 +36,7 @@ public class InicioSesionAdmin {
         if (usuarioController.validarAdmin(user, pass)) {
             irAMenuAdmin(event);
         } else {
-            mostrarAlerta("Acceso Denegado", "Usuario o contraseña incorrectos.");
+            mostrarAlerta("Acceso Denegado", "Usuario o contraseña incorrectos, o no tienes rol de administrador.");
         }
     }
 

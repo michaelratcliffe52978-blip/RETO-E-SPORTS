@@ -7,10 +7,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import org.example.programacion.Controladores.EnfrentamientoController;
+import org.example.programacion.DAO.EnfrentamientoDAO;
+import org.example.programacion.DAO.EquiposDAO;
 import org.example.programacion.DAO.CompeticionDAO;
+import org.example.programacion.Modelo.Equipos;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.List;
 public class MenuAdmin {
 
     private CompeticionDAO competicionDAO = new CompeticionDAO();
+    private EquiposDAO equiposDAO = new EquiposDAO();
+    private EnfrentamientoDAO enfrentamientoDAO = new EnfrentamientoDAO();
 
     @FXML
     public void onCRUD(ActionEvent event) {
@@ -36,28 +40,37 @@ public class MenuAdmin {
 
     @FXML
     public void onGenerarCalendario(ActionEvent event) {
-        int idJornada = 1;
-        List<String> partidos = EnfrentamientoController.generarCalendarioAutomatico(idJornada);
-
-        if (partidos.isEmpty()) {
-            mostrarAlerta("Atención", "No hay suficientes equipos.");
+        // 1. REGLA: Mínimo 2 jugadores
+        if (!equiposDAO.validarMinimoJugadores(2)) {
+            mostrarAlerta("Error", "No se puede generar: Hay equipos con menos de 2 jugadores.");
             return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Calendario Generado");
-        alert.setHeaderText("Enfrentamientos creados:");
+        // 2. Verificar si el calendario ya existe
+        if (enfrentamientoDAO.existeCalendario()) {
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Calendario Existente");
+            confirm.setHeaderText("Ya existe un calendario generado");
+            confirm.setContentText("¿Deseas eliminar el calendario anterior y generar uno nuevo?");
+            
+            if (confirm.showAndWait().get() != ButtonType.OK) {
+                return; // El usuario canceló
+            }
+        }
 
-        TextArea textArea = new TextArea();
-        StringBuilder sb = new StringBuilder();
-        partidos.forEach(p -> sb.append("• ").append(p).append("\n"));
+        // 3. Obtener equipos
+        List<Equipos> listaEquipos = equiposDAO.getAllEquipos();
 
-        textArea.setText(sb.toString());
-        textArea.setEditable(false);
-        textArea.setPrefHeight(200);
+        // 4. Generar Round Robin y guardar en BD
+        boolean exito = enfrentamientoDAO.generarYGuardarCalendario(listaEquipos);
 
-        alert.getDialogPane().setContent(textArea);
-        alert.showAndWait();
+        if (exito) {
+            // 5. REGLA: Cerrar inscripciones
+            competicionDAO.cerrarInscripciones();
+            mostrarAlerta("Éxito", "Calendario generado (una jornada por semana). Inscripciones cerradas.");
+        } else {
+            mostrarAlerta("Error", "Error al guardar el calendario. Revisa la conexión.");
+        }
     }
 
     @FXML

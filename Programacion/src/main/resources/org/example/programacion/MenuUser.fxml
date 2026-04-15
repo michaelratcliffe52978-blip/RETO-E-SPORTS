@@ -15,14 +15,20 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="61.0" prefWidth="339.0" text="Menu Administrador" GridPane.halignment="CENTER">
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="61.0" prefWidth="339.0" text="Menu User" textFill="#e57db9" GridPane.halignment="CENTER">
             <font>
-                <Font name="Arial Bold" size="34.0" />
+                <Font name="System Bold" size="34.0" />
             </font>
         </Label>
-        <Button mnemonicParsing="false" onAction="#VerInformeEquipos" prefHeight="25.0" prefWidth="160.0" text="Informe equipos" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-        <Button mnemonicParsing="false" onAction="#VerInformeResultados" prefHeight="25.0" prefWidth="160.0" text="Informe resultados" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
-        <Button mnemonicParsing="false" onAction="#CerrarSesion" style="-fx-background-color: #212121;" text="Cerrar Sesion" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+        <Button mnemonicParsing="false" onAction="#VerInformeEquipos" prefHeight="25.0" prefWidth="160.0" text="Informe equipos" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+        <Button mnemonicParsing="false" onAction="#VerInformeResultados" prefHeight="25.0" prefWidth="160.0" text="Informe resultados" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+        <Button mnemonicParsing="false" onAction="#CerrarSesion" style="-fx-background-color: #e57db9;" text="Cerrar Sesion" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets bottom="10.0" left="20.0" />
             </GridPane.margin>

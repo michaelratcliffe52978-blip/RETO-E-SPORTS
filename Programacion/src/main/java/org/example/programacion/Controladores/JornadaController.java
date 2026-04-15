@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.programacion.DAO.JornadaDAO;
+import org.example.programacion.DAO.EnfrentamientoDAO;
 import org.example.programacion.Modelo.Jornada;
 
 import java.io.IOException;
@@ -26,14 +27,15 @@ public class JornadaController implements Initializable {
     @FXML private TableColumn<Jornada, String> colId;
     @FXML private TableColumn<Jornada, Integer> colNumero;
     @FXML private TableColumn<Jornada, Object> colFecha;
-    @FXML private TableColumn<Jornada, String> colCompeticion;
 
     @FXML private TextField txtId, txtNumero;
     @FXML private DatePicker dateFecha;
-    @FXML private ComboBox<String> comboCompeticion;
+    @FXML(required = false) private ComboBox<String> comboCompeticion;
+    @FXML(required = false) private ListView<String> listaEnfrentamientos;
 
     private ObservableList<Jornada> listaJornadas = FXCollections.observableArrayList();
     private JornadaDAO jornadaDAO = new JornadaDAO();
+    private EnfrentamientoDAO enfrentamientoDAO = new EnfrentamientoDAO();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -41,8 +43,6 @@ public class JornadaController implements Initializable {
         colId.setCellValueFactory(new PropertyValueFactory<>("idJornada"));
         colNumero.setCellValueFactory(new PropertyValueFactory<>("numeroJornada"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaJornada"));
-        colCompeticion.setCellValueFactory(cellData -> 
-            new javafx.beans.property.SimpleStringProperty(""));
 
         cargarDatosJornadas();
 
@@ -50,11 +50,14 @@ public class JornadaController implements Initializable {
         tablaJornadas.getSelectionModel().selectedItemProperty().addListener((obs, old, nuevo) -> {
             if (nuevo != null) {
                 rellenarFormulario(nuevo);
+                cargarEnfrentamientosDeJornada(nuevo);
             }
         });
 
-        // Cargar competiciones si es necesario
-        comboCompeticion.setItems(FXCollections.observableArrayList("Competición 1", "Competición 2"));
+        // Cargar competiciones si existe el comboBox
+        if (comboCompeticion != null) {
+            comboCompeticion.setItems(FXCollections.observableArrayList("Competición 1", "Competición 2"));
+        }
     }
 
     private void cargarDatosJornadas() {
@@ -67,6 +70,23 @@ public class JornadaController implements Initializable {
         txtId.setText(j.getIdJornada());
         txtNumero.setText(String.valueOf(j.getNumeroJornada()));
         dateFecha.setValue(j.getFechaJornada());
+    }
+
+    private void cargarEnfrentamientosDeJornada(Jornada j) {
+        if (listaEnfrentamientos != null) {
+            try {
+                int idJornada = Integer.parseInt(j.getIdJornada());
+                java.util.List<String> enfrentamientos = enfrentamientoDAO.obtenerEnfrentamientosDeJornada(idJornada);
+                
+                if (enfrentamientos.isEmpty()) {
+                    listaEnfrentamientos.setItems(FXCollections.observableArrayList("No hay enfrentamientos en esta jornada"));
+                } else {
+                    listaEnfrentamientos.setItems(FXCollections.observableArrayList(enfrentamientos));
+                }
+            } catch (NumberFormatException e) {
+                listaEnfrentamientos.setItems(FXCollections.observableArrayList("Error al cargar enfrentamientos"));
+            }
+        }
     }
 
     @FXML
@@ -122,7 +142,12 @@ public class JornadaController implements Initializable {
         txtId.clear();
         txtNumero.clear();
         dateFecha.setValue(null);
-        comboCompeticion.setValue(null);
+        if (comboCompeticion != null) {
+            comboCompeticion.setValue(null);
+        }
+        if (listaEnfrentamientos != null) {
+            listaEnfrentamientos.setItems(FXCollections.observableArrayList());
+        }
         tablaJornadas.getSelectionModel().clearSelection();
     }
 

@@ -1,7 +1,6 @@
 package org.example.programacion.Controladores;
 
 import org.example.programacion.DAO.UsuarioDAO;
-import java.sql.SQLException;
 
 public class UsuarioController {
 
@@ -10,7 +9,7 @@ public class UsuarioController {
     /**
      * Inserta un nuevo usuario en la base de datos.
      */
-    public void insertarUsuario(String nombre, String contra, String rol) throws SQLException {
+    public void insertarUsuario(String nombre, String contra, String rol) throws java.sql.SQLException {
         usuarioDAO.insertUsuario(nombre, contra, rol);
     }
 

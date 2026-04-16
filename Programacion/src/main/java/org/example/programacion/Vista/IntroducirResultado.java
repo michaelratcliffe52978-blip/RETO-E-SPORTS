@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.sql.SQLException;
 
 import org.example.programacion.Controladores.EnfrentamientoController;
 import org.example.programacion.DAO.EquiposDAO;
@@ -33,7 +34,7 @@ public class IntroducirResultado implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // 1. Cargar datos de la tabla EQUIPO
+        // 1. Cargar datos de la tabla EQUIPOS
         cargarDatosDesdeBD();
 
         // 2. Rellenar puntuaciones del 0 al 14
@@ -79,16 +80,49 @@ public class IntroducirResultado implements Initializable {
         String marcador2 = Resultado2.getValue();
 
         if (nombreE1 == null || nombreE2 == null || marcador1 == null || marcador2 == null) {
-            mostrarAlerta("Error", "Por favor, selecciona todos los campos.");
+            mostrarAlerta("Campos incompletos", "Por favor, selecciona todos los campos antes de enviar.");
             return;
         }
 
-            try {
+        try {
+            // Llamamos al controlador para procesar en la BD
             enfrentamientoController.actualizarResultado(nombreE1, nombreE2, marcador1, marcador2);
+
+            // Si llega aquí es que no hubo error
+            mostrarAlertaInformativa("Éxito", "Resultado actualizado correctamente.");
             navegarAMenu(event);
+
         } catch (Exception e) {
-            mostrarAlerta("Error", "No se pudo actualizar el resultado: " + e.getMessage());
+            // Aquí capturamos el error del Trigger y lo limpiamos
+            String mensajeLimpio = limpiarMensajeOracle(e.getMessage());
+            mostrarAlerta("Error de Validación", mensajeLimpio);
         }
+    }
+
+    /**
+     * Método para extraer solo el mensaje personalizado del error de Oracle
+     */
+    private String limpiarMensajeOracle(String mensajeOriginal) {
+        if (mensajeOriginal == null) return "Error desconocido en la base de datos.";
+
+        // Buscamos el patrón ORA-20XXX que define nuestros errores personalizados
+        if (mensajeOriginal.contains("ORA-20")) {
+            try {
+                // El mensaje útil está después de los dos puntos
+                int inicio = mensajeOriginal.indexOf(":") + 1;
+                // Cortamos antes de que empiece la siguiente traza de error de Oracle
+                int fin = mensajeOriginal.indexOf("ORA-", inicio);
+
+                if (fin != -1) {
+                    return mensajeOriginal.substring(inicio, fin).trim();
+                } else {
+                    return mensajeOriginal.substring(inicio).trim();
+                }
+            } catch (Exception e) {
+                return mensajeOriginal; // Fallback por si el parseo falla
+            }
+        }
+        return mensajeOriginal;
     }
 
     private void navegarAMenu(ActionEvent event) {
@@ -109,9 +143,20 @@ public class IntroducirResultado implements Initializable {
         navegarAMenu(event);
     }
 
+    // Alerta de ERROR (Roja)
     private void mostrarAlerta(String titulo, String mensaje) {
         javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
         alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    // Alerta de INFORMACIÓN (Azul)
+    private void mostrarAlertaInformativa(String titulo, String mensaje) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
     }

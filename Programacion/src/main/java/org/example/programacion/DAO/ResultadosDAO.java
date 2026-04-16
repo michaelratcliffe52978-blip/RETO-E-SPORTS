@@ -31,11 +31,11 @@ public class ResultadosDAO {
                 Jornada jor = new Jornada(null, rs.getInt("id_jornada"), null, null);
 
                 // Recuperamos los goles de las subconsultas
-                // Si no hay resultado todavía (es NULL), ponemos 0 por defecto
+                // Si no hay resultado todavía (es NULL o "-"), ponemos 0 por defecto
                 String resL = rs.getString("goles_l");
                 String resV = rs.getString("goles_v");
-                int gL = (resL != null) ? Integer.parseInt(resL) : 0;
-                int gV = (resV != null) ? Integer.parseInt(resV) : 0;
+                int gL = (resL != null && !resL.equals("-") && !resL.isEmpty()) ? Integer.parseInt(resL) : 0;
+                int gV = (resV != null && !resV.equals("-") && !resV.isEmpty()) ? Integer.parseInt(resV) : 0;
 
                 lista.add(new Enfrentamiento(
                         String.valueOf(rs.getInt("id_partido")),

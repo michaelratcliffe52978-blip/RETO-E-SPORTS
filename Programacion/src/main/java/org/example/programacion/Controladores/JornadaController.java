@@ -30,8 +30,8 @@ public class JornadaController implements Initializable {
 
     @FXML private TextField txtId, txtNumero;
     @FXML private DatePicker dateFecha;
-    @FXML(required = false) private ComboBox<String> comboCompeticion;
-    @FXML(required = false) private ListView<String> listaEnfrentamientos;
+    @FXML private ComboBox<String> comboCompeticion;
+    @FXML private ListView<String> listaEnfrentamientos;
 
     private ObservableList<Jornada> listaJornadas = FXCollections.observableArrayList();
     private JornadaDAO jornadaDAO = new JornadaDAO();

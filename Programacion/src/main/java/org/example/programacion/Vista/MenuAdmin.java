@@ -40,9 +40,9 @@ public class MenuAdmin {
 
     @FXML
     public void onGenerarCalendario(ActionEvent event) {
-        // 1. REGLA: Mínimo 2 jugadores
-        if (!equiposDAO.validarMinimoJugadores(2)) {
-            mostrarAlerta("Error", "No se puede generar: Hay equipos con menos de 2 jugadores.");
+        // 1. REGLA: Mínimo 1 jugador por equipo
+        if (!equiposDAO.validarMinimoJugadores(1)) {
+            mostrarAlerta("Error", "No se puede generar: Hay equipos sin jugadores.");
             return;
         }
 

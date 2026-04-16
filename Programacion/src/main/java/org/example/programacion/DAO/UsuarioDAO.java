@@ -66,7 +66,7 @@ public class UsuarioDAO {
     }
 
     public boolean validarAdmin(String user, String pass) {
-        String sql = "SELECT * FROM Usuario WHERE nombre_usuario = ? AND contrasena = ? AND UPPER(tipo) = 'ADMIN'";
+        String sql = "SELECT * FROM USUARIO WHERE NOMBRE_USUARIO = ? AND CONTRASENA = ? AND UPPER(TIPO) = 'ADMIN'";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -88,7 +88,7 @@ public class UsuarioDAO {
     }
 
     public boolean validarUsuario(String user, String pass) {
-        String sql = "SELECT * FROM Usuario WHERE nombre_usuario = ? AND contrasena = ? AND UPPER(tipo) = 'USER'";
+        String sql = "SELECT * FROM USUARIO WHERE NOMBRE_USUARIO = ? AND CONTRASENA = ? AND UPPER(TIPO) = 'USER'";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

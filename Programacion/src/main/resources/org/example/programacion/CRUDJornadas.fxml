@@ -49,6 +49,7 @@
 
                                 <Label text="Fecha:" textFill="#e57bd9" GridPane.rowIndex="2" />
                                 <DatePicker fx:id="dateFecha" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
                             </children>
                      <rowConstraints>
                         <RowConstraints />

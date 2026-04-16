@@ -2,14 +2,14 @@ package org.example.programacion.Modelo;
 
 import java.util.ArrayList;
 
-public class Competicion {
+public class Competiciones {
 
     private String idCompeticion;
     private String nombreCompeticion;
     private String estado;
-    private ArrayList<Jornada> jornadas;
+    private ArrayList<Jornadas> jornadas;
 
-    public Competicion(String idCompeticion, String nombreCompeticion, String estado, ArrayList<Jornada> jornadas) {
+    public Competiciones(String idCompeticion, String nombreCompeticion, String estado, ArrayList<Jornadas> jornadas) {
         this.idCompeticion = idCompeticion;
         this.nombreCompeticion = nombreCompeticion;
         this.estado = estado;
@@ -22,7 +22,7 @@ public class Competicion {
     public void setNombreCompeticion(String nombreCompeticion) {this.nombreCompeticion = nombreCompeticion;}
     public String getEstado() {return estado;}
     public void setEstado(String estado) {this.estado = estado;}
-    public ArrayList<Jornada> getJornadas() {return jornadas;}
-    public void setJornadas(ArrayList<Jornada> jornadas) {this.jornadas = jornadas;}
+    public ArrayList<Jornadas> getJornadas() {return jornadas;}
+    public void setJornadas(ArrayList<Jornadas> jornadas) {this.jornadas = jornadas;}
 
 }

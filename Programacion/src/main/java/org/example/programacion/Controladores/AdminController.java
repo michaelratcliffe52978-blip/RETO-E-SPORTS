@@ -13,7 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.programacion.DAO.AdminDAO;
-import org.example.programacion.Modelo.Usuario;
+import org.example.programacion.Modelo.Usuarios;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,16 +21,16 @@ import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
 
-    @FXML private TableView<Usuario> tablaUsuarios;
-    @FXML private TableColumn<Usuario, String> colId;
-    @FXML private TableColumn<Usuario, String> colUser;
-    @FXML private TableColumn<Usuario, String> colRol;
+    @FXML private TableView<Usuarios> tablaUsuarios;
+    @FXML private TableColumn<Usuarios, String> colId;
+    @FXML private TableColumn<Usuarios, String> colUser;
+    @FXML private TableColumn<Usuarios, String> colRol;
 
     @FXML private TextField txtId, txtUsername;
     @FXML private PasswordField txtPassword;
     @FXML private ComboBox<String> comboRol;
 
-    private ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
+    private ObservableList<Usuarios> listaUsuarios = FXCollections.observableArrayList();
     private AdminDAO adminDAO = new AdminDAO();
 
     @Override
@@ -59,7 +59,7 @@ public class AdminController implements Initializable {
         tablaUsuarios.setItems(listaUsuarios);
     }
 
-    private void rellenarFormulario(Usuario u) {
+    private void rellenarFormulario(Usuarios u) {
         txtId.setText(u.getIdUsuario());
         txtUsername.setText(u.getNombreUsuario());
         txtPassword.setText(u.getContrasena());
@@ -95,7 +95,7 @@ public class AdminController implements Initializable {
 
     @FXML
     public void onEliminar() {
-        Usuario sel = tablaUsuarios.getSelectionModel().getSelectedItem();
+        Usuarios sel = tablaUsuarios.getSelectionModel().getSelectedItem();
         if (sel == null) {
             mostrarAlerta("Atención", "Selecciona un usuario para eliminar.");
             return;

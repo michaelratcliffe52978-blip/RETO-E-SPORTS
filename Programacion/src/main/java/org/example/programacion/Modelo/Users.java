@@ -2,9 +2,9 @@ package org.example.programacion.Modelo;
 
 import java.time.LocalDate;
 
-public class User extends Usuario {
+public class Users extends Usuarios {
 
-    public User(String idUsuario, String nombreUsuario, String contrasena) {
+    public Users(String idUsuario, String nombreUsuario, String contrasena) {
         super(idUsuario, nombreUsuario, contrasena);
     }
 

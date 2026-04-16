@@ -1,6 +1,6 @@
 package org.example.programacion.DAO;
 
-import org.example.programacion.Modelo.Jornada;
+import org.example.programacion.Modelo.Jornadas;
 import org.example.programacion.Util.ConexionBD;
 
 import java.sql.*;
@@ -11,7 +11,7 @@ import java.util.List;
 public class JornadaDAO {
 
     public int insertJornada(int numero, LocalDate fecha) {
-        String sql = "INSERT INTO JORNADA (NUMERO_JORNADA, FECHA_JORNADA) VALUES (?, ?)";
+        String sql = "INSERT INTO JORNADAS (NUMERO_JORNADA, FECHA_JORNADA) VALUES (?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -23,7 +23,7 @@ public class JornadaDAO {
         }
 
         // Get the ID, assuming ID_JORNADA is auto and NUMERO_JORNADA is unique
-        String sqlSelect = "SELECT ID_JORNADA FROM JORNADA WHERE NUMERO_JORNADA = ?";
+        String sqlSelect = "SELECT ID_JORNADA FROM JORNADAS WHERE NUMERO_JORNADA = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sqlSelect)) {
             pstmt.setInt(1, numero);
@@ -37,15 +37,15 @@ public class JornadaDAO {
         throw new RuntimeException("No se pudo obtener ID de jornada");
     }
 
-    public List<Jornada> getAllJornadas() {
-        List<Jornada> jornadas = new ArrayList<>();
-        String sql = "SELECT ID_JORNADA, NUMERO_JORNADA, FECHA_JORNADA FROM JORNADA";
+    public List<Jornadas> getAllJornadas() {
+        List<Jornadas> jornadas = new ArrayList<>();
+        String sql = "SELECT ID_JORNADA, NUMERO_JORNADA, FECHA_JORNADA FROM JORNADAS";
         try (Connection conn = ConexionBD.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Jornada j = new Jornada(
+                Jornadas j = new Jornadas(
                         String.valueOf(rs.getInt("ID_JORNADA")),
                         rs.getInt("NUMERO_JORNADA"),
                         rs.getDate("FECHA_JORNADA").toLocalDate(),
@@ -60,7 +60,7 @@ public class JornadaDAO {
     }
 
     public void updateJornada(int idJornada, int numero, LocalDate fecha) {
-        String sql = "UPDATE JORNADA SET NUMERO_JORNADA = ?, FECHA_JORNADA = ? WHERE ID_JORNADA = ?";
+        String sql = "UPDATE JORNADAS SET NUMERO_JORNADA = ?, FECHA_JORNADA = ? WHERE ID_JORNADA = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -74,7 +74,7 @@ public class JornadaDAO {
     }
 
     public void deleteJornada(int idJornada) {
-        String sql = "DELETE FROM JORNADA WHERE ID_JORNADA = ?";
+        String sql = "DELETE FROM JORNADAS WHERE ID_JORNADA = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 

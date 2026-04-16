@@ -92,7 +92,7 @@ on j.id_equipo = e.id_equipo;
 create or replace view v_calendario_partidos as
 select c.nombre_competicion, jo.numero_jornada, e.fecha_enfrentamiento,
     e.hora, e.equipo1, e.equipo2
-from enfrentamiento e join jornada jo
+from enfrentamiento e join jornadas jo
 on e.id_jornada = jo.id_jornada
 join competicion c 
 on jo.id_competicion = c.id_competicion;
@@ -111,7 +111,7 @@ on ee.id_partido = p.id_partido;
 //vista resumen competiciones
 create or replace view v_resumen_competiciones as
 select c.nombre_competicion, c.estado, count(j.id_jornada) as total_jornadas
-from competicion c left join jornada j 
+from competicion c left join jornadas j
 on c.id_competicion = j.id_competicion
 group by c.nombre_competicion, c.estado;
 

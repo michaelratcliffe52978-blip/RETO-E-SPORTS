@@ -12,7 +12,7 @@ public class EquiposDAO {
 
     public List<Equipos> getAllEquipos() {
         List<Equipos> equipos = new ArrayList<>();
-        String sql = "SELECT * FROM Equipo";
+        String sql = "SELECT * FROM Equipos";
         try (Connection conn = ConexionBD.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -31,7 +31,7 @@ public class EquiposDAO {
     }
     public List<String> obtenerNombresEquipos() {
         List<String> equipos = new ArrayList<>();
-        String sql = "SELECT NOMBRE FROM EQUIPO";
+        String sql = "SELECT NOMBRE FROM EQUIPOS";
         // ... lógica para conectar y llenar la lista
         return equipos;
     }
@@ -39,7 +39,7 @@ public class EquiposDAO {
 
 
     public void insertEquipo(Equipos equipo) {
-        String sql = "INSERT INTO Equipo (nombre_equipo, fecha_fundacion) VALUES (?, ?)";
+        String sql = "INSERT INTO Equipos (nombre_equipo, fecha_fundacion) VALUES (?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -52,7 +52,7 @@ public class EquiposDAO {
     }
 
     public void updateEquipo(Equipos equipo) {
-        String sql = "UPDATE Equipo SET nombre_equipo = ?, fecha_fundacion = ? WHERE id_equipo = ?";
+        String sql = "UPDATE Equipos SET nombre_equipo = ?, fecha_fundacion = ? WHERE id_equipo = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -68,8 +68,8 @@ public class EquiposDAO {
     public List<Jugadores> getJugadoresPorEquipo(String nombreEquipo) {
         List<Jugadores> lista = new ArrayList<>();
         // Traemos todas las columnas necesarias de la tabla Jugador
-        String sql = "SELECT j.* FROM JUGADOR j " +
-                "JOIN EQUIPO e ON j.id_equipo = e.id_equipo " +
+        String sql = "SELECT j.* FROM JUGADORES j " +
+                "JOIN EQUIPOS e ON j.id_equipo = e.id_equipo " +
                 "WHERE e.nombre_equipo = ?";
 
         try (Connection conn = ConexionBD.getConnection();
@@ -97,7 +97,7 @@ public class EquiposDAO {
     }
 
     public void deleteEquipo(int idEquipo) {
-        String sql = "DELETE FROM Equipo WHERE id_equipo = ?";
+        String sql = "DELETE FROM Equipos WHERE id_equipo = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -110,7 +110,7 @@ public class EquiposDAO {
 
     public List<String> getAllEquipoNames() {
         List<String> nombres = new ArrayList<>();
-        String sql = "SELECT nombre_equipo FROM Equipo";
+        String sql = "SELECT nombre_equipo FROM Equipos";
         try (Connection conn = ConexionBD.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -125,8 +125,8 @@ public class EquiposDAO {
     }
 
     public boolean validarMinimoJugadores(int minimo) {
-        String sql = "SELECT e.nombre_equipo FROM Equipo e " +
-                "LEFT JOIN Jugador j ON e.id_equipo = j.id_equipo " +
+        String sql = "SELECT e.nombre_equipo FROM Equipos e " +
+                "LEFT JOIN Jugadores j ON e.id_equipo = j.id_equipo " +
                 "GROUP BY e.id_equipo, e.nombre_equipo " +
                 "HAVING COUNT(j.id_jugador) < ?";
         try (Connection conn = ConexionBD.getConnection();

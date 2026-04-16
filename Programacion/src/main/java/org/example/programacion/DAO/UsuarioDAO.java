@@ -1,6 +1,6 @@
 package org.example.programacion.DAO;
 
-import org.example.programacion.Modelo.Usuario;
+import org.example.programacion.Modelo.Usuarios;
 import org.example.programacion.Util.ConexionBD;
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 public class UsuarioDAO {
 
     public void insertUsuario(String username, String password, String rol) {
-        String sql = "INSERT INTO USUARIO (NOMBRE_USUARIO, CONTRASENA, TIPO) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO USUARIOS (NOMBRE_USUARIO, CONTRASENA, TIPO) VALUES (?, ?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -22,15 +22,15 @@ public class UsuarioDAO {
         }
     }
 
-    public List<Usuario> getAllUsuarios() {
-        List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT ID_USUARIO, NOMBRE_USUARIO, CONTRASENA, TIPO FROM USUARIO";
+    public List<Usuarios> getAllUsuarios() {
+        List<Usuarios> usuarios = new ArrayList<>();
+        String sql = "SELECT ID_USUARIO, NOMBRE_USUARIO, CONTRASENA, TIPO FROM USUARIOS";
         try (Connection conn = ConexionBD.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Usuario u = new Usuario(
+                Usuarios u = new Usuarios(
                         String.valueOf(rs.getInt("ID_USUARIO")),
                         rs.getString("NOMBRE_USUARIO"),
                         rs.getString("CONTRASENA"),
@@ -45,7 +45,7 @@ public class UsuarioDAO {
     }
 
     public void updateUsuario(int idUsuario, String username, String password, String rol) {
-        String sql = "UPDATE USUARIO SET NOMBRE_USUARIO = ?, CONTRASENA = ?, TIPO = ? WHERE ID_USUARIO = ?";
+        String sql = "UPDATE USUARIOS SET NOMBRE_USUARIO = ?, CONTRASENA = ?, TIPO = ? WHERE ID_USUARIO = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -60,7 +60,7 @@ public class UsuarioDAO {
     }
 
     public void deleteUsuario(int idUsuario) {
-        String sql = "DELETE FROM USUARIO WHERE ID_USUARIO = ?";
+        String sql = "DELETE FROM USUARIOS WHERE ID_USUARIO = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -72,7 +72,7 @@ public class UsuarioDAO {
     }
 
     public boolean validarAdmin(String user, String pass) {
-        String sql = "SELECT * FROM USUARIO WHERE NOMBRE_USUARIO = ? AND CONTRASENA = ? AND UPPER(TIPO) = 'ADMIN'";
+        String sql = "SELECT * FROM USUARIOS WHERE NOMBRE_USUARIO = ? AND CONTRASENA = ? AND UPPER(TIPO) = 'ADMIN'";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -92,7 +92,7 @@ public class UsuarioDAO {
     }
 
     public boolean validarUsuario(String user, String pass) {
-        String sql = "SELECT * FROM USUARIO WHERE NOMBRE_USUARIO = ? AND CONTRASENA = ? AND UPPER(TIPO) = 'USER'";
+        String sql = "SELECT * FROM USUARIOS WHERE NOMBRE_USUARIO = ? AND CONTRASENA = ? AND UPPER(TIPO) = 'USER'";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -111,8 +111,8 @@ public class UsuarioDAO {
         }
     }
 
-    public Usuario obtenerUsuarioConCredenciales(String user, String pass) {
-        String sql = "SELECT * FROM USUARIO WHERE NOMBRE_USUARIO = ? AND CONTRASENA = ?";
+    public Usuarios obtenerUsuarioConCredenciales(String user, String pass) {
+        String sql = "SELECT * FROM USUARIOS WHERE NOMBRE_USUARIO = ? AND CONTRASENA = ?";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -122,7 +122,7 @@ public class UsuarioDAO {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Usuario(
+                    return new Usuarios(
                             String.valueOf(rs.getInt("ID_USUARIO")),
                             rs.getString("NOMBRE_USUARIO"),
                             rs.getString("CONTRASENA"),

@@ -6,20 +6,20 @@ import javafx.beans.property.SimpleStringProperty;
 
 import java.time.LocalDate;
 
-public class Jornada {
+public class Jornadas {
 
     private SimpleStringProperty idJornada;
     private SimpleIntegerProperty numeroJornada;
     private SimpleObjectProperty<LocalDate> fechaJornada;
-    private Enfrentamiento enfrentamientos;
+    private Enfrentamientos enfrentamientos;
 
-    public Jornada(String idJornada, int numeroJornada, LocalDate fechaJornada) {
+    public Jornadas(String idJornada, int numeroJornada, LocalDate fechaJornada) {
         this.idJornada = new SimpleStringProperty(idJornada);
         this.numeroJornada = new SimpleIntegerProperty(numeroJornada);
         this.fechaJornada = new SimpleObjectProperty<>(fechaJornada);
     }
 
-    public Jornada(String idJornada, int numeroJornada, LocalDate fechaJornada, Enfrentamiento enfrentamientos) {
+    public Jornadas(String idJornada, int numeroJornada, LocalDate fechaJornada, Enfrentamientos enfrentamientos) {
         this.idJornada = new SimpleStringProperty(idJornada);
         this.numeroJornada = new SimpleIntegerProperty(numeroJornada);
         this.fechaJornada = new SimpleObjectProperty<>(fechaJornada);
@@ -41,6 +41,6 @@ public class Jornada {
     public LocalDate getFechaJornada() { return fechaJornada.get(); }
     public void setFechaJornada(LocalDate fechaJornada) { this.fechaJornada.set(fechaJornada); }
     
-    public Enfrentamiento getEnfrentamientos() { return enfrentamientos; }
-    public void setEnfrentamientos(Enfrentamiento enfrentamientos) { this.enfrentamientos = enfrentamientos; }
+    public Enfrentamientos getEnfrentamientos() { return enfrentamientos; }
+    public void setEnfrentamientos(Enfrentamientos enfrentamientos) { this.enfrentamientos = enfrentamientos; }
 }

@@ -11,7 +11,7 @@ public class JugadoresDAO {
 
     public List<Jugadores> getAllJugadores() {
         List<Jugadores> jugadores = new ArrayList<>();
-        String sql = "SELECT * FROM Jugador";
+        String sql = "SELECT * FROM Jugadores";
         try (Connection conn = ConexionBD.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -36,7 +36,7 @@ public class JugadoresDAO {
 
     public List<Jugadores> getJugadoresByEquipoId(int idEquipo) {
         List<Jugadores> jugadores = new ArrayList<>();
-        String sql = "SELECT * FROM Jugador WHERE id_equipo = ?";
+        String sql = "SELECT * FROM Jugadores WHERE id_equipo = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -62,7 +62,7 @@ public class JugadoresDAO {
     }
 
     public String getEquipoNameByJugadorId(int idJugador) {
-        String sql = "SELECT e.nombre_equipo FROM Equipo e JOIN Jugador j ON e.id_equipo = j.id_equipo WHERE j.id_jugador = ?";
+        String sql = "SELECT e.nombre_equipo FROM Equipos e JOIN Jugadores j ON e.id_equipo = j.id_equipo WHERE j.id_jugador = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -78,7 +78,7 @@ public class JugadoresDAO {
     }
 
     public void insertJugador(Jugadores jugador, int idEquipo) {
-        String sql = "INSERT INTO Jugador (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Jugadores (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -97,7 +97,7 @@ public class JugadoresDAO {
     }
 
     public void updateJugador(Jugadores jugador, int idEquipo) {
-        String sql = "UPDATE Jugador SET nombre_jugador = ?, apellido = ?, nacionalidad = ?, fecha_nacimiento = ?, nickname = ?, rol = ?, sueldo = ?, id_equipo = ? WHERE id_jugador = ?";
+        String sql = "UPDATE Jugadores SET nombre_jugador = ?, apellido = ?, nacionalidad = ?, fecha_nacimiento = ?, nickname = ?, rol = ?, sueldo = ?, id_equipo = ? WHERE id_jugador = ?";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -118,7 +118,7 @@ public class JugadoresDAO {
     }
 
     public void deleteJugador(int idJugador) {
-        String sql = "DELETE FROM Jugador WHERE id_jugador = ?";
+        String sql = "DELETE FROM Jugadores WHERE id_jugador = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 

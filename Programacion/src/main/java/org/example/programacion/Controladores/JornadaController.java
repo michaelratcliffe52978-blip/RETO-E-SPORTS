@@ -14,7 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.programacion.DAO.JornadaDAO;
 import org.example.programacion.DAO.EnfrentamientoDAO;
-import org.example.programacion.Modelo.Jornada;
+import org.example.programacion.Modelo.Jornadas;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,17 +22,17 @@ import java.util.ResourceBundle;
 
 public class JornadaController implements Initializable {
 
-    @FXML private TableView<Jornada> tablaJornadas;
-    @FXML private TableColumn<Jornada, String> colId;
-    @FXML private TableColumn<Jornada, Integer> colNumero;
-    @FXML private TableColumn<Jornada, Object> colFecha;
+    @FXML private TableView<Jornadas> tablaJornadas;
+    @FXML private TableColumn<Jornadas, String> colId;
+    @FXML private TableColumn<Jornadas, Integer> colNumero;
+    @FXML private TableColumn<Jornadas, Object> colFecha;
 
     @FXML private TextField txtId, txtNumero;
     @FXML private DatePicker dateFecha;
     @FXML private ComboBox<String> comboCompeticion;
     @FXML private ListView<String> listaEnfrentamientos;
 
-    private ObservableList<Jornada> listaJornadas = FXCollections.observableArrayList();
+    private ObservableList<Jornadas> listaJornadas = FXCollections.observableArrayList();
     private JornadaDAO jornadaDAO = new JornadaDAO();
     private EnfrentamientoDAO enfrentamientoDAO = new EnfrentamientoDAO();
 
@@ -69,13 +69,13 @@ public class JornadaController implements Initializable {
         }
     }
 
-    private void rellenarFormulario(Jornada j) {
+    private void rellenarFormulario(Jornadas j) {
         txtId.setText(j.getIdJornada());
         txtNumero.setText(String.valueOf(j.getNumeroJornada()));
         dateFecha.setValue(j.getFechaJornada());
     }
 
-    private void cargarEnfrentamientosDeJornada(Jornada j) {
+    private void cargarEnfrentamientosDeJornada(Jornadas j) {
         if (listaEnfrentamientos != null) {
             try {
                 int idJornada = Integer.parseInt(j.getIdJornada());
@@ -123,7 +123,7 @@ public class JornadaController implements Initializable {
 
     @FXML
     public void onEliminar() {
-        Jornada sel = tablaJornadas.getSelectionModel().getSelectedItem();
+        Jornadas sel = tablaJornadas.getSelectionModel().getSelectedItem();
         if (sel == null) {
             mostrarAlerta("Atención", "Selecciona una jornada para eliminar.");
             return;

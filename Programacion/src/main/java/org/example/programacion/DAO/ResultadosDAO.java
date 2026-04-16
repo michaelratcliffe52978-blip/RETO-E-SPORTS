@@ -1,8 +1,8 @@
 package org.example.programacion.DAO;
 
-import org.example.programacion.Modelo.Enfrentamiento;
+import org.example.programacion.Modelo.Enfrentamientos;
 import org.example.programacion.Modelo.Equipos;
-import org.example.programacion.Modelo.Jornada;
+import org.example.programacion.Modelo.Jornadas;
 import org.example.programacion.Util.ConexionBD;
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,14 +10,14 @@ import java.util.List;
 
 public class ResultadosDAO {
 
-    public List<Enfrentamiento> getTodosLosResultados() {
-        List<Enfrentamiento> lista = new ArrayList<>();
+    public List<Enfrentamientos> getTodosLosResultados() {
+        List<Enfrentamientos> lista = new ArrayList<>();
 
         // Corregido: Usamos NOMBRE_EQUIPO que es como se llama en tu tabla Equipo
         String sql = "SELECT e.id_partido, e.fecha_enfrentamiento, e.equipo1, e.equipo2, e.hora, e.id_jornada, " +
-                "(SELECT resultado FROM Equipo_Enfrentamiento WHERE id_partido = e.id_partido AND id_equipo = (SELECT id_equipo FROM Equipo WHERE NOMBRE_EQUIPO = e.equipo1)) as goles_l, " +
-                "(SELECT resultado FROM Equipo_Enfrentamiento WHERE id_partido = e.id_partido AND id_equipo = (SELECT id_equipo FROM Equipo WHERE NOMBRE_EQUIPO = e.equipo2)) as goles_v " +
-                "FROM Enfrentamiento e";
+                "(SELECT resultado FROM Equipos_Enfrentamientos WHERE id_partido = e.id_partido AND id_equipo = (SELECT id_equipo FROM Equipos WHERE NOMBRE_EQUIPO = e.equipo1)) as goles_l, " +
+                "(SELECT resultado FROM Equipos_Enfrentamientos WHERE id_partido = e.id_partido AND id_equipo = (SELECT id_equipo FROM Equipos WHERE NOMBRE_EQUIPO = e.equipo2)) as goles_v " +
+                "FROM Enfrentamientos e";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -28,7 +28,7 @@ public class ResultadosDAO {
                 Equipos eq2 = new Equipos(0, rs.getString("equipo2"), null);
 
                 // Creamos el objeto Jornada con el número real de la BD
-                Jornada jor = new Jornada(null, rs.getInt("id_jornada"), null, null);
+                Jornadas jor = new Jornadas(null, rs.getInt("id_jornada"), null, null);
 
                 // Recuperamos los goles de las subconsultas
                 // Si no hay resultado todavía (es NULL o "-"), ponemos 0 por defecto
@@ -37,7 +37,7 @@ public class ResultadosDAO {
                 int gL = (resL != null && !resL.equals("-") && !resL.isEmpty()) ? Integer.parseInt(resL) : 0;
                 int gV = (resV != null && !resV.equals("-") && !resV.isEmpty()) ? Integer.parseInt(resV) : 0;
 
-                lista.add(new Enfrentamiento(
+                lista.add(new Enfrentamientos(
                         String.valueOf(rs.getInt("id_partido")),
                         java.time.LocalTime.parse(rs.getString("hora")),
                         rs.getDate("fecha_enfrentamiento").toLocalDate(),

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class CompeticionDAO {
 
     public boolean actualizarEstado(int idCompeticion, String nuevoEstado) {
-        String sql = "UPDATE Competicion SET estado = ? WHERE id_competicion = ?";
+        String sql = "UPDATE Competiciones SET estado = ? WHERE id_competicion = ?";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -25,7 +25,7 @@ public class CompeticionDAO {
 
     public void cerrarInscripciones() {
         // Actualiza el estado de la competición a cerrado
-        String sql = "UPDATE Competicion SET estado = 'cerrado' WHERE ROWNUM = 1";
+        String sql = "UPDATE Competiciones SET estado = 'cerrado' WHERE ROWNUM = 1";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.executeUpdate();

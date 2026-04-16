@@ -11,7 +11,7 @@ public class EnfrentamientoDAO {
     // --- MÉTODOS EXISTENTES ---
 
     public int getEnfrentamientoIdByEquipos(String equipo1, String equipo2) {
-        String sql = "SELECT ID_PARTIDO FROM ENFRENTAMIENTO WHERE EQUIPO1 = ? AND EQUIPO2 = ?";
+        String sql = "SELECT ID_PARTIDO FROM ENFRENTAMIENTOS WHERE EQUIPO1 = ? AND EQUIPO2 = ?";
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, equipo1);
@@ -25,7 +25,7 @@ public class EnfrentamientoDAO {
     }
 
     public void actualizarResultado(int idPartido, int idEq1, String res1, int idEq2, String res2) {
-        String sql = "UPDATE Equipo_Enfrentamiento SET resultado = ? WHERE id_equipo = ? AND id_partido = ?";
+        String sql = "UPDATE Equipos_Enfrentamientos SET resultado = ? WHERE id_equipo = ? AND id_partido = ?";
 
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -55,9 +55,9 @@ public class EnfrentamientoDAO {
         java.util.List<String> resultados = new java.util.ArrayList<>();
         String sql = "SELECT e.id_partido, e.equipo1, e.equipo2, e.hora, " +
                 "ee1.resultado as res_eq1, ee2.resultado as res_eq2 " +
-                "FROM ENFRENTAMIENTO e " +
-                "LEFT JOIN Equipo_Enfrentamiento ee1 ON e.id_partido = ee1.id_partido " +
-                "LEFT JOIN Equipo_Enfrentamiento ee2 ON e.id_partido = ee2.id_partido " +
+                "FROM ENFRENTAMIENTOS e " +
+                "LEFT JOIN Equipos_Enfrentamientos ee1 ON e.id_partido = ee1.id_partido " +
+                "LEFT JOIN Equipos_Enfrentamientos ee2 ON e.id_partido = ee2.id_partido " +
                 "WHERE e.id_jornada = ? " +
                 "ORDER BY e.hora";
 
@@ -88,8 +88,8 @@ public class EnfrentamientoDAO {
      * Valida que todos los equipos tengan al menos el número de jugadores indicado.
      */
     public boolean validarMinimoJugadores(int minimo) {
-        String sql = "SELECT COUNT(*) FROM JUGADOR WHERE ID_EQUIPO = ?";
-        String sqlEquipos = "SELECT ID_EQUIPO FROM EQUIPO";
+        String sql = "SELECT COUNT(*) FROM JUGADORES WHERE ID_EQUIPO = ?";
+        String sqlEquipos = "SELECT ID_EQUIPO FROM EQUIPOS";
 
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
              Statement stmt = conn.createStatement();
@@ -112,7 +112,7 @@ public class EnfrentamientoDAO {
      * Verifica si ya existe un calendario creado
      */
     public boolean existeCalendario() {
-        String sql = "SELECT COUNT(*) as total FROM ENFRENTAMIENTO";
+        String sql = "SELECT COUNT(*) as total FROM ENFRENTAMIENTOS";
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -134,19 +134,19 @@ public class EnfrentamientoDAO {
             conn.setAutoCommit(false);
 
             // Primero eliminar Equipo_Enfrentamiento
-            String sqlDelEquipoEnfr = "DELETE FROM Equipo_Enfrentamiento";
+            String sqlDelEquipoEnfr = "DELETE FROM Equipos_Enfrentamientos";
             try (Statement stmt = conn.createStatement()) {
                 stmt.executeUpdate(sqlDelEquipoEnfr);
             }
 
             // Eliminar enfrentamientos
-            String sqlDelEnfr = "DELETE FROM ENFRENTAMIENTO";
+            String sqlDelEnfr = "DELETE FROM ENFRENTAMIENTOS";
             try (Statement stmt = conn.createStatement()) {
                 stmt.executeUpdate(sqlDelEnfr);
             }
 
             // Eliminar jornadas
-            String sqlDelJornada = "DELETE FROM JORNADA";
+            String sqlDelJornada = "DELETE FROM JORNADAS";
             try (Statement stmt = conn.createStatement()) {
                 stmt.executeUpdate(sqlDelJornada);
             }
@@ -183,7 +183,7 @@ public class EnfrentamientoDAO {
 
             for (int i = 0; i < numJornadas; i++) {
                 // Primero, crear la jornada si no existe
-                String sqlInsertJornada = "INSERT INTO JORNADA (NUMERO_JORNADA, FECHA_JORNADA) VALUES (?, ?)";
+                String sqlInsertJornada = "INSERT INTO JORNADAS (NUMERO_JORNADA, FECHA_JORNADA) VALUES (?, ?)";
                 int idJornada = -1;
 
                 try (PreparedStatement pstmt = conn.prepareStatement(sqlInsertJornada, new String[]{"ID_JORNADA"})) {
@@ -198,7 +198,7 @@ public class EnfrentamientoDAO {
                     }
                 } catch (SQLException e) {
                     // Si ya existe, intentar obtenerla
-                    String sqlGetJornada = "SELECT ID_JORNADA FROM JORNADA WHERE NUMERO_JORNADA = ?";
+                    String sqlGetJornada = "SELECT ID_JORNADA FROM JORNADAS WHERE NUMERO_JORNADA = ?";
                     try (PreparedStatement pstmt = conn.prepareStatement(sqlGetJornada)) {
                         pstmt.setInt(1, (i + 1));
                         try (ResultSet rs = pstmt.executeQuery()) {
@@ -222,7 +222,7 @@ public class EnfrentamientoDAO {
 
                     // No guardamos el partido si uno es el equipo de descanso
                     if (local.getIdEquipo() != -1 && visitante.getIdEquipo() != -1 && idJornada != -1) {
-                        String sql = "INSERT INTO ENFRENTAMIENTO (FECHA_ENFRENTAMIENTO, EQUIPO1, EQUIPO2, HORA, ID_JORNADA) VALUES (?, ?, ?, ?, ?)";
+                        String sql = "INSERT INTO ENFRENTAMIENTOS (FECHA_ENFRENTAMIENTO, EQUIPO1, EQUIPO2, HORA, ID_JORNADA) VALUES (?, ?, ?, ?, ?)";
                         try (PreparedStatement pstmt = conn.prepareStatement(sql, new String[]{"ID_PARTIDO"})) {
                             pstmt.setDate(1, java.sql.Date.valueOf(fechaJornada));
                             pstmt.setString(2, local.getNombreEquipo());
@@ -237,7 +237,7 @@ public class EnfrentamientoDAO {
                                     int idPartido = rs.getInt(1);
 
                                     // Guardar en Equipo_Enfrentamiento para equipo1
-                                    String sqlEquipoEnfr = "INSERT INTO Equipo_Enfrentamiento (id_equipo, id_partido, resultado) VALUES (?, ?, '-')";
+                                    String sqlEquipoEnfr = "INSERT INTO Equipos_Enfrentamientos (id_equipo, id_partido, resultado) VALUES (?, ?, '-')";
                                     try (PreparedStatement pstmtEE = conn.prepareStatement(sqlEquipoEnfr)) {
                                         pstmtEE.setInt(1, local.getIdEquipo());
                                         pstmtEE.setInt(2, idPartido);

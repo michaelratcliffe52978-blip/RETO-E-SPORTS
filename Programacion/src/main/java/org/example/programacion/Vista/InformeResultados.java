@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.programacion.DAO.ResultadosDAO;
-import org.example.programacion.Modelo.Enfrentamiento;
+import org.example.programacion.Modelo.Enfrentamientos;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,12 +20,12 @@ import java.util.List;
 public class InformeResultados {
 
     // CORRECCIÓN: La tabla debe ser de tipo <Enfrentamiento>, no <String>
-    @FXML private TableView<Enfrentamiento> tablaResultados;
+    @FXML private TableView<Enfrentamientos> tablaResultados;
 
-    @FXML private TableColumn<Enfrentamiento, String> colJornada;
-    @FXML private TableColumn<Enfrentamiento, String> colLocal;
-    @FXML private TableColumn<Enfrentamiento, String> colVisitante;
-    @FXML private TableColumn<Enfrentamiento, String> colMarcador;
+    @FXML private TableColumn<Enfrentamientos, String> colJornada;
+    @FXML private TableColumn<Enfrentamientos, String> colLocal;
+    @FXML private TableColumn<Enfrentamientos, String> colVisitante;
+    @FXML private TableColumn<Enfrentamientos, String> colMarcador;
 
     private ResultadosDAO resultadosDAO = new ResultadosDAO();
 
@@ -60,7 +60,7 @@ public class InformeResultados {
 
     private void cargarDatos() {
         try {
-            List<Enfrentamiento> lista = resultadosDAO.getTodosLosResultados();
+            List<Enfrentamientos> lista = resultadosDAO.getTodosLosResultados();
             if (lista != null) {
                 tablaResultados.setItems(FXCollections.observableArrayList(lista));
             }

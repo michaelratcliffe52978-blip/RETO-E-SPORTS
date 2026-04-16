@@ -116,7 +116,7 @@ COMPOUND TRIGGER
             WHERE id_competicion = v_jornadas(i).id_comp
               AND TRUNC(fecha_jornada, 'IW') = TRUNC(v_jornadas(i).fecha, 'IW');
             IF v_total > 1 THEN
-                RAISE_APPLICATION_ERROR(-20030, 'Solo se permite una jornada por semana');
+                RAISE_APPLICATION_ERROR(-20030, 'Solo se permite una jornadas por semana');
             END IF;
         END LOOP;
     END AFTER STATEMENT;

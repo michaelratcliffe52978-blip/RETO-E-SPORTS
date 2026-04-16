@@ -2,11 +2,11 @@ package org.example.programacion.Modelo;
 
 import java.util.Scanner;
 
-public class Admin extends Usuario{
+public class Admins extends Usuarios {
 
     private final static Scanner sc = new Scanner(System.in);
 
-    public Admin(String idUsuario, String nombreUsuario, String contrasena) {
+    public Admins(String idUsuario, String nombreUsuario, String contrasena) {
         super(idUsuario, nombreUsuario, contrasena);
     }
 

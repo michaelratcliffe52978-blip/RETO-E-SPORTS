@@ -9,7 +9,7 @@ public class UsuarioController {
     /**
      * Inserta un nuevo usuario en la base de datos.
      */
-    public void insertarUsuario(String nombre, String contra, String rol) throws java.sql.SQLException {
+    public void insertarUsuario(String nombre, String contra, String rol) {
         usuarioDAO.insertUsuario(nombre, contra, rol);
     }
 

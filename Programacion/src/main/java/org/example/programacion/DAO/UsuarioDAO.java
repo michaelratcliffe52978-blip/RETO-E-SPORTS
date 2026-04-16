@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UsuarioDAO {
 
-    public void insertUsuario(String username, String password, String rol) throws SQLException {
+    public void insertUsuario(String username, String password, String rol) {
         String sql = "INSERT INTO USUARIO (NOMBRE_USUARIO, CONTRASENA, TIPO) VALUES (?, ?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -17,6 +17,8 @@ public class UsuarioDAO {
             pstmt.setString(2, password);
             pstmt.setString(3, rol);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al insertar usuario: " + e.getMessage(), e);
         }
     }
 
@@ -37,12 +39,12 @@ public class UsuarioDAO {
                 usuarios.add(u);
             }
         } catch (SQLException e) {
-            System.err.println("Error al obtener usuarios: " + e.getMessage());
+            throw new RuntimeException("Error al obtener usuarios: " + e.getMessage(), e);
         }
         return usuarios;
     }
 
-    public void updateUsuario(int idUsuario, String username, String password, String rol) throws SQLException {
+    public void updateUsuario(int idUsuario, String username, String password, String rol) {
         String sql = "UPDATE USUARIO SET NOMBRE_USUARIO = ?, CONTRASENA = ?, TIPO = ? WHERE ID_USUARIO = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -52,16 +54,20 @@ public class UsuarioDAO {
             pstmt.setString(3, rol);
             pstmt.setInt(4, idUsuario);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al actualizar usuario: " + e.getMessage(), e);
         }
     }
 
-    public void deleteUsuario(int idUsuario) throws SQLException {
+    public void deleteUsuario(int idUsuario) {
         String sql = "DELETE FROM USUARIO WHERE ID_USUARIO = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, idUsuario);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al eliminar usuario: " + e.getMessage(), e);
         }
     }
 
@@ -81,9 +87,7 @@ public class UsuarioDAO {
                 return result;
             }
         } catch (SQLException e) {
-            System.err.println("Error en la base de datos: " + e.getMessage());
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("Error al validar admin: " + e.getMessage(), e);
         }
     }
 
@@ -103,9 +107,7 @@ public class UsuarioDAO {
                 return result;
             }
         } catch (SQLException e) {
-            System.err.println("Error en la base de datos: " + e.getMessage());
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("Error al validar usuario: " + e.getMessage(), e);
         }
     }
 
@@ -129,7 +131,7 @@ public class UsuarioDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error en la base de datos: " + e.getMessage());
+            throw new RuntimeException("Error al obtener usuario con credenciales: " + e.getMessage(), e);
         }
         return null;
     }

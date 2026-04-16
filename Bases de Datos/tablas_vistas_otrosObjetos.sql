@@ -9,7 +9,7 @@ DROP TABLE Equipo CASCADE CONSTRAINTS;
 DROP TABLE Competicion CASCADE CONSTRAINTS;
 DROP TABLE Usuario CASCADE CONSTRAINTS;
 
--- 2. CREACIÓN DE TABLAS
+-- 2. CREACIï¿½N DE TABLAS
 CREATE TABLE Competicion (
     id_competicion NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nombre_competicion VARCHAR2(100),
@@ -72,29 +72,7 @@ CREATE TABLE Usuario (
     CONSTRAINT ck_tipo_usuario_check CHECK (tipo IN ('user', 'admin'))
 );
 
--- 3. INSERCIÓN DE DATOS (Ahora que las tablas EXISTEN)
-INSERT INTO Competicion (nombre_competicion, estado) VALUES ('VALORANT Masters Madrid', 'encurso');
-
-
-
-INSERT INTO Equipo (nombre_equipo, fecha_fundacion) VALUES ('Fnatic', TO_DATE('2004-07-23', 'YYYY-MM-DD'));
-INSERT INTO Equipo (nombre_equipo, fecha_fundacion) VALUES ('Sentinels', TO_DATE('2017-06-01', 'YYYY-MM-DD'));
-INSERT INTO Equipo (nombre_equipo, fecha_fundacion) VALUES ('LOUD', TO_DATE('2022-02-03', 'YYYY-MM-DD'));
-INSERT INTO Equipo (nombre_equipo, fecha_fundacion) VALUES ('Team Liquid', TO_DATE('2000-01-01', 'YYYY-MM-DD'));
-
-INSERT INTO Jugador (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
-VALUES ('Boaster', 'Jake Howlett', 'UK', TO_DATE('1995-05-25', 'YYYY-MM-DD'), 'Boaster', 'controlador', 5000, 1);
-
-INSERT INTO Jugador (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
-VALUES ('Tyson', 'Ngo', 'Canada', TO_DATE('2001-05-05', 'YYYY-MM-DD'), 'TenZ', 'duelista', 8000, 2);
-
-INSERT INTO Competicion (nombre_competicion, estado) 
-VALUES ('VCT', 'abierto');
-
-
-INSERT INTO Usuario (nombre_usuario, contrasena, tipo) VALUES ('admin', 'admin123', 'admin');
-
--- 4. GUARDAR CAMBIOS
+-- 3. GUARDAR CAMBIOS
 COMMIT;
 
 
@@ -212,7 +190,7 @@ create index idx_fecha_enfrentamiento on enfrentamiento(fecha_enfrentamiento);
         where lower(ui.index_name)='idx_fecha_enfrentamiento';
 
 
-// para mejorar la unión entre Jugador y Equipo
+// para mejorar la uniï¿½n entre Jugador y Equipo
 create index idx_jugador_equipo on Jugador(id_equipo);
         --comprobacion 
         select *
@@ -220,7 +198,7 @@ create index idx_jugador_equipo on Jugador(id_equipo);
         on ui.index_name=uc.index_name
         where lower(ui.index_name)='idx_jugador_equipo';
 
-//para mejorar la unión entre Jornada y Competición
+//para mejorar la uniï¿½n entre Jornada y Competiciï¿½n
 create index idx_jornada_competicion on Jornada(id_competicion);
         --comprobacion 
         select *

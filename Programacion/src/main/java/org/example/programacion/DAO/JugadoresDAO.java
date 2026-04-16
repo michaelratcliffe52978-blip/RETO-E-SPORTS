@@ -29,7 +29,7 @@ public class JugadoresDAO {
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error al obtener jugadores: " + e.getMessage(), e);
         }
         return jugadores;
     }
@@ -56,7 +56,7 @@ public class JugadoresDAO {
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error al obtener jugadores por equipo: " + e.getMessage(), e);
         }
         return jugadores;
     }
@@ -72,12 +72,12 @@ public class JugadoresDAO {
                 return rs.getString("nombre_equipo");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error al obtener nombre de equipo por ID de jugador: " + e.getMessage(), e);
         }
         return null;
     }
 
-    public void insertJugador(Jugadores jugador, int idEquipo) throws SQLException {
+    public void insertJugador(Jugadores jugador, int idEquipo) {
         String sql = "INSERT INTO Jugador (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -91,11 +91,14 @@ public class JugadoresDAO {
             pstmt.setDouble(7, jugador.getSueldo());
             pstmt.setInt(8, idEquipo);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al insertar jugador: " + e.getMessage(), e);
         }
     }
 
-    public void updateJugador(Jugadores jugador, int idEquipo) throws SQLException {
+    public void updateJugador(Jugadores jugador, int idEquipo) {
         String sql = "UPDATE Jugador SET nombre_jugador = ?, apellido = ?, nacionalidad = ?, fecha_nacimiento = ?, nickname = ?, rol = ?, sueldo = ?, id_equipo = ? WHERE id_jugador = ?";
+
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -109,16 +112,20 @@ public class JugadoresDAO {
             pstmt.setInt(8, idEquipo);
             pstmt.setInt(9, Integer.parseInt(jugador.getIdJugador()));
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al actualizar jugador: " + e.getMessage(), e);
         }
     }
 
-    public void deleteJugador(int idJugador) throws SQLException {
+    public void deleteJugador(int idJugador) {
         String sql = "DELETE FROM Jugador WHERE id_jugador = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, idJugador);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al eliminar jugador: " + e.getMessage(), e);
         }
     }
 }

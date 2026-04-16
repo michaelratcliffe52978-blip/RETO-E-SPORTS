@@ -4,7 +4,6 @@ import org.example.programacion.DAO.EquiposDAO;
 import org.example.programacion.DAO.JugadoresDAO;
 import org.example.programacion.Modelo.Equipos;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class EquiposController {
@@ -21,7 +20,7 @@ public class EquiposController {
         return equipos;
     }
 
-    public void saveEquipo(Equipos equipo) throws SQLException {
+    public void saveEquipo(Equipos equipo) {
         if (equipo.getIdEquipo() == 0) {
             // Nuevo equipo
             equiposDAO.insertEquipo(equipo);
@@ -31,12 +30,12 @@ public class EquiposController {
         }
     }
 
-    public void deleteEquipo(int idEquipo) throws SQLException {
+    public void deleteEquipo(int idEquipo) {
         // Verificar si tiene jugadores
         List<Equipos> equipos = getAllEquipos();
         for (Equipos e : equipos) {
             if (e.getIdEquipo() == idEquipo && !e.getListaJugadores().isEmpty()) {
-                throw new SQLException("Equipo tiene jugadores asociados");
+                throw new RuntimeException("Equipo tiene jugadores asociados");
             }
         }
         equiposDAO.deleteEquipo(idEquipo);

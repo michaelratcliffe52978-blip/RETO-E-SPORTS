@@ -17,7 +17,6 @@ import org.example.programacion.Modelo.Usuario;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CRUDUsuarios implements Initializable {
@@ -55,9 +54,13 @@ public class CRUDUsuarios implements Initializable {
     }
 
     private void cargarDatosUsuarios() {
-        listaUsuarios.clear();
-        listaUsuarios.addAll(adminDAO.getAllUsuarios());
-        tablaUsuarios.setItems(listaUsuarios);
+        try {
+            listaUsuarios.clear();
+            listaUsuarios.addAll(adminDAO.getAllUsuarios());
+            tablaUsuarios.setItems(listaUsuarios);
+        } catch (Exception e) {
+            mostrarAlerta("Error", "Error al cargar usuarios: " + e.getMessage());
+        }
     }
 
     private void rellenarFormulario(Usuario u) {
@@ -87,10 +90,10 @@ public class CRUDUsuarios implements Initializable {
 
             cargarDatosUsuarios();
             onLimpiar();
-        } catch (SQLException e) {
-            mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage());
         } catch (NumberFormatException e) {
             mostrarAlerta("Error", "ID debe ser un número válido.");
+        } catch (Exception e) {
+            mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage());
         }
     }
 
@@ -108,7 +111,7 @@ public class CRUDUsuarios implements Initializable {
                 adminDAO.deleteUsuario(Integer.parseInt(sel.getIdUsuario()));
                 cargarDatosUsuarios();
                 onLimpiar();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 mostrarAlerta("Error", "No se pudo eliminar: " + e.getMessage());
             }
         }

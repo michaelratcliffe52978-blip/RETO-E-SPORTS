@@ -23,7 +23,7 @@ public class EnfrentamientoController {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error al verificar estructura modificable: " + e.getMessage(), e);
         }
         return false;
     }
@@ -35,7 +35,7 @@ public class EnfrentamientoController {
         List<String> partidosCreados = new ArrayList<>();
         try {
             idJornada = jornadaDAO.insertJornada(numeroJornada, java.time.LocalDate.now());
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // Si ya existe, obtener el ID existente
             System.out.println("Jornada ya existe, obteniendo ID: " + e.getMessage());
             try {
@@ -47,12 +47,11 @@ public class EnfrentamientoController {
                     if (rs.next()) {
                         idJornada = rs.getInt("ID_JORNADA");
                     } else {
-                        throw new SQLException("Jornada no encontrada");
+                        throw new RuntimeException("Jornada no encontrada");
                     }
                 }
-            } catch (SQLException e2) {
-                System.err.println("Error obteniendo ID de jornada: " + e2.getMessage());
-                return partidosCreados; // Return empty
+            } catch (Exception e2) {
+                throw new RuntimeException("Error obteniendo ID de jornada: " + e2.getMessage(), e2);
             }
         }
 
@@ -97,8 +96,7 @@ public class EnfrentamientoController {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error SQL: " + e.getMessage());
-            e.printStackTrace();
+            throw new RuntimeException("Error SQL: " + e.getMessage(), e);
         }
         return partidosCreados;
     }
@@ -110,12 +108,12 @@ public class EnfrentamientoController {
             int idEq1 = getIdEquipoByName(equipo1);
             int idEq2 = getIdEquipoByName(equipo2);
             dao.actualizarResultado(idPartido, idEq1, res1, idEq2, res2);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar resultado: " + e.getMessage(), e);
         }
     }
 
-    private static int getIdEquipoByName(String nombre) throws SQLException {
+    private static int getIdEquipoByName(String nombre) {
         String sql = "SELECT id_equipo FROM Equipo WHERE nombre_equipo = ?";
         try (var conn = org.example.programacion.Util.ConexionBD.getConnection();
              var pstmt = conn.prepareStatement(sql)) {
@@ -124,7 +122,9 @@ public class EnfrentamientoController {
             if (rs.next()) {
                 return rs.getInt("id_equipo");
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al obtener ID de equipo: " + e.getMessage(), e);
         }
-        throw new SQLException("Equipo no encontrado");
+        throw new RuntimeException("Equipo no encontrado");
     }
 }

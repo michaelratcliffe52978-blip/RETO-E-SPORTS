@@ -18,7 +18,6 @@ import org.example.programacion.Modelo.Jugadores;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CRUDJugadores implements Initializable {
@@ -94,7 +93,7 @@ public class CRUDJugadores implements Initializable {
             jugadoresController.saveJugador(jugador, comboEquipo.getValue());
             cargarDatosTabla();
             onLimpiarClick();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage());
         }
     }
@@ -113,16 +112,20 @@ public class CRUDJugadores implements Initializable {
                 jugadoresController.deleteJugador(Integer.parseInt(seleccionado.getIdJugador()));
                 cargarDatosTabla();
                 onLimpiarClick();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 mostrarAlerta("Error", "No se pudo eliminar: " + e.getMessage());
             }
         }
     }
 
     private void cargarDatosTabla() {
-        listaMaster.clear();
-        listaMaster.addAll(jugadoresController.getAllJugadores());
-        tablaJugadores.setItems(listaMaster);
+        try {
+            listaMaster.clear();
+            listaMaster.addAll(jugadoresController.getAllJugadores());
+            tablaJugadores.setItems(listaMaster);
+        } catch (Exception e) {
+            mostrarAlerta("Error", "Error al cargar jugadores: " + e.getMessage());
+        }
     }
 
     private void cargarEquiposCombo() {

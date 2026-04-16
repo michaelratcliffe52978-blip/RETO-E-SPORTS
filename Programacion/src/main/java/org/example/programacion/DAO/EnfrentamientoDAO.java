@@ -10,7 +10,7 @@ import java.util.List;
 public class EnfrentamientoDAO {
     // --- MÉTODOS EXISTENTES ---
 
-    public int getEnfrentamientoIdByEquipos(String equipo1, String equipo2) throws SQLException {
+    public int getEnfrentamientoIdByEquipos(String equipo1, String equipo2) {
         String sql = "SELECT ID_PARTIDO FROM ENFRENTAMIENTO WHERE EQUIPO1 = ? AND EQUIPO2 = ?";
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -18,11 +18,13 @@ public class EnfrentamientoDAO {
             pstmt.setString(2, equipo2);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) return rs.getInt("ID_PARTIDO");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al obtener enfrentamiento: " + e.getMessage(), e);
         }
-        throw new SQLException("Enfrentamiento no encontrado");
+        throw new RuntimeException("Enfrentamiento no encontrado");
     }
 
-    public void actualizarResultado(int idPartido, int idEq1, String res1, int idEq2, String res2) throws SQLException {
+    public void actualizarResultado(int idPartido, int idEq1, String res1, int idEq2, String res2) {
         String sql = "UPDATE Equipo_Enfrentamiento SET resultado = ? WHERE id_equipo = ? AND id_partido = ?";
 
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
@@ -41,6 +43,8 @@ public class EnfrentamientoDAO {
             pstmt.executeUpdate();
 
             System.out.println("Resultados actualizados - Partido: " + idPartido + ", Eq1: " + res1 + ", Eq2: " + res2);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al actualizar resultado: " + e.getMessage(), e);
         }
     }
 
@@ -73,7 +77,7 @@ public class EnfrentamientoDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error al obtener enfrentamientos de jornada: " + e.getMessage());
+            throw new RuntimeException("Error al obtener enfrentamientos de jornada: " + e.getMessage(), e);
         }
         return resultados;
     }
@@ -100,7 +104,7 @@ public class EnfrentamientoDAO {
             }
             return true;
         } catch (SQLException e) {
-            return false;
+            throw new RuntimeException("Error al validar mínimo de jugadores: " + e.getMessage(), e);
         }
     }
 
@@ -117,7 +121,7 @@ public class EnfrentamientoDAO {
                 return rs.getInt("total") > 0;
             }
         } catch (SQLException e) {
-            System.err.println("Error al verificar calendario: " + e.getMessage());
+            throw new RuntimeException("Error al verificar calendario: " + e.getMessage(), e);
         }
         return false;
     }
@@ -125,7 +129,7 @@ public class EnfrentamientoDAO {
     /**
      * Elimina el calendario anterior (jornadas y enfrentamientos)
      */
-    public void eliminarCalendarioAnterior() throws SQLException {
+    public void eliminarCalendarioAnterior() {
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection()) {
             conn.setAutoCommit(false);
 
@@ -149,6 +153,8 @@ public class EnfrentamientoDAO {
 
             conn.commit();
             System.out.println("Calendario anterior eliminado correctamente");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al eliminar calendario anterior: " + e.getMessage(), e);
         }
     }
 
@@ -157,13 +163,8 @@ public class EnfrentamientoDAO {
 
         // Verificar si existe calendario anterior
         if (existeCalendario()) {
-            try {
-                eliminarCalendarioAnterior();
-                System.out.println("Calendario anterior eliminado. Generando nuevo calendario...");
-            } catch (SQLException e) {
-                System.err.println("Error al eliminar calendario anterior: " + e.getMessage());
-                return false;
-            }
+            eliminarCalendarioAnterior();
+            System.out.println("Calendario anterior eliminado. Generando nuevo calendario...");
         }
 
         // Si el número de equipos es impar, añadimos un equipo "fantasma" para el descanso
@@ -261,8 +262,7 @@ public class EnfrentamientoDAO {
             System.out.println("Nuevo calendario generado correctamente");
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException("Error al generar calendario: " + e.getMessage(), e);
         }
     }
 }

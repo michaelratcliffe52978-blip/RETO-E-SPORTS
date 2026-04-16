@@ -17,7 +17,6 @@ import org.example.programacion.Modelo.Usuario;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
@@ -87,10 +86,10 @@ public class AdminController implements Initializable {
 
             cargarDatosUsuarios();
             onLimpiar();
-        } catch (SQLException e) {
-            mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage());
         } catch (NumberFormatException e) {
             mostrarAlerta("Error", "ID debe ser un número válido.");
+        } catch (Exception e) {
+            mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage());
         }
     }
 
@@ -108,7 +107,7 @@ public class AdminController implements Initializable {
                 adminDAO.deleteUsuario(Integer.parseInt(sel.getIdUsuario()));
                 cargarDatosUsuarios();
                 onLimpiar();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 mostrarAlerta("Error", "No se pudo eliminar: " + e.getMessage());
             }
         }

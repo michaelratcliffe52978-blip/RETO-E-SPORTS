@@ -10,7 +10,7 @@ import java.util.List;
 
 public class JornadaDAO {
 
-    public int insertJornada(int numero, LocalDate fecha) throws SQLException {
+    public int insertJornada(int numero, LocalDate fecha) {
         String sql = "INSERT INTO JORNADA (NUMERO_JORNADA, FECHA_JORNADA) VALUES (?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -18,6 +18,8 @@ public class JornadaDAO {
             pstmt.setInt(1, numero);
             pstmt.setDate(2, Date.valueOf(fecha));
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al insertar jornada: " + e.getMessage(), e);
         }
 
         // Get the ID, assuming ID_JORNADA is auto and NUMERO_JORNADA is unique
@@ -29,8 +31,10 @@ public class JornadaDAO {
             if (rs.next()) {
                 return rs.getInt("ID_JORNADA");
             }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al obtener ID de jornada: " + e.getMessage(), e);
         }
-        throw new SQLException("No se pudo obtener ID de jornada");
+        throw new RuntimeException("No se pudo obtener ID de jornada");
     }
 
     public List<Jornada> getAllJornadas() {
@@ -50,12 +54,12 @@ public class JornadaDAO {
                 jornadas.add(j);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error al obtener jornadas: " + e.getMessage(), e);
         }
         return jornadas;
     }
 
-    public void updateJornada(int idJornada, int numero, LocalDate fecha) throws SQLException {
+    public void updateJornada(int idJornada, int numero, LocalDate fecha) {
         String sql = "UPDATE JORNADA SET NUMERO_JORNADA = ?, FECHA_JORNADA = ? WHERE ID_JORNADA = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -64,16 +68,20 @@ public class JornadaDAO {
             pstmt.setDate(2, Date.valueOf(fecha));
             pstmt.setInt(3, idJornada);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al actualizar jornada: " + e.getMessage(), e);
         }
     }
 
-    public void deleteJornada(int idJornada) throws SQLException {
+    public void deleteJornada(int idJornada) {
         String sql = "DELETE FROM JORNADA WHERE ID_JORNADA = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, idJornada);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al eliminar jornada: " + e.getMessage(), e);
         }
     }
 }

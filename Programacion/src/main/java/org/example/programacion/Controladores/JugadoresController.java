@@ -4,7 +4,6 @@ import org.example.programacion.DAO.EquiposDAO;
 import org.example.programacion.DAO.JugadoresDAO;
 import org.example.programacion.Modelo.Jugadores;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class JugadoresController {
@@ -16,7 +15,7 @@ public class JugadoresController {
         return jugadoresDAO.getAllJugadores();
     }
 
-    public void saveJugador(Jugadores jugador, String nombreEquipo) throws SQLException {
+    public void saveJugador(Jugadores jugador, String nombreEquipo) {
         // Obtener id_equipo por nombre
         // Asumiendo que nombreEquipo es único
         int idEquipo = getIdEquipoByName(nombreEquipo);
@@ -29,7 +28,7 @@ public class JugadoresController {
         }
     }
 
-    public void deleteJugador(int idJugador) throws SQLException {
+    public void deleteJugador(int idJugador) {
         jugadoresDAO.deleteJugador(idJugador);
     }
 
@@ -41,7 +40,7 @@ public class JugadoresController {
         return equiposDAO.getAllEquipoNames();
     }
 
-    private int getIdEquipoByName(String nombreEquipo) throws SQLException {
+    private int getIdEquipoByName(String nombreEquipo) {
         // Necesito un método en EquiposDAO para obtener id por nombre
         // Por ahora, implementar aquí o agregar a DAO
         String sql = "SELECT id_equipo FROM Equipo WHERE nombre_equipo = ?";
@@ -52,7 +51,9 @@ public class JugadoresController {
             if (rs.next()) {
                 return rs.getInt("id_equipo");
             }
+        } catch (java.sql.SQLException e) {
+            throw new RuntimeException("Error al obtener ID de equipo: " + e.getMessage(), e);
         }
-        throw new SQLException("Equipo no encontrado");
+        throw new RuntimeException("Equipo no encontrado");
     }
 }

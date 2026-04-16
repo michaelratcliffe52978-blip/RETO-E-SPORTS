@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -80,7 +81,7 @@ public class InformeEquiposController implements Initializable {
                 comboEquipos.setItems(observableEquipos);
             }
         } catch (Exception e) {
-            System.err.println("Error al cargar el ComboBox: " + e.getMessage());
+            mostrarAlerta("Error", "Error al cargar el ComboBox: " + e.getMessage());
         }
     }
 
@@ -96,7 +97,7 @@ public class InformeEquiposController implements Initializable {
                 ObservableList<Jugadores> observableJugadores = FXCollections.observableArrayList(jugadores);
                 tablaIntegrantes.setItems(observableJugadores);
             } catch (Exception e) {
-                System.err.println("Error al filtrar jugadores: " + e.getMessage());
+                mostrarAlerta("Error", "Error al filtrar jugadores: " + e.getMessage());
             }
         }
     }
@@ -113,5 +114,13 @@ public class InformeEquiposController implements Initializable {
         } catch (IOException e) {
             System.err.println("Error al navegar al menú: " + e.getMessage());
         }
+    }
+
+    private void mostrarAlerta(String titulo, String msg) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

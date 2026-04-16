@@ -65,9 +65,16 @@ public class InformeResultados {
                 tablaResultados.setItems(FXCollections.observableArrayList(lista));
             }
         } catch (Exception e) {
-            System.err.println("Error al cargar resultados: " + e.getMessage());
-            e.printStackTrace();
+            mostrarAlerta("Error", "Error al cargar resultados: " + e.getMessage());
         }
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
     }
 
     @FXML

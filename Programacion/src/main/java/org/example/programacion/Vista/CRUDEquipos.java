@@ -59,9 +59,13 @@ public class CRUDEquipos implements Initializable {
     }
 
     private void cargarDatosEquipos() {
-        listaEquipos.clear();
-        listaEquipos.addAll(equiposController.getAllEquipos());
-        tablaEquipos.setItems(listaEquipos);
+        try {
+            listaEquipos.clear();
+            listaEquipos.addAll(equiposController.getAllEquipos());
+            tablaEquipos.setItems(listaEquipos);
+        } catch (Exception e) {
+            mostrarAlerta("Error", "Error al cargar equipos: " + e.getMessage());
+        }
     }
 
     private void rellenarFormulario(Equipos e) {
@@ -93,7 +97,7 @@ public class CRUDEquipos implements Initializable {
             equiposController.saveEquipo(equipo);
             cargarDatosEquipos();
             onLimpiarClick();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage());
         }
     }
@@ -107,7 +111,7 @@ public class CRUDEquipos implements Initializable {
             equiposController.deleteEquipo(sel.getIdEquipo());
             cargarDatosEquipos();
             onLimpiarClick();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             mostrarAlerta("Error", "No se puede eliminar: " + e.getMessage());
         }
     }

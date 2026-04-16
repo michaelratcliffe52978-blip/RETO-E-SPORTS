@@ -18,7 +18,6 @@ import org.example.programacion.Modelo.Jornada;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class JornadaController implements Initializable {
@@ -61,9 +60,13 @@ public class JornadaController implements Initializable {
     }
 
     private void cargarDatosJornadas() {
-        listaJornadas.clear();
-        listaJornadas.addAll(jornadaDAO.getAllJornadas());
-        tablaJornadas.setItems(listaJornadas);
+        try {
+            listaJornadas.clear();
+            listaJornadas.addAll(jornadaDAO.getAllJornadas());
+            tablaJornadas.setItems(listaJornadas);
+        } catch (Exception e) {
+            mostrarAlerta("Error", "Error al cargar jornadas: " + e.getMessage());
+        }
     }
 
     private void rellenarFormulario(Jornada j) {
@@ -83,8 +86,9 @@ public class JornadaController implements Initializable {
                 } else {
                     listaEnfrentamientos.setItems(FXCollections.observableArrayList(enfrentamientos));
                 }
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 listaEnfrentamientos.setItems(FXCollections.observableArrayList("Error al cargar enfrentamientos"));
+                mostrarAlerta("Error", "Error al cargar enfrentamientos: " + e.getMessage());
             }
         }
     }
@@ -110,10 +114,10 @@ public class JornadaController implements Initializable {
 
             cargarDatosJornadas();
             onLimpiar();
-        } catch (SQLException e) {
-            mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage());
         } catch (NumberFormatException e) {
             mostrarAlerta("Error", "El número debe ser un valor entero.");
+        } catch (Exception e) {
+            mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage());
         }
     }
 
@@ -131,7 +135,7 @@ public class JornadaController implements Initializable {
                 jornadaDAO.deleteJornada(Integer.parseInt(sel.getIdJornada()));
                 cargarDatosJornadas();
                 onLimpiar();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 mostrarAlerta("Error", "No se pudo eliminar: " + e.getMessage());
             }
         }

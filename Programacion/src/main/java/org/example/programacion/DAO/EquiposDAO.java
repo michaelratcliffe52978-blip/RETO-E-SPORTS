@@ -25,7 +25,7 @@ public class EquiposDAO {
                 ));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error al obtener equipos: " + e.getMessage(), e);
         }
         return equipos;
     }
@@ -38,7 +38,7 @@ public class EquiposDAO {
 
 
 
-    public void insertEquipo(Equipos equipo) throws SQLException {
+    public void insertEquipo(Equipos equipo) {
         String sql = "INSERT INTO Equipo (nombre_equipo, fecha_fundacion) VALUES (?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -46,10 +46,12 @@ public class EquiposDAO {
             pstmt.setString(1, equipo.getNombreEquipo());
             pstmt.setDate(2, Date.valueOf(equipo.getFechaFundacion()));
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al insertar equipo: " + e.getMessage(), e);
         }
     }
 
-    public void updateEquipo(Equipos equipo) throws SQLException {
+    public void updateEquipo(Equipos equipo) {
         String sql = "UPDATE Equipo SET nombre_equipo = ?, fecha_fundacion = ? WHERE id_equipo = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -58,6 +60,8 @@ public class EquiposDAO {
             pstmt.setDate(2, Date.valueOf(equipo.getFechaFundacion()));
             pstmt.setInt(3, equipo.getIdEquipo());
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al actualizar equipo: " + e.getMessage(), e);
         }
     }
 
@@ -92,13 +96,15 @@ public class EquiposDAO {
         return lista;
     }
 
-    public void deleteEquipo(int idEquipo) throws SQLException {
+    public void deleteEquipo(int idEquipo) {
         String sql = "DELETE FROM Equipo WHERE id_equipo = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, idEquipo);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al eliminar equipo: " + e.getMessage(), e);
         }
     }
 
@@ -113,7 +119,7 @@ public class EquiposDAO {
                 nombres.add(rs.getString("nombre_equipo"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error al obtener nombres de equipos: " + e.getMessage(), e);
         }
         return nombres;
     }

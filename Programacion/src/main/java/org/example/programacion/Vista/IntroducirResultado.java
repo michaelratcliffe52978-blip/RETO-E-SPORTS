@@ -83,9 +83,12 @@ public class IntroducirResultado implements Initializable {
             return;
         }
 
-        enfrentamientoController.actualizarResultado(nombreE1, nombreE2, marcador1, marcador2);
-
-        navegarAMenu(event);
+            try {
+            enfrentamientoController.actualizarResultado(nombreE1, nombreE2, marcador1, marcador2);
+            navegarAMenu(event);
+        } catch (Exception e) {
+            mostrarAlerta("Error", "No se pudo actualizar el resultado: " + e.getMessage());
+        }
     }
 
     private void navegarAMenu(ActionEvent event) {

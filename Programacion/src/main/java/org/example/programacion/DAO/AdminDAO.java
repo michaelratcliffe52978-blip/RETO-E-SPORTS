@@ -26,12 +26,12 @@ public class AdminDAO {
                 usuarios.add(u);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error al obtener usuarios: " + e.getMessage(), e);
         }
         return usuarios;
     }
 
-    public void insertUsuario(String username, String password, String tipo) throws SQLException {
+    public void insertUsuario(String username, String password, String tipo) {
         String sql = "INSERT INTO USUARIO (NOMBRE_USUARIO, CONTRASENA, TIPO) VALUES (?, ?, ?)";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -40,10 +40,12 @@ public class AdminDAO {
             pstmt.setString(2, password);
             pstmt.setString(3, tipo);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al insertar usuario: " + e.getMessage(), e);
         }
     }
 
-    public void updateUsuario(int idUsuario, String username, String password, String tipo) throws SQLException {
+    public void updateUsuario(int idUsuario, String username, String password, String tipo) {
         String sql = "UPDATE USUARIO SET NOMBRE_USUARIO = ?, CONTRASENA = ?, TIPO = ? WHERE ID_USUARIO = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -53,16 +55,20 @@ public class AdminDAO {
             pstmt.setString(3, tipo);
             pstmt.setInt(4, idUsuario);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al actualizar usuario: " + e.getMessage(), e);
         }
     }
 
-    public void deleteUsuario(int idUsuario) throws SQLException {
+    public void deleteUsuario(int idUsuario) {
         String sql = "DELETE FROM USUARIO WHERE ID_USUARIO = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, idUsuario);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al eliminar usuario: " + e.getMessage(), e);
         }
     }
 }

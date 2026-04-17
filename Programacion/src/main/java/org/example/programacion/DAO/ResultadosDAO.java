@@ -15,9 +15,9 @@ public class ResultadosDAO {
 
         // Corregido: Usamos NOMBRE_EQUIPO que es como se llama en tu tabla Equipo
         String sql = "SELECT e.id_partido, e.fecha_enfrentamiento, e.equipo1, e.equipo2, e.hora, e.id_jornada, " +
-                "(SELECT resultado FROM Equipos_Enfrentamientos WHERE id_partido = e.id_partido AND id_equipo = (SELECT id_equipo FROM Equipos WHERE NOMBRE_EQUIPO = e.equipo1)) as goles_l, " +
-                "(SELECT resultado FROM Equipos_Enfrentamientos WHERE id_partido = e.id_partido AND id_equipo = (SELECT id_equipo FROM Equipos WHERE NOMBRE_EQUIPO = e.equipo2)) as goles_v " +
-                "FROM Enfrentamientos e";
+                "(SELECT resultado FROM EQUIPOS_ENFRENTAMIENTOS WHERE id_partido = e.id_partido AND id_equipo = (SELECT id_equipo FROM EQUIPOS WHERE NOMBRE_EQUIPO = e.equipo1)) as goles_l, " +
+                "(SELECT resultado FROM EQUIPOS_ENFRENTAMIENTOS WHERE id_partido = e.id_partido AND id_equipo = (SELECT id_equipo FROM EQUIPOS WHERE NOMBRE_EQUIPO = e.equipo2)) as goles_v " +
+                "FROM ENFRENTAMIENTOS e";
 
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);

@@ -25,7 +25,7 @@ public class EnfrentamientoDAO {
     }
 
     public void actualizarResultado(int idPartido, int idEq1, String res1, int idEq2, String res2) {
-        String sql = "UPDATE Equipos_Enfrentamientos SET resultado = ? WHERE id_equipo = ? AND id_partido = ?";
+        String sql = "UPDATE EQUIPOS_ENFRENTAMIENTOS SET resultado = ? WHERE id_equipo = ? AND id_partido = ?";
 
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -56,8 +56,8 @@ public class EnfrentamientoDAO {
         String sql = "SELECT e.id_partido, e.equipo1, e.equipo2, e.hora, " +
                 "ee1.resultado as res_eq1, ee2.resultado as res_eq2 " +
                 "FROM ENFRENTAMIENTOS e " +
-                "LEFT JOIN Equipos_Enfrentamientos ee1 ON e.id_partido = ee1.id_partido " +
-                "LEFT JOIN Equipos_Enfrentamientos ee2 ON e.id_partido = ee2.id_partido " +
+                "LEFT JOIN EQUIPOS_ENFRENTAMIENTOS ee1 ON e.id_partido = ee1.id_partido " +
+                "LEFT JOIN EQUIPOS_ENFRENTAMIENTOS ee2 ON e.id_partido = ee2.id_partido " +
                 "WHERE e.id_jornada = ? " +
                 "ORDER BY e.hora";
 
@@ -134,7 +134,7 @@ public class EnfrentamientoDAO {
             conn.setAutoCommit(false);
 
             // Primero eliminar Equipo_Enfrentamiento
-            String sqlDelEquipoEnfr = "DELETE FROM Equipos_Enfrentamientos";
+            String sqlDelEquipoEnfr = "DELETE FROM EQUIPOS_ENFRENTAMIENTOS";
             try (Statement stmt = conn.createStatement()) {
                 stmt.executeUpdate(sqlDelEquipoEnfr);
             }
@@ -231,27 +231,9 @@ public class EnfrentamientoDAO {
                             pstmt.setInt(5, idJornada);
                             pstmt.executeUpdate();
 
-                            // Obtener el ID del partido generado
-                            try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                                if (rs.next()) {
-                                    int idPartido = rs.getInt(1);
-
-                                    // Guardar en Equipo_Enfrentamiento para equipo1
-                                    String sqlEquipoEnfr = "INSERT INTO Equipos_Enfrentamientos (id_equipo, id_partido, resultado) VALUES (?, ?, '-')";
-                                    try (PreparedStatement pstmtEE = conn.prepareStatement(sqlEquipoEnfr)) {
-                                        pstmtEE.setInt(1, local.getIdEquipo());
-                                        pstmtEE.setInt(2, idPartido);
-                                        pstmtEE.executeUpdate();
-                                    }
-
-                                    // Guardar en Equipo_Enfrentamiento para equipo2
-                                    try (PreparedStatement pstmtEE = conn.prepareStatement(sqlEquipoEnfr)) {
-                                        pstmtEE.setInt(1, visitante.getIdEquipo());
-                                        pstmtEE.setInt(2, idPartido);
-                                        pstmtEE.executeUpdate();
-                                    }
-                                }
-                            }
+                            // No insertamos en Equipos_Enfrentamientos aquí porque el trigger
+                            // no permite asignar resultados antes de la fecha del partido.
+                            // Los registros se crearán cuando se introduzcan los resultados reales.
                         }
                         horaPartido = horaPartido.plusHours(2); // Siguiente partido 2 horas después
                     }

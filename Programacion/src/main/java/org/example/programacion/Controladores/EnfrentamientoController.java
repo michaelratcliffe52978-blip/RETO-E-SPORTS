@@ -10,7 +10,7 @@ import java.util.List;
 public class EnfrentamientoController {
 
     public static boolean esEstructuraModificable(int idCompeticion) {
-        String sql = "SELECT estado FROM Competicion WHERE id_competicion = ?";
+        String sql = "SELECT estado FROM COMPETICIONES WHERE id_competicion = ?";
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -39,7 +39,7 @@ public class EnfrentamientoController {
             // Si ya existe, obtener el ID existente
             System.out.println("Jornada ya existe, obteniendo ID: " + e.getMessage());
             try {
-                String sqlSelect = "SELECT ID_JORNADA FROM JORNADA WHERE NUMERO_JORNADA = ?";
+                String sqlSelect = "SELECT ID_JORNADA FROM JORNADAS WHERE NUMERO_JORNADA = ?";
                 try (Connection conn2 = org.example.programacion.Util.ConexionBD.getConnection();
                      PreparedStatement pstmt2 = conn2.prepareStatement(sqlSelect)) {
                     pstmt2.setInt(1, numeroJornada);
@@ -56,10 +56,10 @@ public class EnfrentamientoController {
         }
 
         // 2. Sacamos los nombres de la tabla EQUIPO (que es donde están registrados)
-        String sqlEquipos = "SELECT NOMBRE_EQUIPO FROM EQUIPO";
+        String sqlEquipos = "SELECT NOMBRE_EQUIPO FROM EQUIPOS";
 
         // 3. Insertamos en ENFRENTAMIENTO con tus columnas exactas
-        String sqlInsert = "INSERT INTO ENFRENTAMIENTO (FECHA_ENFRENTAMIENTO, EQUIPO1, EQUIPO2, HORA, ID_JORNADA) VALUES (?, ?, ?, ?, ?)";
+        String sqlInsert = "INSERT INTO ENFRENTAMIENTOS (FECHA_ENFRENTAMIENTO, EQUIPO1, EQUIPO2, HORA, ID_JORNADA) VALUES (?, ?, ?, ?, ?)";
 
         List<String> listaEquipos = new ArrayList<>();
 
@@ -114,7 +114,7 @@ public class EnfrentamientoController {
     }
 
     private static int getIdEquipoByName(String nombre) {
-        String sql = "SELECT id_equipo FROM Equipo WHERE nombre_equipo = ?";
+        String sql = "SELECT id_equipo FROM EQUIPOS WHERE nombre_equipo = ?";
         try (var conn = org.example.programacion.Util.ConexionBD.getConnection();
              var pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);

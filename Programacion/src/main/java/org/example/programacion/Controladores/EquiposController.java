@@ -1,5 +1,6 @@
 package org.example.programacion.Controladores;
 
+import org.example.programacion.DAO.CompeticionDAO;
 import org.example.programacion.DAO.EquiposDAO;
 import org.example.programacion.DAO.JugadoresDAO;
 import org.example.programacion.Modelo.Equipos;
@@ -10,6 +11,7 @@ public class EquiposController {
 
     private EquiposDAO equiposDAO = new EquiposDAO();
     private JugadoresDAO jugadoresDAO = new JugadoresDAO();
+    private CompeticionDAO competicionDAO = new CompeticionDAO();
 
     public List<Equipos> getAllEquipos() {
         List<Equipos> equipos = equiposDAO.getAllEquipos();
@@ -21,6 +23,9 @@ public class EquiposController {
     }
 
     public void saveEquipo(Equipos equipo) {
+        if ("cerrado".equalsIgnoreCase(competicionDAO.getEstado())) {
+            throw new RuntimeException("No se pueden modificar equipos porque las inscripciones están cerradas.");
+        }
         if (equipo.getIdEquipo() == 0) {
             // Nuevo equipo
             equiposDAO.insertEquipo(equipo);
@@ -31,6 +36,9 @@ public class EquiposController {
     }
 
     public void deleteEquipo(int idEquipo) {
+        if ("cerrado".equalsIgnoreCase(competicionDAO.getEstado())) {
+            throw new RuntimeException("No se pueden modificar equipos porque las inscripciones están cerradas.");
+        }
         // Verificar si tiene jugadores
         List<Equipos> equipos = getAllEquipos();
         for (Equipos e : equipos) {

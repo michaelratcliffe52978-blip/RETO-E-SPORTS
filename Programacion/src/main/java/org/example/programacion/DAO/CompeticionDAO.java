@@ -33,4 +33,18 @@ public class CompeticionDAO {
             System.err.println("Error al cerrar inscripciones: " + e.getMessage());
         }
     }
+
+    public String getEstado() {
+        String sql = "SELECT estado FROM Competiciones WHERE ROWNUM = 1";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             var rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString("estado");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener estado: " + e.getMessage());
+        }
+        return null;
+    }
 }

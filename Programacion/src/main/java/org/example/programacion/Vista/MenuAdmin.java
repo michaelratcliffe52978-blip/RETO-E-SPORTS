@@ -40,9 +40,9 @@ public class MenuAdmin {
 
     @FXML
     public void onGenerarCalendario(ActionEvent event) {
-        // 1. REGLA: Mínimo 1 jugador por equipo
-        if (!equiposDAO.validarMinimoJugadores(1)) {
-            mostrarAlerta("Error", "No se puede generar: Hay equipos sin jugadores.");
+        // 1. REGLA: Mínimo 2 jugadores por equipo
+        if (!equiposDAO.validarMinimoJugadores(2)) {
+            mostrarAlerta("Error", "No se puede generar: Hay equipos con menos de 2 jugadores.");
             return;
         }
 
@@ -61,11 +61,17 @@ public class MenuAdmin {
         // 3. Obtener equipos
         List<Equipos> listaEquipos = equiposDAO.getAllEquipos();
 
-        // 4. Generar Round Robin y guardar en BD
+        // 4. Validar que el número de equipos sea par
+        if (listaEquipos.size() % 2 != 0) {
+            mostrarAlerta("Error", "No se puede generar: El número de equipos debe ser par.");
+            return;
+        }
+
+        // 5. Generar Round Robin y guardar en BD
         boolean exito = enfrentamientoDAO.generarYGuardarCalendario(listaEquipos);
 
         if (exito) {
-            // 5. REGLA: Cerrar inscripciones
+            // 6. REGLA: Cerrar inscripciones
             competicionDAO.cerrarInscripciones();
             mostrarAlerta("Éxito", "Calendario generado (una jornada por semana). Inscripciones cerradas.");
         } else {

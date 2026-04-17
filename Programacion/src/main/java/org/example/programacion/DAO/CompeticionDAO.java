@@ -5,8 +5,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Esta clase es la que controla el estado de la competición en la base de datos.
+ * Sirve para saber si todavía se puede apuntar gente o si ya se ha cerrado todo
+ * y no se puede tocar nada más.
+ * * @author equipo4
+ * @version 1.0
+ */
 public class CompeticionDAO {
 
+    /**
+     * Cambia el estado de una competición específica (por ejemplo, a 'abierto' o 'cerrado').
+     * * @param idCompeticion El número de ID de la competición que queremos cambiar.
+     * @param nuevoEstado El texto con el nuevo estado que le queremos poner.
+     * @return true si se ha cambiado bien, false si algo ha fallado por el camino.
+     */
     public boolean actualizarEstado(int idCompeticion, String nuevoEstado) {
         String sql = "UPDATE Competiciones SET estado = ? WHERE id_competicion = ?";
 
@@ -23,6 +36,10 @@ public class CompeticionDAO {
         }
     }
 
+    /**
+     * Chapar las inscripciones. Busca la primera competición que encuentra y le
+     * pone el estado en 'cerrado' para que nadie más pueda meter mano.
+     */
     public void cerrarInscripciones() {
         // Actualiza el estado de la competición a cerrado
         String sql = "UPDATE Competiciones SET estado = 'cerrado' WHERE ROWNUM = 1";
@@ -34,6 +51,10 @@ public class CompeticionDAO {
         }
     }
 
+    /**
+     * Mira en qué estado está la competición ahora mismo.
+     * * @return Un String con el estado (abierto, cerrado, etc.) o null si hay algún lío con el SQL.
+     */
     public String getEstado() {
         String sql = "SELECT estado FROM Competiciones WHERE ROWNUM = 1";
         try (Connection conn = ConexionBD.getConnection();

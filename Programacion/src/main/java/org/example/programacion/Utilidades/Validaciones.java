@@ -5,10 +5,23 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
+/**
+ * Esta clase contiene métodos estáticos para validar las entradas por consola.
+ * Asegura que los datos cumplen con los formatos requeridos (fechas, horas,
+ * números pares, roles específicos) antes de que lleguen a los modelos o DAOs.
+ * * @author equipo4
+ * @version 1.0
+ */
 public class Validaciones {
 
+    /** Escáner compartido para la lectura de datos */
     final private static Scanner sc = new Scanner(System.in);
 
+    /**
+     * Obliga al usuario a introducir una cadena de texto que no sea solo espacios.
+     * @param msg Mensaje informativo para el usuario.
+     * @return El texto validado.
+     */
     private static String leerTextoNoVacio(String msg) {
         String txt;
         do {
@@ -19,6 +32,11 @@ public class Validaciones {
         return txt;
     }
 
+    /**
+     * Valida que la hora introducida cumpla el formato HH:mm.
+     * @param msg Mensaje informativo.
+     * @return Objeto {@link LocalTime} con la hora.
+     */
     private static LocalTime leerHora(String msg) {
         LocalTime hora = null;
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");
@@ -26,11 +44,10 @@ public class Validaciones {
         boolean ok;
         do {
             ok = true;
-
             try {
                 System.out.print(msg);
                 hora = LocalTime.parse(sc.nextLine(), formato);
-            } catch (Exception var5) {
+            } catch (Exception e) {
                 ok = false;
                 System.out.println("Formato inválido. Usa HH:mm.");
             }
@@ -39,6 +56,11 @@ public class Validaciones {
         return hora;
     }
 
+    /**
+     * Valida que el sueldo sea mayor o igual al Salario Mínimo Profesional configurado.
+     * @param msg Mensaje informativo.
+     * @return El valor double validado.
+     */
     private static double leerDoubleMin1221(String msg) {
         double n;
         do {
@@ -51,14 +73,19 @@ public class Validaciones {
 
             n = sc.nextDouble();
             sc.nextLine();
-            if (n < (double)1221.0F) {
-                System.out.print("\nEl número debe ser mayor o igual que 1221. ");
+            if (n < 1221.0) {
+                System.out.print("\nEl número debe ser mayor o igual que 1221 (SMI). ");
             }
-        } while(n < (double)1221.0F);
+        } while(n < 1221.0);
 
         return n;
     }
 
+    /**
+     * Filtra el texto para que solo contenga letras y espacios (mínimo 3 caracteres).
+     * @param msg Mensaje informativo.
+     * @return Texto limpio.
+     */
     private static String leerSoloLetras(String msg) {
         String texto;
         do {
@@ -75,6 +102,10 @@ public class Validaciones {
         return texto;
     }
 
+    /**
+     * Valida que el número de jugadores para un equipo esté entre 2 y 6.
+     * @return El número entero validado.
+     */
     private static int patterNJugadores() {
         String njug;
         do {
@@ -82,19 +113,20 @@ public class Validaciones {
             njug = sc.nextLine();
         } while(!njug.matches("^[2-6]{1}$"));
 
-        int nJugadores = Integer.parseInt(njug);
-        return nJugadores;
+        return Integer.parseInt(njug);
     }
 
+    /**
+     * Asegura que el número de equipos introducido sea par y positivo.
+     * @return Número de equipos validado.
+     */
     private static int patterNEquipos() {
         boolean w = false;
-
         int nequip;
         do {
             System.out.print("Cuantos equipos quiere introducir (par): ");
             nequip = sc.nextInt();
             if (nequip % 2 == 0 && nequip > 0) {
-                nequip = nequip;
                 w = true;
             } else {
                 System.out.println("El número debe ser par y mayor que 0. Inténtalo de nuevo.");
@@ -105,6 +137,10 @@ public class Validaciones {
         return nequip;
     }
 
+    /**
+     * Restringe el resultado de un partido a dos opciones específicas.
+     * @return String con el tipo de resultado.
+     */
     private static String paterResultado() {
         String tipo;
         do {
@@ -115,6 +151,10 @@ public class Validaciones {
         return tipo;
     }
 
+    /**
+     * Valida que el rol del jugador sea uno de los predefinidos en eSports.
+     * @return El rol validado.
+     */
     private static String leerRol() {
         String tipo;
         do {
@@ -125,6 +165,10 @@ public class Validaciones {
         return tipo;
     }
 
+    /**
+     * Controla que el estado de la competición sea válido.
+     * @return El estado validado.
+     */
     private static String leerEstado() {
         String estado;
         do {
@@ -135,6 +179,11 @@ public class Validaciones {
         return estado;
     }
 
+    /**
+     * Valida una fecha en formato dd/MM/yyyy y comprueba que sea en el pasado.
+     * @param msg Mensaje informativo.
+     * @return {@link LocalDate} validado.
+     */
     private static LocalDate leerFechaAnterior(String msg) {
         LocalDate fecha = null;
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -142,7 +191,6 @@ public class Validaciones {
         boolean ok;
         do {
             ok = true;
-
             try {
                 System.out.print(msg);
                 fecha = LocalDate.parse(sc.nextLine(), formato);
@@ -150,7 +198,7 @@ public class Validaciones {
                     ok = false;
                     System.out.println("La fecha debe ser anterior a hoy.");
                 }
-            } catch (Exception var5) {
+            } catch (Exception e) {
                 ok = false;
                 System.out.println("Formato inválido. Usa dd/MM/yyyy.");
             }
@@ -159,6 +207,11 @@ public class Validaciones {
         return fecha;
     }
 
+    /**
+     * Valida una fecha en formato dd/MM/yyyy y comprueba que sea futura.
+     * @param msg Mensaje informativo.
+     * @return {@link LocalDate} validado.
+     */
     private static LocalDate leerFechaPosterior(String msg) {
         LocalDate fecha = null;
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -166,7 +219,6 @@ public class Validaciones {
         boolean ok;
         do {
             ok = true;
-
             try {
                 System.out.print(msg);
                 fecha = LocalDate.parse(sc.nextLine(), formato);
@@ -174,7 +226,7 @@ public class Validaciones {
                     ok = false;
                     System.out.println("La fecha debe ser posterior a hoy.");
                 }
-            } catch (Exception var5) {
+            } catch (Exception e) {
                 ok = false;
                 System.out.println("Formato inválido. Usa dd/MM/yyyy.");
             }
@@ -182,5 +234,4 @@ public class Validaciones {
 
         return fecha;
     }
-
 }

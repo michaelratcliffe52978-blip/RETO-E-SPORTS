@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="27a21f91-f499-43cc-b7dd-bf73a0fd3d63" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../Programacion/src/test/java/org/example/programacion/DAO/CalendarioTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/EnfrentamientoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/EnfrentamientoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/EquiposController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/EquiposController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/InformeEquiposController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/InformeEquiposController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/JornadaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/JornadaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/JugadoresController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/JugadoresController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/UsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Controladores/UsuarioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/AdminDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/AdminDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/CompeticionDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/CompeticionDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/EnfrentamientoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/EnfrentamientoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/EquiposDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/EquiposDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/JornadaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/JornadaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/JugadoresDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/JugadoresDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/ResultadosDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/ResultadosDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/UsuarioDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/DAO/UsuarioDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Admins.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Admins.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Competiciones.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Competiciones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Enfrentamientos.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Enfrentamientos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Equipos.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Equipos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Jornadas.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Jornadas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Jugadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Jugadores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Usuarios.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Modelo/Usuarios.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Utilidades/ConexionBD.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Utilidades/ConexionBD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Utilidades/Validaciones.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Utilidades/Validaciones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/CRUDEquipos.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/CRUDEquipos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/CRUDJugadores.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/CRUDJugadores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/CRUDUsuarios.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/CRUDUsuarios.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/InformeEquipos.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/InformeEquipos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/InformeResultados.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/InformeResultados.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/InicioSesionAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/InicioSesionAdmin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/InicioSesionUsuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/InicioSesionUsuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/IntroducirResultado.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/IntroducirResultado.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/MenuAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/MenuAdmin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/MenuCRUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/MenuCRUD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/MenuUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/MenuUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/Vista1.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/Vista1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/Vista2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../Programacion/src/main/java/org/example/programacion/Vista/Vista2.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/141GA01/Desktop/Pruebas" value="3CTUpfclLjqYaijEYuqN3YcAaB0" />
+      <entry key="_C:/Users/141GA01/RETO-E-SPORTS/Entornos de Desarrollo/Pruebas" value="3CU3YIDAlZ5PHTfP6tpwx3Si2U1" />
+    </persistenceIdMap>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="3CTUpfclLjqYaijEYuqN3YcAaB0" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.CalendarioTest.testEquiposImpares.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CalendarioTest.testEquiposImparesAMano.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CalendarioTest.testEquiposPares.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CalendarioTest.testEquiposParesAMano.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CalendarioTest.testJugadores.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CalendarioTest.testParidad.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/141GA01/RETO-E-SPORTS/Entornos de Desarrollo/Pruebas&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/141GA01/Desktop/Pruebas/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.example" />
+      <recent name="org.example.DAO" />
+      <recent name="org.example.Utilidades" />
+      <recent name="org.example.Vista" />
+      <recent name="org.example.Modelo" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.CalendarioTest.testParidad">
+    <configuration name="CalendarioTest.testEquiposImpares" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Pruebas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.CalendarioTest" />
+      <option name="METHOD_NAME" value="testEquiposImpares" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CalendarioTest.testEquiposPares" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Pruebas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.CalendarioTest" />
+      <option name="METHOD_NAME" value="testEquiposPares" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CalendarioTest.testEquiposParesAMano" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Pruebas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.CalendarioTest" />
+      <option name="METHOD_NAME" value="testEquiposParesAMano" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CalendarioTest.testJugadores" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Pruebas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.CalendarioTest" />
+      <option name="METHOD_NAME" value="testJugadores" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CalendarioTest.testParidad" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Pruebas" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.example" />
+      <option name="MAIN_CLASS_NAME" value="org.example.CalendarioTest" />
+      <option name="METHOD_NAME" value="testParidad" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.CalendarioTest.testParidad" />
+        <item itemvalue="JUnit.CalendarioTest.testJugadores" />
+        <item itemvalue="JUnit.CalendarioTest.testEquiposPares" />
+        <item itemvalue="JUnit.CalendarioTest.testEquiposImpares" />
+        <item itemvalue="JUnit.CalendarioTest.testEquiposParesAMano" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26927.53" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.26927.53" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="27a21f91-f499-43cc-b7dd-bf73a0fd3d63" name="Changes" comment="" />
+      <created>1776409239800</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1776409239800</updated>
+      <workItem from="1776409240864" duration="7102000" />
+      <workItem from="1776421760928" duration="2972000" />
+      <workItem from="1776426367817" duration="288000" />
+      <workItem from="1776426687500" duration="4000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

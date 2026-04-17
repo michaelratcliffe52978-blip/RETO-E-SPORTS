@@ -1,15 +1,27 @@
 package org.example.programacion.DAO;
 
 import org.example.programacion.Modelo.Equipos;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Esta clase es el cerebro de los partidos en la base de datos.
+ * Se encarga de buscar IDs de partidos, actualizar los goles/puntos,
+ * y lo más importante: generar el calendario de toda la temporada.
+ * * @author equipo4
+ * @version 1.0
+ */
 public class EnfrentamientoDAO {
-    // --- MÉTODOS EXISTENTES ---
 
+    /**
+     * Busca el ID de un partido sabiendo qué dos equipos juegan.
+     * * @param equipo1 Nombre del equipo local.
+     * @param equipo2 Nombre del equipo visitante.
+     * @return El ID numérico del partido.
+     * @throws RuntimeException Si no encuentra ese partido en la tabla.
+     */
     public int getEnfrentamientoIdByEquipos(String equipo1, String equipo2) {
         String sql = "SELECT ID_PARTIDO FROM ENFRENTAMIENTOS WHERE EQUIPO1 = ? AND EQUIPO2 = ?";
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
@@ -19,11 +31,20 @@ public class EnfrentamientoDAO {
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) return rs.getInt("ID_PARTIDO");
         } catch (SQLException e) {
-            throw new RuntimeException("Error al obtener enfrentamiento: " + e.getMessage(), e);
+            throw new RuntimeException("Error al buscar el partido: " + e.getMessage(), e);
         }
-        throw new RuntimeException("Enfrentamiento no encontrado");
+        throw new RuntimeException("No he encontrado el partido entre " + equipo1 + " y " + equipo2);
     }
 
+    /**
+     * Actualiza los resultados de ambos equipos en un partido concreto.
+     * Se mete en la tabla intermedia EQUIPOS_ENFRENTAMIENTOS.
+     * * @param idPartido ID del enfrentamiento.
+     * @param idEq1 ID del primer equipo.
+     * @param res1 Resultado (goles/puntos) del primer equipo.
+     * @param idEq2 ID del segundo equipo.
+     * @param res2 Resultado del segundo equipo.
+     */
     public void actualizarResultado(int idPartido, int idEq1, String res1, int idEq2, String res2) {
         String sql = "UPDATE EQUIPOS_ENFRENTAMIENTOS SET resultado = ? WHERE id_equipo = ? AND id_partido = ?";
 
@@ -42,14 +63,16 @@ public class EnfrentamientoDAO {
             pstmt.setInt(3, idPartido);
             pstmt.executeUpdate();
 
-            System.out.println("Resultados actualizados - Partido: " + idPartido + ", Eq1: " + res1 + ", Eq2: " + res2);
         } catch (SQLException e) {
-            throw new RuntimeException("Error al actualizar resultado: " + e.getMessage(), e);
+            throw new RuntimeException("Fallo al actualizar el marcador: " + e.getMessage(), e);
         }
     }
 
     /**
-     * Obtiene todos los enfrentamientos de una jornada específica con sus resultados
+     * Saca una lista de textos con todos los partidos y resultados de una jornada.
+     * Útil para que el usuario vea cómo quedaron los partidos en el historial.
+     * * @param idJornada El ID de la jornada que queremos cotillear.
+     * @return Lista de Strings formateados con los resultados.
      */
     public List<String> obtenerEnfrentamientosDeJornada(int idJornada) {
         java.util.List<String> resultados = new java.util.ArrayList<>();
@@ -77,15 +100,16 @@ public class EnfrentamientoDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al obtener enfrentamientos de jornada: " + e.getMessage(), e);
+            throw new RuntimeException("Error al traer los partidos de la jornada: " + e.getMessage(), e);
         }
         return resultados;
     }
 
-
-
     /**
-     * Valida que todos los equipos tengan al menos el número de jugadores indicado.
+     * Comprueba si todos los equipos tienen al menos X jugadores.
+     * Si alguno está "cojo", devuelve false para que no se pueda empezar la liga.
+     * * @param minimo Cuántos jugadores debe tener cada equipo como poco.
+     * @return true si todos cumplen, false si falta gente.
      */
     public boolean validarMinimoJugadores(int minimo) {
         String sql = "SELECT COUNT(*) FROM JUGADORES WHERE ID_EQUIPO = ?";
@@ -104,12 +128,13 @@ public class EnfrentamientoDAO {
             }
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException("Error al validar mínimo de jugadores: " + e.getMessage(), e);
+            throw new RuntimeException("Fallo al validar las plantillas: " + e.getMessage(), e);
         }
     }
 
     /**
-     * Verifica si ya existe un calendario creado
+     * Mira si ya hay partidos metidos en la tabla de ENFRENTAMIENTOS.
+     * * @return true si ya hay un calendario hecho.
      */
     public boolean existeCalendario() {
         String sql = "SELECT COUNT(*) as total FROM ENFRENTAMIENTOS";
@@ -121,53 +146,49 @@ public class EnfrentamientoDAO {
                 return rs.getInt("total") > 0;
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al verificar calendario: " + e.getMessage(), e);
+            throw new RuntimeException("Error al chequear si ya hay calendario: " + e.getMessage(), e);
         }
         return false;
     }
 
     /**
-     * Elimina el calendario anterior (jornadas y enfrentamientos)
+     * Borra todo el calendario: resultados, enfrentamientos y jornadas.
+     * Se usa para "limpiar la pizarra" antes de generar uno nuevo.
      */
     public void eliminarCalendarioAnterior() {
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection()) {
-            conn.setAutoCommit(false);
+            conn.setAutoCommit(false); // Por si falla, que no borre a medias
 
-            // Primero eliminar Equipo_Enfrentamiento
+            // Borramos de abajo a arriba por las claves foráneas
             String sqlDelEquipoEnfr = "DELETE FROM EQUIPOS_ENFRENTAMIENTOS";
-            try (Statement stmt = conn.createStatement()) {
-                stmt.executeUpdate(sqlDelEquipoEnfr);
-            }
+            try (Statement stmt = conn.createStatement()) { stmt.executeUpdate(sqlDelEquipoEnfr); }
 
-            // Eliminar enfrentamientos
             String sqlDelEnfr = "DELETE FROM ENFRENTAMIENTOS";
-            try (Statement stmt = conn.createStatement()) {
-                stmt.executeUpdate(sqlDelEnfr);
-            }
+            try (Statement stmt = conn.createStatement()) { stmt.executeUpdate(sqlDelEnfr); }
 
-            // Eliminar jornadas
             String sqlDelJornada = "DELETE FROM JORNADAS";
-            try (Statement stmt = conn.createStatement()) {
-                stmt.executeUpdate(sqlDelJornada);
-            }
+            try (Statement stmt = conn.createStatement()) { stmt.executeUpdate(sqlDelJornada); }
 
             conn.commit();
-            System.out.println("Calendario anterior eliminado correctamente");
         } catch (SQLException e) {
-            throw new RuntimeException("Error al eliminar calendario anterior: " + e.getMessage(), e);
+            throw new RuntimeException("No se ha podido borrar el calendario viejo: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * El método "tocho". Genera un calendario automático tipo liga.
+     * Si son impares, añade un equipo de descanso. Crea las jornadas y los cruces.
+     * * @param equipos Lista de equipos apuntados.
+     * @return true si se ha generado guay.
+     */
     public boolean generarYGuardarCalendario(List<Equipos> equipos) {
         if (equipos.size() < 2) return false;
 
-        // Verificar si existe calendario anterior
         if (existeCalendario()) {
             eliminarCalendarioAnterior();
-            System.out.println("Calendario anterior eliminado. Generando nuevo calendario...");
         }
 
-        // Si el número de equipos es impar, añadimos un equipo "fantasma" para el descanso
+        // Si son impares, metemos uno de descanso para que cuadren los emparejamientos
         if (equipos.size() % 2 != 0) {
             equipos.add(new Equipos(-1, "DESCANSO", null));
         }
@@ -176,13 +197,13 @@ public class EnfrentamientoDAO {
         int numJornadas = numEquipos - 1;
         int partidosPorJornada = numEquipos / 2;
 
-        LocalDate fechaJornada = LocalDate.now().plusDays(7); // Primera jornada en una semana
+        LocalDate fechaJornada = LocalDate.now().plusDays(7);
 
         try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection()) {
-            conn.setAutoCommit(false); // Para seguridad, si falla algo no guarda nada
+            conn.setAutoCommit(false);
 
             for (int i = 0; i < numJornadas; i++) {
-                // Primero, crear la jornada si no existe
+                // Crear la jornada
                 String sqlInsertJornada = "INSERT INTO JORNADAS (NUMERO_JORNADA, FECHA_JORNADA) VALUES (?, ?)";
                 int idJornada = -1;
 
@@ -190,61 +211,51 @@ public class EnfrentamientoDAO {
                     pstmt.setInt(1, (i + 1));
                     pstmt.setDate(2, java.sql.Date.valueOf(fechaJornada));
                     pstmt.executeUpdate();
-
                     try (ResultSet rs = pstmt.getGeneratedKeys()) {
-                        if (rs.next()) {
-                            idJornada = rs.getInt(1);
-                        }
+                        if (rs.next()) idJornada = rs.getInt(1);
                     }
                 } catch (SQLException e) {
-                    // Si ya existe, intentar obtenerla
+                    // Si ya existe por algún motivo, pillamos su ID
                     String sqlGetJornada = "SELECT ID_JORNADA FROM JORNADAS WHERE NUMERO_JORNADA = ?";
                     try (PreparedStatement pstmt = conn.prepareStatement(sqlGetJornada)) {
                         pstmt.setInt(1, (i + 1));
                         try (ResultSet rs = pstmt.executeQuery()) {
-                            if (rs.next()) {
-                                idJornada = rs.getInt("ID_JORNADA");
-                            }
+                            if (rs.next()) idJornada = rs.getInt("ID_JORNADA");
                         }
                     }
                 }
 
-                LocalTime horaPartido = LocalTime.of(10, 0); // Empieza a las 10:00
+                LocalTime horaPartido = LocalTime.of(10, 0);
 
+                // Algoritmo para cruzar a todos contra todos
                 for (int j = 0; j < partidosPorJornada; j++) {
                     int localIdx = (i + j) % (numEquipos - 1);
                     int visitanteIdx = (numEquipos - 1 - j + i) % (numEquipos - 1);
-
                     if (j == 0) visitanteIdx = numEquipos - 1;
 
                     Equipos local = equipos.get(localIdx);
                     Equipos visitante = equipos.get(visitanteIdx);
 
-                    // No guardamos el partido si uno es el equipo de descanso
+                    // Si no es el equipo de descanso, guardamos el partido
                     if (local.getIdEquipo() != -1 && visitante.getIdEquipo() != -1 && idJornada != -1) {
                         String sql = "INSERT INTO ENFRENTAMIENTOS (FECHA_ENFRENTAMIENTO, EQUIPO1, EQUIPO2, HORA, ID_JORNADA) VALUES (?, ?, ?, ?, ?)";
-                        try (PreparedStatement pstmt = conn.prepareStatement(sql, new String[]{"ID_PARTIDO"})) {
+                        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                             pstmt.setDate(1, java.sql.Date.valueOf(fechaJornada));
                             pstmt.setString(2, local.getNombreEquipo());
                             pstmt.setString(3, visitante.getNombreEquipo());
                             pstmt.setString(4, horaPartido.toString());
                             pstmt.setInt(5, idJornada);
                             pstmt.executeUpdate();
-
-                            // No insertamos en Equipos_Enfrentamientos aquí porque el trigger
-                            // no permite asignar resultados antes de la fecha del partido.
-                            // Los registros se crearán cuando se introduzcan los resultados reales.
                         }
-                        horaPartido = horaPartido.plusHours(2); // Siguiente partido 2 horas después
+                        horaPartido = horaPartido.plusHours(2);
                     }
                 }
-                fechaJornada = fechaJornada.plusWeeks(1); // Una jornada por semana
+                fechaJornada = fechaJornada.plusWeeks(1);
             }
             conn.commit();
-            System.out.println("Nuevo calendario generado correctamente");
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException("Error al generar calendario: " + e.getMessage(), e);
+            throw new RuntimeException("Error fatal generando el calendario: " + e.getMessage(), e);
         }
     }
 }

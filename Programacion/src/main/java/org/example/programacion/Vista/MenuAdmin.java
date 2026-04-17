@@ -17,78 +17,117 @@ import org.example.programacion.Modelo.Equipos;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Clase controladora del Menú Principal de Administración.
+ * Centraliza las operaciones críticas del sistema: gestión de datos (CRUD),
+ * registro de resultados y la lógica de generación automática del calendario
+ * de la competición mediante el algoritmo Round Robin.
+ * * @author equipo4
+ * @version 1.0
+ */
 public class MenuAdmin {
 
+    /** Acceso a la persistencia de competiciones */
     private CompeticionDAO competicionDAO = new CompeticionDAO();
+    /** Acceso a la persistencia de equipos y validaciones de plantilla */
     private EquiposDAO equiposDAO = new EquiposDAO();
+    /** Acceso a la persistencia y generación de jornadas/enfrentamientos */
     private EnfrentamientoDAO enfrentamientoDAO = new EnfrentamientoDAO();
 
+    /**
+     * Navega hacia el submenú de gestión de datos (Usuarios, Equipos, Jugadores).
+     * @param event Evento de acción del botón.
+     */
     @FXML
     public void onCRUD(ActionEvent event) {
         cambiarEscena(event, "/org/example/programacion/MenuCRUD.fxml");
     }
 
+    /**
+     * Navega hacia la pantalla de introducción de marcadores de partidos.
+     * @param event Evento de acción del botón.
+     */
     @FXML
     public void onIntroducir(ActionEvent event) {
         cambiarEscena(event, "/org/example/programacion/IntroducirResultado.fxml");
     }
 
+    /**
+     * Finaliza la sesión actual y regresa a la pantalla de selección de rol.
+     * @param event Evento de acción del botón.
+     */
     @FXML
     public void CerrarSesion(ActionEvent event) {
         cambiarEscena(event, "/org/example/programacion/2.Vista.fxml");
     }
 
+    /**
+     * Orquestador de la generación del calendario de liga.
+     * Aplica las reglas de negocio:
+     * 1. Verifica que todos los equipos tengan al menos 2 jugadores.
+     * 2. Gestiona la sobreescritura si ya existe un calendario previo.
+     * 3. Valida que el número de equipos sea par para el emparejamiento.
+     * 4. Ejecuta el algoritmo de generación y cierra las inscripciones de la competición.
+     * @param event Evento de acción del botón.
+     */
     @FXML
     public void onGenerarCalendario(ActionEvent event) {
-        // 1. REGLA: Mínimo 2 jugadores por equipo
+        // REGLA 1: Mínimo de jugadores por equipo (Validación de integridad)
         if (!equiposDAO.validarMinimoJugadores(2)) {
-            mostrarAlerta("Error", "No se puede generar: Hay equipos con menos de 2 jugadores.");
+            mostrarAlerta("Error de Integridad", "No se puede generar el calendario: Existen equipos con plantillas incompletas (mín. 2 jugadores).");
             return;
         }
 
-        // 2. Verificar si el calendario ya existe
+        // REGLA 2: Control de duplicidad de calendario
         if (enfrentamientoDAO.existeCalendario()) {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-            confirm.setTitle("Calendario Existente");
-            confirm.setHeaderText("Ya existe un calendario generado");
-            confirm.setContentText("¿Deseas eliminar el calendario anterior y generar uno nuevo?");
-            
+            confirm.setTitle("Calendario Detectado");
+            confirm.setHeaderText("Ya existe un calendario en la base de datos.");
+            confirm.setContentText("¿Deseas eliminarlo y generar uno nuevo? Esta acción no se puede deshacer.");
+
             if (confirm.showAndWait().get() != ButtonType.OK) {
-                return; // El usuario canceló
+                return;
             }
         }
 
-        // 3. Obtener equipos
         List<Equipos> listaEquipos = equiposDAO.getAllEquipos();
 
-        // 4. Validar que el número de equipos sea par
+        // REGLA 3: Validación matemática para emparejamientos
         if (listaEquipos.size() % 2 != 0) {
-            mostrarAlerta("Error", "No se puede generar: El número de equipos debe ser par.");
+            mostrarAlerta("Configuración Inválida", "El número de equipos debe ser par para generar enfrentamientos directos.");
             return;
         }
 
-        // 5. Generar Round Robin y guardar en BD
+        // Ejecución del algoritmo y persistencia
         boolean exito = enfrentamientoDAO.generarYGuardarCalendario(listaEquipos);
 
         if (exito) {
-            // 6. REGLA: Cerrar inscripciones
+            // REGLA 4: Bloqueo de inscripciones tras iniciar la liga
             competicionDAO.cerrarInscripciones();
-            mostrarAlerta("Éxito", "Calendario generado (una jornada por semana). Inscripciones cerradas.");
+            mostrarAlerta("Proceso Completado", "Calendario generado con éxito. Se han cerrado las inscripciones de nuevos equipos.");
         } else {
-            mostrarAlerta("Error", "Error al guardar el calendario. Revisa la conexión.");
+            mostrarAlerta("Error Crítico", "No se pudo guardar el calendario. Verifique la conexión con Oracle.");
         }
     }
 
+    /**
+     * Cambia manualmente el estado de la competición a 'cerrado'.
+     * @param event Evento de acción del botón.
+     */
     @FXML
     public void onCerrarEstado(ActionEvent event) {
-        int idCompeticion = 1; // Este ID debería venir de la selección del usuario
+        int idCompeticion = 1;
 
         if (competicionDAO.actualizarEstado(idCompeticion, "cerrado")) {
-            mostrarAlerta("Estado Actualizado", "La competición ha sido cerrada.");
+            mostrarAlerta("Estado Actualizado", "La competición ha sido cerrada oficialmente.");
         }
     }
 
-    // Método auxiliar para no repetir código de cambio de ventana
+    /**
+     * Método genérico para la transición entre escenas FXML.
+     * @param event Evento que origina el cambio.
+     * @param fxmlPath Ruta relativa al archivo FXML de destino.
+     */
     private void cambiarEscena(ActionEvent event, String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -97,10 +136,14 @@ public class MenuAdmin {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
+            System.err.println("Fallo al cargar la vista: " + fxmlPath);
             e.printStackTrace();
         }
     }
 
+    /**
+     * Muestra diálogos informativos al administrador.
+     */
     private void mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
@@ -108,4 +151,25 @@ public class MenuAdmin {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
+
+
+    //ESTA PARTE DEL CÓDIGO ES PARA GENERAR EL CALENDARIOTEST
+    // Regla 1: Paridad de equipos
+    public boolean esNumeroDeEquiposValido(List<Equipos> equipos) {
+        if (equipos == null || equipos.isEmpty()) {
+            return false;
+        }
+        return equipos.size() % 2 == 0;
+    }
+
+    // Regla 2: Rango de jugadores (mínimo 2, máximo 6)
+    public boolean tieneJugadoresValidos(Equipos equipo) {
+        // Regla 2.6: Seguridad contra nulos
+        if (equipo == null) {
+            return false;
+        }
+        int cantidad = equipo.getCantidadJugadores();
+        return cantidad >= 2 && cantidad <= 6;
+    }
+
 }

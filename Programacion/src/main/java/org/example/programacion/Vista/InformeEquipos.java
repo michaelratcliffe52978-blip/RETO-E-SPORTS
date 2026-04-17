@@ -17,14 +17,22 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Controlador para la vista de Informes de Equipos.
+ * Esta pantalla permite a los usuarios (perfil 'USER' o 'ADMIN') consultar
+ * la plantilla detallada de cada equipo seleccionándolo desde un desplegable.
+ * * @author equipo4
+ * @version 1.0
+ */
 public class InformeEquipos {
 
+    /** Selector desplegable con los nombres de los equipos registrados */
     @FXML private ComboBox<String> comboEquipos;
 
-    // La tabla ahora usa tu clase del modelo
+    /** Tabla que muestra los integrantes del equipo seleccionado */
     @FXML private TableView<Jugadores> tablaIntegrantes;
 
-    // Definimos todas las columnas necesarias según tu clase Jugadores
+    // --- COLUMNAS DE LA TABLA ---
     @FXML private TableColumn<Jugadores, String> colNickname;
     @FXML private TableColumn<Jugadores, String> colNombre;
     @FXML private TableColumn<Jugadores, String> colApellido;
@@ -33,11 +41,16 @@ public class InformeEquipos {
     @FXML private TableColumn<Jugadores, Double> colSueldo;
     @FXML private TableColumn<Jugadores, LocalDate> colFechaNac;
 
+    /** DAO para acceder a los datos de equipos y sus plantillas */
     private EquiposDAO equipoDAO = new EquiposDAO();
 
+    /**
+     * Inicializa la vista configurando el mapeo de las columnas con la clase {@link Jugadores}
+     * y cargando la lista de nombres de equipos en el ComboBox.
+     */
     @FXML
     public void initialize() {
-        // Configuración de celdas: El texto debe ser IGUAL al nombre del atributo en la clase Jugadores
+        // Vinculación de columnas: El nombre debe coincidir con los atributos de la clase Jugadores
         colNickname.setCellValueFactory(new PropertyValueFactory<>("nickname"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombreJugador"));
         colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
@@ -46,32 +59,40 @@ public class InformeEquipos {
         colSueldo.setCellValueFactory(new PropertyValueFactory<>("sueldo"));
         colFechaNac.setCellValueFactory(new PropertyValueFactory<>("fechaNacimiento"));
 
-        // Cargar los nombres de los equipos desde el DAO
-        // Usamos getAllEquipoNames() que es el método que tienes implementado y con datos
+        // Carga inicial del ComboBox desde la base de datos
         List<String> nombres = equipoDAO.getAllEquipoNames();
         comboEquipos.setItems(FXCollections.observableArrayList(nombres));
     }
 
+    /**
+     * Evento que se dispara al seleccionar un equipo.
+     * Recupera la lista de jugadores asociados a ese nombre y refresca la tabla.
+     * @param event Evento de selección en el ComboBox.
+     */
     @FXML
     void onEquipoSeleccionado(ActionEvent event) {
         String nombreEquipo = comboEquipos.getValue();
         if (nombreEquipo != null) {
-            // Llamamos al método del DAO que busca jugadores por el nombre del equipo
+            // Consulta al DAO para obtener los integrantes del equipo seleccionado
             List<Jugadores> lista = equipoDAO.getJugadoresPorEquipo(nombreEquipo);
             tablaIntegrantes.setItems(FXCollections.observableArrayList(lista));
         }
     }
 
+    /**
+     * Gestiona el regreso al menú de usuario.
+     * @param event Evento de pulsación del botón Volver.
+     */
     @FXML
     void onVolver(ActionEvent event) {
         try {
-            // Asegúrate de que la ruta al FXML sea correcta
+            // Carga de la vista principal del usuario
             Parent root = FXMLLoader.load(getClass().getResource("/org/example/programacion/MenuUser.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            System.err.println("Error al volver al menú: " + e.getMessage());
+            System.err.println("Error al navegar al menú de usuario: " + e.getMessage());
         }
     }
 }

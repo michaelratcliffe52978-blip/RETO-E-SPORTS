@@ -24,7 +24,7 @@ public class EnfrentamientoController {
      */
     public static boolean esEstructuraModificable(int idCompeticion) {
         String sql = "SELECT estado FROM COMPETICIONES WHERE id_competicion = ?";
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, idCompeticion);
@@ -60,7 +60,7 @@ public class EnfrentamientoController {
             System.out.println("Esa jornada ya estaba ahí, pillando el ID...");
             try {
                 String sqlSelect = "SELECT ID_JORNADA FROM JORNADAS WHERE NUMERO_JORNADA = ?";
-                try (Connection conn2 = org.example.programacion.Util.ConexionBD.getConnection();
+                try (Connection conn2 = org.example.programacion.Utilidades.ConexionBD.getConnection();
                      PreparedStatement pstmt2 = conn2.prepareStatement(sqlSelect)) {
                     pstmt2.setInt(1, numeroJornada);
                     ResultSet rs = pstmt2.executeQuery();
@@ -81,7 +81,7 @@ public class EnfrentamientoController {
 
         List<String> listaEquipos = new ArrayList<>();
 
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection()) {
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection()) {
             // Metemos los nombres de los equipos en una lista
             try (Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery(sqlEquipos)) {
@@ -147,7 +147,7 @@ public class EnfrentamientoController {
      */
     private static int getIdEquipoByName(String nombre) {
         String sql = "SELECT id_equipo FROM EQUIPOS WHERE nombre_equipo = ?";
-        try (var conn = org.example.programacion.Util.ConexionBD.getConnection();
+        try (var conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
              var pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombre);
             var rs = pstmt.executeQuery();

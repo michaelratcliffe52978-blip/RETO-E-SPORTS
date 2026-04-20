@@ -2,6 +2,7 @@ module org.example.programacion {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires ojdbc8;
 
     opens org.example.programacion to javafx.fxml;
     exports org.example.programacion;
@@ -18,6 +19,6 @@ module org.example.programacion {
     opens org.example.programacion.DAO to javafx.fxml;
     exports org.example.programacion.DAO;
 
-    opens org.example.programacion.Util to javafx.fxml;
-    exports org.example.programacion.Util;
+    opens org.example.programacion.Utilidades to javafx.fxml;
+    exports org.example.programacion.Utilidades;
 }

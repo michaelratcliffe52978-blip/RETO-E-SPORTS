@@ -1,11 +1,18 @@
 package org.example.programacion.Controladores;
 
+import oracle.jdbc.OracleTypes;
 import org.example.programacion.DAO.CompeticionDAO;
 import org.example.programacion.DAO.EquiposDAO;
 import org.example.programacion.DAO.JugadoresDAO;
 import org.example.programacion.Modelo.Jugadores;
 
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import static oracle.jdbc.replay.OracleDataSource.URL;
+import static oracle.jdbc.replay.OracleDataSource.USER;
+import static org.example.programacion.Utilidades.ConexionBD.PASS;
 
 /**
  * Este controlador es el que maneja a todos los jugadores del torneo.
@@ -94,7 +101,7 @@ public class JugadoresController {
      */
     private int getIdEquipoByName(String nombreEquipo) {
         String sql = "SELECT id_equipo FROM EQUIPOS WHERE nombre_equipo = ?";
-        try (var conn = org.example.programacion.Util.ConexionBD.getConnection();
+        try (var conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
              var pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nombreEquipo);
             var rs = pstmt.executeQuery();

@@ -3,7 +3,7 @@ package org.example.programacion.DAO;
 import org.example.programacion.Modelo.Enfrentamientos;
 import org.example.programacion.Modelo.Equipos;
 import org.example.programacion.Modelo.Jornadas;
-import org.example.programacion.Util.ConexionBD;
+import org.example.programacion.Utilidades.ConexionBD;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

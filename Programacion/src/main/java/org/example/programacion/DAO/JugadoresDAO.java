@@ -1,7 +1,7 @@
 package org.example.programacion.DAO;
 
 import org.example.programacion.Modelo.Jugadores;
-import org.example.programacion.Util.ConexionBD;
+import org.example.programacion.Utilidades.ConexionBD;
 
 import java.sql.*;
 import java.util.ArrayList;

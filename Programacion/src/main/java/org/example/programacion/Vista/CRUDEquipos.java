@@ -17,6 +17,8 @@ import org.example.programacion.Modelo.Equipos;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -36,6 +38,12 @@ public class CRUDEquipos implements Initializable {
 
     @FXML private TextField txtId, txtNombre;
     @FXML private DatePicker dateFecha;
+
+
+    /**
+     * Botón para generar un informe detallado de los jugadores asociados a un equipo seleccionado.
+     */
+    @FXML private Button btnInforme;
 
     /** Etiqueta para mostrar información adicional de la plantilla seleccionada */
     @FXML private Label lblInfoJugadores;
@@ -68,6 +76,52 @@ public class CRUDEquipos implements Initializable {
                 }
             }
         });
+    }
+
+
+
+    /**
+     * Genera un informe detallado de los jugadores asociados a un equipo seleccionado.
+     */
+
+    /**
+     * Genera el informe del equipo seleccionado en la tabla.
+     */
+    @FXML
+    private void onGenerarInformeClick() {
+        // Obtenemos directamente de la tabla
+        Equipos seleccionado = tablaEquipos.getSelectionModel().getSelectedItem();
+
+        if (seleccionado == null) {
+            mostrarAlerta("Atención", "Debes seleccionar un equipo de la tabla primero.");
+            return;
+        }
+
+        try {
+            // Llamada al controlador
+            List<String> datos = equiposController.obtenerInformeJugadores(seleccionado.getNombreEquipo());
+
+            // Mostrar resultado
+            TextArea textArea = new TextArea(String.join("\n", datos));
+            textArea.setEditable(false);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Informe de Equipo");
+            alert.setHeaderText("Jugadores del equipo: " + seleccionado.getNombreEquipo());
+            alert.getDialogPane().setContent(textArea);
+            alert.showAndWait();
+
+        } catch (SQLException e) {
+            // Manejo de errores del procedimiento almacenado
+            String msg = e.getMessage();
+            if (msg.contains("ORA-20005")) {
+                mostrarAlerta("Error", "El equipo no existe.");
+            } else if (msg.contains("ORA-20007")) {
+                mostrarAlerta("Error", "El equipo existe pero no tiene jugadores.");
+            } else {
+                mostrarAlerta("Error", "Error inesperado: " + e.getMessage());
+            }
+        }
     }
 
     /**

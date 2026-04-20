@@ -1,6 +1,6 @@
 package org.example.programacion.DAO;
 
-import org.example.programacion.Util.ConexionBD;
+import org.example.programacion.Utilidades.ConexionBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

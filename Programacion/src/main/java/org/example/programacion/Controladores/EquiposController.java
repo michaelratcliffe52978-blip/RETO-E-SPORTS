@@ -1,10 +1,17 @@
 package org.example.programacion.Controladores;
 
+import oracle.jdbc.OracleTypes;
 import org.example.programacion.DAO.CompeticionDAO;
 import org.example.programacion.DAO.EquiposDAO;
 import org.example.programacion.DAO.JugadoresDAO;
 import org.example.programacion.Modelo.Equipos;
+import org.example.programacion.Vista.EstadisticasEquipos;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +42,64 @@ public class EquiposController {
             equipo.getListaJugadores().addAll(jugadoresDAO.getJugadoresByEquipoId(equipo.getIdEquipo()));
         }
         return equipos;
+    }
+
+    /**
+     * Este metodo es un poco más especial: llama a un procedimiento almacenado
+     * que devuelve un cursor con los jugadores de un equipo concreto, junto con su rol y sueldo.
+     */
+    // En tu clase EquiposController
+    public List<String> obtenerInformeJugadores(String nombreEquipo) throws SQLException {
+        List<String> informe = new ArrayList<>();
+        String sql = "{call informe_jugadores_equipo(?, ?)}";
+
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
+             CallableStatement stmt = conn.prepareCall(sql)) {
+
+            stmt.setString(1, nombreEquipo);
+            stmt.registerOutParameter(2, OracleTypes.CURSOR);
+            stmt.execute();
+
+            try (ResultSet rs = (ResultSet) stmt.getObject(2)) {
+                while (rs.next()) {
+                    informe.add(rs.getString("nombre_completo") + " | " +
+                            rs.getString("rol") + " | " +
+                            rs.getDouble("sueldo"));
+                }
+            }
+        }
+        return informe;
+    }
+
+
+    /**
+     * Este método llama a un procedimiento almacenado que devuelve un cursor con las estadísticas de todos los equipos,
+     * incluyendo el número de jugadores, sueldo máximo, mínimo y medio.
+     */
+    public List<EstadisticasEquipos.EstadisticasRow> obtenerEstadisticasParaTabla() throws SQLException {
+        List<EstadisticasEquipos.EstadisticasRow> lista = new ArrayList<>();
+        String sql = "{call informe_estadisticas_equipos(?)}";
+
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
+             CallableStatement stmt = conn.prepareCall(sql)) {
+
+            stmt.registerOutParameter(1, oracle.jdbc.OracleTypes.CURSOR);
+            stmt.execute();
+
+            try (ResultSet rs = (ResultSet) stmt.getObject(1)) {
+                while (rs.next()) {
+                    lista.add(new EstadisticasEquipos.EstadisticasRow(
+                            rs.getString("nombre_equipo"),
+                            rs.getString("fecha_fundacion"),
+                            rs.getInt("num_jugadores"),
+                            rs.getDouble("sueldo_max"),
+                            rs.getDouble("sueldo_min"),
+                            rs.getDouble("sueldo_medio")
+                    ));
+                }
+            }
+        }
+        return lista;
     }
 
     /**

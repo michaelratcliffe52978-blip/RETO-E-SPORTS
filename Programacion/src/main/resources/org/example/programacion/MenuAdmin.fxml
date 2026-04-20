@@ -29,7 +29,7 @@
         <Button mnemonicParsing="false" onAction="#onIntroducir" prefHeight="25.0" prefWidth="160.0" text="Introducir Resultado" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="2"><font>
         <Font name="System Bold" size="12.0" />
         </font></Button>
-        <Button mnemonicParsing="false" onAction="#onCerrarEstado" prefHeight="25.0" prefWidth="160.0" text="Cerrar Estado" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="3"><font>
+        <Button mnemonicParsing="false" onAction="#onInformeGeneral" prefHeight="25.0" prefWidth="160.0" text="Informe General" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="3"><font>
         <Font name="System Bold" size="12.0" />
         </font></Button>
         <Button mnemonicParsing="false" onAction="#onCRUD" prefHeight="25.0" prefWidth="160.0" text="CRUD" textFill="#e57db9" GridPane.halignment="CENTER" GridPane.rowIndex="4"><font>

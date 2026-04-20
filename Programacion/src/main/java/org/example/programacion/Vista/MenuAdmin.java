@@ -115,12 +115,8 @@ public class MenuAdmin {
      * @param event Evento de acción del botón.
      */
     @FXML
-    public void onCerrarEstado(ActionEvent event) {
-        int idCompeticion = 1;
-
-        if (competicionDAO.actualizarEstado(idCompeticion, "cerrado")) {
-            mostrarAlerta("Estado Actualizado", "La competición ha sido cerrada oficialmente.");
-        }
+    public void onInformeGeneral(ActionEvent event) {
+        cambiarEscena(event, "/org/example/programacion/informeEstadisticasEquipos.fxml");
     }
 
     /**

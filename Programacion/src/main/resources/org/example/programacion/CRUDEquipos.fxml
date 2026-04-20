@@ -72,6 +72,7 @@
                                 </Button>
                                 <Button maxWidth="1.7976931348623157E308" onAction="#onLimpiarClick" text="➕ NUEVO EQUIPO" />
                                 <Button maxWidth="1.7976931348623157E308" onAction="#onEliminarClick" style="-fx-background-color: #e859d9; -fx-text-fill: white;" text="🗑 ELIMINAR SELECCIÓN" />
+                                <Button fx:id="btnInforme" maxWidth="1.7976931348623157E308" onAction="#onGenerarInformeClick" style="-fx-background-color: #e859d9; -fx-text-fill: white;" text="📊 GENERAR INFORME EQUIPO" />
                                 <Region VBox.vgrow="ALWAYS" />
                                 <Button maxWidth="1.7976931348623157E308" onAction="#onAtras" style="-fx-background-color: #e57bd9; -fx-text-fill: white;" text="VOLVER AL MENÚ" />
                             </children>

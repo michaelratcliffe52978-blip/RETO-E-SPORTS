@@ -24,7 +24,7 @@ public class EnfrentamientoDAO {
      */
     public int getEnfrentamientoIdByEquipos(String equipo1, String equipo2) {
         String sql = "SELECT ID_PARTIDO FROM ENFRENTAMIENTOS WHERE EQUIPO1 = ? AND EQUIPO2 = ?";
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, equipo1);
             pstmt.setString(2, equipo2);
@@ -48,7 +48,7 @@ public class EnfrentamientoDAO {
     public void actualizarResultado(int idPartido, int idEq1, String res1, int idEq2, String res2) {
         String sql = "UPDATE EQUIPOS_ENFRENTAMIENTOS SET resultado = ? WHERE id_equipo = ? AND id_partido = ?";
 
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // Actualizar resultado para equipo 1
@@ -84,7 +84,7 @@ public class EnfrentamientoDAO {
                 "WHERE e.id_jornada = ? " +
                 "ORDER BY e.hora";
 
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, idJornada);
@@ -115,7 +115,7 @@ public class EnfrentamientoDAO {
         String sql = "SELECT COUNT(*) FROM JUGADORES WHERE ID_EQUIPO = ?";
         String sqlEquipos = "SELECT ID_EQUIPO FROM EQUIPOS";
 
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rsEquipos = stmt.executeQuery(sqlEquipos)) {
 
@@ -138,7 +138,7 @@ public class EnfrentamientoDAO {
      */
     public boolean existeCalendario() {
         String sql = "SELECT COUNT(*) as total FROM ENFRENTAMIENTOS";
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection();
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
@@ -156,7 +156,7 @@ public class EnfrentamientoDAO {
      * Se usa para "limpiar la pizarra" antes de generar uno nuevo.
      */
     public void eliminarCalendarioAnterior() {
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection()) {
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection()) {
             conn.setAutoCommit(false); // Por si falla, que no borre a medias
 
             // Borramos de abajo a arriba por las claves foráneas
@@ -199,7 +199,7 @@ public class EnfrentamientoDAO {
 
         LocalDate fechaJornada = LocalDate.now().plusDays(7);
 
-        try (Connection conn = org.example.programacion.Util.ConexionBD.getConnection()) {
+        try (Connection conn = org.example.programacion.Utilidades.ConexionBD.getConnection()) {
             conn.setAutoCommit(false);
 
             for (int i = 0; i < numJornadas; i++) {

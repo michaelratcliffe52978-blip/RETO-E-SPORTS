@@ -1,4 +1,4 @@
-package org.example.programacion.Util;
+package org.example.programacion.Utilidades;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,7 +23,7 @@ public class ConexionBD {
     private static final String USER = "eqdaw04";
 
     /** Contraseña de acceso para el usuario eqdaw04 */
-    private static final String PASS = "eqdaw04";
+    public static final String PASS = "eqdaw04";
 
     /**
      * Método estático que solicita y devuelve una conexión abierta con la base de datos.

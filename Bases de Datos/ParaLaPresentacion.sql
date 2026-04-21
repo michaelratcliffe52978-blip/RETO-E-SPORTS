@@ -75,7 +75,7 @@ CREATE TABLE Usuarios (
 
 
 -- ==========================================
--- 4. INSERCIÓN DE DATOS (Equipos y Jugadores)
+-- 4. INSERCIÃ“N DE DATOS (Equipos y Jugadores)
 -- ==========================================
 
 --Competicion
@@ -103,7 +103,7 @@ VALUES ('Karmine Corp', TO_DATE('2020-03-30', 'YYYY-MM-DD'));
 
 -- Jugadores de KOI (id_equipo = 1)
 INSERT INTO Jugadores (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
-VALUES ('José Luis', 'Aranguren', 'España', TO_DATE('1998-05-12', 'YYYY-MM-DD'), 'koldamenta', 'controlador', 50000.00, 1);
+VALUES ('JosÃ© Luis', 'Aranguren', 'EspaÃ±a', TO_DATE('1998-05-12', 'YYYY-MM-DD'), 'koldamenta', 'controlador', 50000.00, 1);
 
 INSERT INTO Jugadores (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
 VALUES ('Bogdan', 'Naumov', 'Bulgaria', TO_DATE('2001-09-22', 'YYYY-MM-DD'), 'sheydos', 'iniciador', 55000.00, 1);
@@ -119,7 +119,7 @@ VALUES ('Auni', 'Chahade', 'Dinamarca', TO_DATE('1999-11-05', 'YYYY-MM-DD'), 'Av
 
 -- Jugadores de Giants (id_equipo = 3)
 INSERT INTO Jugadores (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
-VALUES ('Adolfo', 'Gallego', 'España', TO_DATE('2000-02-18', 'YYYY-MM-DD'), 'Fit1nho', 'duelista', 52000.00, 3);
+VALUES ('Adolfo', 'Gallego', 'EspaÃ±a', TO_DATE('2000-02-18', 'YYYY-MM-DD'), 'Fit1nho', 'duelista', 52000.00, 3);
 
 INSERT INTO Jugadores (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
 VALUES ('Kirill', 'Nekrasov', 'Rusia', TO_DATE('1998-10-30', 'YYYY-MM-DD'), 'Cloud', 'iniciador', 49000.00, 3);
@@ -131,6 +131,15 @@ VALUES ('Ryad', 'Ensaad', 'Francia', TO_DATE('2002-07-21', 'YYYY-MM-DD'), 'Shin'
 
 INSERT INTO Jugadores (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
 VALUES ('Alexis', 'Guitard', 'Francia', TO_DATE('2001-01-10', 'YYYY-MM-DD'), 'Newzera', 'iniciador', 47000.00, 4);
+
+INSERT INTO Jugadores (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
+VALUES ('Ibai', 'Sanchez', 'Francia', TO_DATE('2002-07-21', 'YYYY-MM-DD'), 'Shin', 'centinela', 45000.00, 4);
+
+INSERT INTO Jugadores (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
+VALUES ('Josemi', 'Federico', 'Francia', TO_DATE('2001-01-10', 'YYYY-MM-DD'), 'Newzera', 'iniciador', 47000.00, 4);
+
+INSERT INTO Jugadores (nombre_jugador, apellido, nacionalidad, fecha_nacimiento, nickname, rol, sueldo, id_equipo) 
+VALUES ('mike', 'Federico', 'Francia', TO_DATE('2001-01-10', 'YYYY-MM-DD'), 'Newzera', 'iniciador', 47000.00, 4);
 
 
 --Jornadas

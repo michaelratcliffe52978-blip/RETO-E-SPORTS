@@ -2,7 +2,7 @@
 --FECHA: 20/04/2026
 
 -- 1. TRIGGER SUELDO MINIMO
-CREATE OR REPLACE TRIGGER trg_sueldo_minimo
+CREATE OR REPLACE TRIGGER tr_sueldo_minimo
 BEFORE INSERT OR UPDATE ON Jugadores
 FOR EACH ROW
 BEGIN
@@ -41,7 +41,7 @@ END trg_max_jugadores_equipo;
 /
 
 -- 3. TRIGGER VALIDAR ESTADO (Tabla Competiciones)
-CREATE OR REPLACE TRIGGER trg_validar_estado
+CREATE OR REPLACE TRIGGER tr_validar_estado
 BEFORE INSERT OR UPDATE OR DELETE ON Competiciones
 FOR EACH ROW
 BEGIN
@@ -59,7 +59,7 @@ END;
 /
 
 -- 4. TRIGGER 1 JORNADA POR SEMANA (Tabla Jornadas)
-CREATE OR REPLACE TRIGGER trg_jornada
+CREATE OR REPLACE TRIGGER tr_jornada
 FOR INSERT ON Jornadas
 COMPOUND TRIGGER
     TYPE t_jornada_rec IS RECORD (id_comp NUMBER, fecha DATE);
@@ -90,7 +90,7 @@ END tr_jornada;
 /
 
 -- 5. TRIGGER FECHA RESULTADO (Tabla Equipos_Enfrentamientos)
-CREATE OR REPLACE TRIGGER trg_fecha_resultado
+CREATE OR REPLACE TRIGGER tr_fecha_resultado
 BEFORE INSERT OR UPDATE ON Equipos_Enfrentamientos
 FOR EACH ROW
 DECLARE

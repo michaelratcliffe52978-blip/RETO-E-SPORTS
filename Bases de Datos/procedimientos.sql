@@ -1,15 +1,22 @@
+--AUTOR: EQUIPO 4
+--FECHA: 20/04/2026
 
-/*
-Procedimiento almacenado en la base de datos, que permita después en Java, ver el
-informe con la relación de los jugadores de un equipo concreto. De cada jugador se
-verá el nombre, apellido, rol y salario. El nombre del equipo le llegará como
-parámetro. Las excepciones serán visualizadas en el programa Java.
-*/
 
+---  PROCEDIMIENTOS  ---
+-- 1. PROCEDIMIENTO informe_jugadores_equipo
 /*
-Procedimiento informe	-20005	El equipo no existe.
-Procedimiento informe -20006 Error inesperado del sistema
-Procedimiento informe   -20007 El equipo existe pero no tiene jugadores.
+COMENTARIO: nuestro proposito es generar un listado detallado de los jugadores que pertenezca a un equipo en especifico
+
+Â¿COMO FUNCIONA?
+1. primero se comprueba si el nombre del equipo ya existe en la tabla 'equipos'
+2. despues se verifica si el equipo tiene jugadores asociados antes de abrir el cursor
+3. despues se utiliza la vista 'vista_detalle_jugadores' para obtener los datos los cuales ya estan formateados anteriormente
+4. por ultimo se implementan excepciones personalizadas para diferenciar si el equipo 
+no existe (-20005) si el equipo esta vacio (-20007) o ha ocurrido un error del sistema (-20006)
+
+
+EN JAVA
+Este procedimiento se usa en CRUDEquipos.java
 */
 
 
@@ -20,57 +27,72 @@ create or replace procedure informe_jugadores_equipo
 as
         v_id_equipo number;
         v_existe_jugadores number;
+        e_no_encontrado exception; 
+        e_no_jugadores exception;
         
 begin 
 
     begin 
         select id_equipo into v_id_equipo
-        from equipo
+        from equipos
         where lower(nombre_equipo)=lower(p_nombre_equipo);
         
         exception
             when no_data_found then 
-                raise_application_error(-20005, 'ERROR: el equipo "'
-                                            || p_nombre_equipo ||'" no existe');
-    end; 
+                raise e_no_encontrado;      
+    end;            
+        
+        select count(*) into v_existe_jugadores
+        from vista_detalle_jugadores ---VISTA
+        where id_equipo = v_id_equipo;
     
-    select count(*) into v_existe_jugadores
-    from jugador 
-    where id_equipo = v_id_equipo;
-    
-    if v_existe_jugadores = 0 then 
+        if v_existe_jugadores = 0 then 
+            raise e_no_jugadores;
+             
+        else
+            open p_cursor for
+                select nombre_completo, rol, sueldo
+                from vista_detalle_jugadores ---VISTA
+                where id_equipo = v_id_equipo;
+        end if;
+        
+exception
+            
+    when e_no_encontrado then
+        raise_application_error(-20005, 'ERROR: el equipo "'
+                                    || p_nombre_equipo ||'" no existe');
+    when e_no_jugadores then
         raise_application_error(-20007, 'ERROR: el equipo "' 
                     || p_nombre_equipo || '" existe pero no tiene jugadores');
-        
-    end if;
-    
-    open p_cursor for
-        select nombre_jugador, apellido, rol, sueldo
-        from jugador
-        where id_equipo = v_id_equipo;
-        
-        
-        exception
-            when others then
-                raise_application_error(-20006, 'Error inesperado del sistema al generar el informe' ||sqlerrm);
+    when others then
+        raise_application_error(-20006, 'Error inesperado del sistema al
+                            generar el informe' ||sqlerrm);
 
 
-end;      
+end informe_jugadores_equipo;
+    
 
 
-    
-    
-    
-    
-    
-    
+
+
+-- 2. PROCEDIMIENTO informe_estadisticas_equipos
 /*
-Procedimiento almacenado en la base de datos, que permita después en Java, ver el
-informe de la relación de los equipos que conforman la competición incluyendo para
-cada equipo el nombre del mismo, la fecha de creación, la cantidad de jugadores que
-hay en ese equipo, el salario máximo, el salario mínimo y la media de los salarios de
-los jugadores de ese equipo. Las excepciones serán visualizadas en el programa
-Java.
+COMENTARIO: el objetivo es proporcionar una vision general y tambien estadistica del sueldo 
+y tambien de la composiciÃ³n de todos los equipos 
+
+Â¿COMO FUNCIONA?
+1. primero se utiliza funciones de grupo (count, max...) sobre la vista 'vista_detalle_jugadores' 
+para calcular las metricas por equipo
+2. despues se aplica la funciÃ³n nvl() para asegurar que si un equipo no tiene sueldos registrados, 
+se devuelva 0 en lugar de un valor nulo
+3. despues se redondea el sueldo medio a 2 decimales para que la salida este mas limpia
+4. por ultimo se devuelve un sys_refcursor que esta ordenado alfabeticamente por el nombre del equipo
+lo que hace mas facil su lectura por ejemplo en bloques anonimos
+
+
+
+EN JAVA
+Este procedimiento se usa en EstadisticasEquipos.java
 */
 
 create or replace procedure informe_estadisticas_equipos
@@ -80,20 +102,19 @@ as
 
 begin 
     open p_cursor for 
-        select e.nombre_equipo, e.fecha_fundacion, 
-                count(j.id_jugador) as num_jugadores, 
-                nvl(max(j.sueldo),0) as sueldo_max,
-                nvl(min(j.sueldo),0) as sueldo_min,
-                nvl(round(avg(j.sueldo),2),0) as sueldo_medio
-        from equipo e left join jugador j
-        on e.id_equipo=j.id_equipo
-        group by e.id_equipo, e.nombre_equipo, e.fecha_fundacion
-        order by e.nombre_equipo;
+        select nombre_equipo, fecha_fundacion, 
+                count(id_jugador) as num_jugadores, 
+                nvl(max(sueldo),0) as sueldo_max,
+                nvl(min(sueldo),0) as sueldo_min,
+                nvl(round(avg(sueldo),2),0) as sueldo_medio
+        from vista_detalle_jugadores --VISTA 
+        group by id_equipo, nombre_equipo, fecha_fundacion
+        order by nombre_equipo;
         
         exception
             when others then
-                raise_application_error(-20008, 'Error al generar informe ' || sqlerrm);
+                raise_application_error(-20006, 'Error inesperado del sistema al
+                                generar el informe' ||sqlerrm);
 
 end;              
-        
         

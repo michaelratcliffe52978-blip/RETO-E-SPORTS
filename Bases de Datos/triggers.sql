@@ -1,8 +1,9 @@
-SET SERVEROUTPUT ON;
+--AUTOR: EQUIPO 4
+--FECHA: 20/04/2026
 
--- 1. TRIGGER SUELDO MÍNIMO
+-- 1. TRIGGER SUELDO MINIMO
 CREATE OR REPLACE TRIGGER trg_sueldo_minimo
-BEFORE INSERT OR UPDATE ON Jugadores -- Antes decía Jugador
+BEFORE INSERT OR UPDATE ON Jugadores
 FOR EACH ROW
 BEGIN
     IF :NEW.sueldo IS NOT NULL AND :NEW.sueldo < 1221 THEN
@@ -11,50 +12,8 @@ BEGIN
 END;
 /
 
--- 2. TRIGGER EQUIPO PARES
-CREATE OR REPLACE TRIGGER trg_equipos_pares
-AFTER INSERT OR DELETE ON Equipos -- Antes decía Equipo
-DECLARE
-    v_total NUMBER;
-BEGIN
-    SELECT COUNT(*) INTO v_total FROM Equipos;
 
-    IF MOD(v_total, 2) <> 0 THEN
-        RAISE_APPLICATION_ERROR(-20002, 'El número de equipos debe ser par (actualmente hay ' || v_total || ')');
-    END IF;
-END;
-/
-
--- 3. TRIGGER 2 JUGADORES MÍNIMO (Compound Trigger)
-CREATE OR REPLACE TRIGGER trg_min_jugadores_equipo
-FOR INSERT OR DELETE ON Jugadores
-COMPOUND TRIGGER
-    TYPE t_equipos IS TABLE OF NUMBER INDEX BY PLS_INTEGER;
-    v_equipos t_equipos;
-    v_idx PLS_INTEGER := 0;
-
-    AFTER EACH ROW IS
-    BEGIN
-        v_idx := v_idx + 1;
-        IF INSERTING THEN v_equipos(v_idx) := :NEW.id_equipo;
-        ELSIF DELETING THEN v_equipos(v_idx) := :OLD.id_equipo;
-        END IF;
-    END AFTER EACH ROW;
-
-    AFTER STATEMENT IS
-        v_total NUMBER;
-    BEGIN
-        FOR i IN 1 .. v_equipos.COUNT LOOP
-            SELECT COUNT(*) INTO v_total FROM Jugadores WHERE id_equipo = v_equipos(i);
-            IF v_total < 2 THEN
-                RAISE_APPLICATION_ERROR(-20010, 'Un equipo debe tener al menos 2 jugadores');
-            END IF;
-        END LOOP;
-    END AFTER STATEMENT;
-END trg_min_jugadores_equipo;
-/
-
--- 4. TRIGGER 6 JUGADORES MÁXIMO (Compound Trigger)
+-- 2. TRIGGER 6 JUGADORES MAXIMO
 CREATE OR REPLACE TRIGGER trg_max_jugadores_equipo
 FOR INSERT ON Jugadores
 COMPOUND TRIGGER
@@ -74,25 +33,32 @@ COMPOUND TRIGGER
         FOR i IN 1 .. v_equipos.COUNT LOOP
             SELECT COUNT(*) INTO v_total FROM Jugadores WHERE id_equipo = v_equipos(i);
             IF v_total > 6 THEN
-                RAISE_APPLICATION_ERROR(-20012, 'Un equipo no puede tener más de 6 jugadores');
+                RAISE_APPLICATION_ERROR(-20012, 'Un equipo no puede tener mas de 6 jugadores');
             END IF;
         END LOOP;
     END AFTER STATEMENT;
 END trg_max_jugadores_equipo;
 /
 
--- 5. TRIGGER VALIDAR ESTADO (Tabla Competiciones)
+-- 3. TRIGGER VALIDAR ESTADO (Tabla Competiciones)
 CREATE OR REPLACE TRIGGER tr_validar_estado
 BEFORE INSERT OR UPDATE OR DELETE ON Competiciones
 FOR EACH ROW
 BEGIN
-    IF :OLD.estado IN ('cerrado', 'finalizado') THEN
-        RAISE_APPLICATION_ERROR(-20020, 'Competición bloqueada');
+    IF UPDATING OR DELETING THEN
+        IF :OLD.estado IN ('cerrado') THEN
+            RAISE_APPLICATION_ERROR(-20020, 'Competición bloqueada');
+        END IF;
+    END IF;
+    IF INSERTING THEN
+        IF :NEW.estado IN ('cerrado') THEN
+            RAISE_APPLICATION_ERROR(-20021, 'No se puede crear una competición ya cerrada');
+        END IF;
     END IF;
 END;
 /
 
--- 6. TRIGGER 1 JORNADA POR SEMANA (Tabla Jornadas)
+-- 4. TRIGGER 1 JORNADA POR SEMANA (Tabla Jornadas)
 CREATE OR REPLACE TRIGGER tr_jornada
 FOR INSERT ON Jornadas
 COMPOUND TRIGGER
@@ -123,14 +89,14 @@ COMPOUND TRIGGER
 END tr_jornada;
 /
 
--- 7. TRIGGER FECHA RESULTADO (Tabla Equipos_Enfrentamientos)
+-- 5. TRIGGER FECHA RESULTADO (Tabla Equipos_Enfrentamientos)
 CREATE OR REPLACE TRIGGER tr_fecha_resultado
 BEFORE INSERT OR UPDATE ON Equipos_Enfrentamientos
 FOR EACH ROW
 DECLARE
     v_fecha DATE;
 BEGIN
-    -- Nota: Usamos Enfrentamientos porque es donde está la fecha del partido
+    -- Nota: Usamos Enfrentamientos porque es donde esta la fecha del partido
     SELECT fecha_enfrentamiento INTO v_fecha
     FROM Enfrentamientos
     WHERE id_partido = :NEW.id_partido;
